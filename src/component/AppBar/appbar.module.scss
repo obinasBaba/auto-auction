@@ -2,20 +2,18 @@
 
 .container{
   width: 100%;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: s.f-unit(1rem);
+
+  background-color: rgba(0, 128, 128, 0.13);
+
+  //border: thin solid red;
 
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 
   & :global{
-
-    h1{
-      //font-weight: 900;
-      font-family: s.$fonts-gramatika;
-      font-weight: 900;
-      color: lightgray;
-    }
 
     .wrapper{
 

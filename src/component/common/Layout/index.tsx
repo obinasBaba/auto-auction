@@ -1,6 +1,8 @@
 import React from 'react';
 import s from './layout.module.scss';
 import Image from 'next/image';
+import AppBar from '@/component/AppBar';
+import DashBoard from '@/component/DashBoard';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -10,7 +12,13 @@ type LayoutProps = {
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   return (
     <div className={s.container}>
-      <main className={s.main}>{children}</main>
+      <AppBar />
+
+      <div className="content">
+        <DashBoard />
+
+        <main className={'main'}>{children}</main>
+      </div>
 
       <footer className={s.footer}>
         <a

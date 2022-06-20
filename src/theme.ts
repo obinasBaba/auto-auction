@@ -1,6 +1,8 @@
 import { createTheme } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
+//#ededed
+
 // Create a theme instance.
 const theme = createTheme({
   typography: {
@@ -8,7 +10,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#556cd6',
+      main: '#7963F0',
     },
     secondary: {
       main: '#19857b',

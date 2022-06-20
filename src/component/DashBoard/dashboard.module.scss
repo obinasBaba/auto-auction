@@ -1,0 +1,35 @@
+@use '@/styles' as s;
+
+.container {
+  width: 100%;
+  border-right: 2px solid lighten(lightgray, 10);
+  max-width: 350px;
+
+  & :global {
+
+    .dashboard_wrapper {
+      padding: 1rem 2rem;
+
+      .sell_car{
+        margin-top: s.f-unit(1.5rem);
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        padding: s.f-unit(1rem);
+        background-color: lighten(lightgray, 10);
+
+        .btn{
+          border-radius: 8px;
+          background-color: white;
+          color: black;
+          width: 100%;
+        }
+
+      }
+
+    }
+  }
+}
