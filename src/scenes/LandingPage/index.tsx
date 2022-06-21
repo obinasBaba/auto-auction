@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import s from './landingpage.module.scss';
 import { useRouter } from 'next/router';
 import VehicleLocation from '@/scenes/Listings/VehicleLocation';
+import UploadPhotos from '@/scenes/Listings/UploadPhotos';
+import VehicleDescription from '@/scenes/Listings/VehicleDescription';
+import AuctionRules from '@/scenes/Listings/AuctionRules';
 
 const LandingPage = () => {
   const { login } = useRouter().query;
@@ -18,7 +21,13 @@ const LandingPage = () => {
 
       {/*<BasicFeatures/>*/}
 
-      <VehicleLocation />
+      {/*<VehicleLocation />*/}
+
+      {/*<UploadPhotos/>*/}
+
+      {/*<VehicleDescription/>*/}
+
+      <AuctionRules />
     </div>
   );
 };

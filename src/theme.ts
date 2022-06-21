@@ -10,6 +10,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'capitalize',
+          borderRadius: '10px',
         },
         sizeLarge: {
           padding: '.9rem 22px',
