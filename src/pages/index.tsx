@@ -2,6 +2,8 @@ import Head from 'next/head';
 import LandingPage from '@/scenes/LandingPage';
 
 export default function Home() {
+  // const { openModal, closeModal } = useUI();
+
   return (
     <>
       <Head>

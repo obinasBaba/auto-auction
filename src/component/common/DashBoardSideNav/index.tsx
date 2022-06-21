@@ -21,7 +21,7 @@ const items = [
   },
 ];
 
-const DashBoard = () => {
+const DashBoardSideNav = () => {
   return (
     <aside className={s.container}>
       <div className="dashboard_wrapper">
@@ -65,4 +65,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default DashBoardSideNav;

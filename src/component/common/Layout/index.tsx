@@ -2,11 +2,18 @@ import React from 'react';
 import s from './layout.module.scss';
 import Image from 'next/image';
 import AppBar from '@/component/AppBar';
-import DashBoard from '@/component/DashBoard';
+import DashBoardSideNav from '@/component/common/DashBoardSideNav';
+import { useUI } from '@/component/ui/context';
+import ModalView from '@/component/common/ModalView';
 
 type LayoutProps = {
   children: React.ReactNode;
   pageProps: any;
+};
+
+const ModalUI: React.FC = () => {
+  const { displayModal, closeModal, modalView } = useUI();
+  return displayModal ? <ModalView /> : null;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
@@ -15,7 +22,9 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
       <AppBar />
 
       <div className="content">
-        <DashBoard />
+        {pageProps.dashBoard && <DashBoardSideNav />}
+
+        <ModalUI />
 
         <main className={'main'}>{children}</main>
       </div>

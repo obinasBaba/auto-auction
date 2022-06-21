@@ -5,6 +5,20 @@ import { red } from '@mui/material/colors';
 
 // Create a theme instance.
 const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
+        },
+        sizeLarge: {
+          padding: '.9rem 22px',
+        },
+        outlined: {},
+      },
+    },
+  },
+
   typography: {
     fontFamily: 'auger',
   },
@@ -13,7 +27,7 @@ const theme = createTheme({
       main: '#7963F0',
     },
     secondary: {
-      main: '#19857b',
+      main: '#8d8d8d',
     },
     error: {
       main: red.A400,

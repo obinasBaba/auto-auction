@@ -8,6 +8,7 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '@/theme';
 import createEmotionCache from '@/createEmotoinCache';
 import Head from 'next/head';
+import { ManagedUIContext } from '@/component/ui/context';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -24,13 +25,15 @@ export default function MyApp(props: MyAppProps) {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Layout pageProps={pageProps}>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
+      <ManagedUIContext>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Layout pageProps={pageProps}>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </ManagedUIContext>
     </CacheProvider>
   );
 }
