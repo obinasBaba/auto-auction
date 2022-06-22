@@ -1,8 +1,9 @@
 import React from 'react';
 import s from './vehicledescribtion.module.scss';
-import { Button, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+import { ControlButtons } from '@/scenes/ListingPage/components';
 
-const VehicleDescription = () => {
+const VehicleDescription = (props: any) => {
   return (
     <div className={s.container}>
       <div className="wrapper">
@@ -31,20 +32,6 @@ const VehicleDescription = () => {
             required
             variant="outlined"
           />
-        </div>
-        <div className="control">
-          <Button
-            variant="contained"
-            className="in_btn"
-            size="large"
-            color="secondary"
-          >
-            Back
-          </Button>
-
-          <Button variant="contained" className="in_btn" size="large">
-            Next
-          </Button>
         </div>
       </div>
     </div>

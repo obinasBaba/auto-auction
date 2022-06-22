@@ -1,0 +1,49 @@
+@use '@/styles' as s;
+
+.container {
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  place-items: center;
+  //border: thick solid red;
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global {
+
+    .steps_wrapper {
+      width: 100%;
+
+    }
+
+    .stepper {
+      margin-top: auto;
+    }
+
+    .wrapper {
+
+    }
+  }
+
+  .control_btn {
+    width: 100%;
+    max-width: s.f-unit(24rem);
+    margin: s.f-unit(3rem) 0 auto;
+    display: flex;
+    justify-content: space-between;
+
+    & :global{
+      button {
+        //flex: 1;
+        padding-left: 2.1rem;
+        padding-right: 2.1rem;
+      }
+    }
+  }
+}
+
+.alone{
+  flex: 1;
+}
+

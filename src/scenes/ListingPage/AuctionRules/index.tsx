@@ -1,8 +1,9 @@
 import React from 'react';
 import s from './auctionrules.module.scss';
 import { Button, FormControlLabel, Switch, TextField } from '@mui/material';
+import { ControlButtons } from '@/scenes/ListingPage/components';
 
-const AuctionRules = () => {
+const AuctionRules = (props: any) => {
   return (
     <div className={s.container}>
       <div className="wrapper">
@@ -49,21 +50,6 @@ const AuctionRules = () => {
             label="Flexible price"
             labelPlacement="start"
           />
-        </div>
-
-        <div className="control">
-          <Button
-            variant="contained"
-            className="in_btn"
-            size="large"
-            color="secondary"
-          >
-            Back
-          </Button>
-
-          <Button variant="contained" className="in_btn" size="large">
-            Next
-          </Button>
         </div>
       </div>
     </div>

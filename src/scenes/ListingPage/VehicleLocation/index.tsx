@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import s from './vehiclelocation.module.scss';
-import { Button, MenuItem, TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
+import { ControlButtons } from '@/scenes/ListingPage/components';
 
-const VehicleLocation = () => {
+const VehicleLocation = (props: any) => {
   const countries = ['one', 'two', 'three'];
 
   const [country, setCountry] = useState(countries[0]);
@@ -63,21 +64,6 @@ const VehicleLocation = () => {
               variant="outlined"
             />
           </div>
-        </div>
-
-        <div className="control">
-          <Button
-            variant="contained"
-            className="in_btn"
-            size="large"
-            color="secondary"
-          >
-            Back
-          </Button>
-
-          <Button variant="contained" className="in_btn" size="large">
-            Next
-          </Button>
         </div>
       </div>
     </div>

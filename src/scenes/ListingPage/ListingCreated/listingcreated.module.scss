@@ -1,0 +1,25 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global{
+
+    .wrapper{
+      width: 100%;
+      margin: 0 auto;
+      max-width: s.f-unit(20rem);
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      gap: s.f-unit(2rem);
+      text-align: center;
+
+
+    }
+  }
+}

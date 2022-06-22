@@ -35,7 +35,6 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
           <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
             {children}
           </AnimatePresence>
-          {children}
         </main>
       </div>
 

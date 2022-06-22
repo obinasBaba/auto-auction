@@ -16,7 +16,7 @@ const LandingPage = () => {
 
       {/*<VehicleLocation />*/}
 
-      {/*<UploadPhotos/>*/}
+      {/*<VehiclePhoto/>*/}
 
       {/*<VehicleDescription/>*/}
 

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import s from './basicfeatures.module.scss';
 import { Button, MenuItem, TextField } from '@mui/material';
 
-const BasicFeatures = () => {
-  const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
+const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
 
-  const [make, setMake] = useState(makes[0]);
+const BasicFeatures = (props: any) => {
+  const [make, setMake] = useState('BMW');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMake(event.target.value);
@@ -25,7 +25,7 @@ const BasicFeatures = () => {
             label="Select Make"
             // error
             value={make}
-            onChange={handleChange}
+            onChange={() => handleChange}
             // helperText=""
           >
             {makes.map((make) => (
@@ -93,21 +93,6 @@ const BasicFeatures = () => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
-
-        <div className="control">
-          <Button
-            variant="contained"
-            className="in_btn"
-            size="large"
-            color="secondary"
-          >
-            Back
-          </Button>
-
-          <Button variant="contained" className="in_btn" size="large">
-            Next
-          </Button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import s from './uploadphotos.module.scss';
 import { Button, IconButton } from '@mui/material';
 import { Close, CloudUpload } from '@mui/icons-material';
 import clsx from 'clsx';
+import { ControlButtons } from '@/scenes/ListingPage/components';
 
 function Previews(props: any) {
   const [files, setFiles] = useState<{ preview: string; name: string }[]>([]);
@@ -82,21 +83,6 @@ function Previews(props: any) {
             </div>
           ))}
         </aside>
-
-        <div className="control">
-          <Button
-            variant="contained"
-            className="in_btn"
-            size="large"
-            color="secondary"
-          >
-            Back
-          </Button>
-
-          <Button variant="contained" className="in_btn" size="large">
-            Next
-          </Button>
-        </div>
       </div>
     </section>
   );

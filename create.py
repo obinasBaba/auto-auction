@@ -61,4 +61,4 @@ if not os.path.exists(src_name):
     with open(src_name + '/index.tsx', 'wt') as f:
         f.write(componentTxt.replace('-', name).replace('_', name.lower()))
 else:
-    raise Exception('directory already exists: -'.replace('-', name))
+    raise Exception('directory already exists DUMB_ASS: -'.replace('-', name))

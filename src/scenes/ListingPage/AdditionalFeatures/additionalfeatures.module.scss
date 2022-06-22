@@ -1,0 +1,81 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global{
+
+    .wrapper {
+      margin: 0 auto;
+      width: 100%;
+      max-width: s.f-unit(23rem);
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      gap: s.f-unit(2rem);
+
+      .title {
+        text-align: center;
+      }
+
+      .form{
+        width: 100%;
+
+        .feat_types{
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          button{
+            position: relative;
+            border: none;
+            background-color: transparent;
+            padding: .7rem 22px;
+            flex: 1;
+            .border{
+              position: absolute;
+              border: 2px solid lightgray;
+              inset: 0;
+              border-radius: 10px;
+            }
+          }
+        }
+
+        .feat_items{
+          display: flex;
+          flex-flow: column;
+          margin-top: 1rem;
+
+          & > *{
+            color: s.$clrs-secondary;
+          }
+        }
+      }
+
+      .control{
+        width: 100%;
+        margin-top: s.f-unit(2rem);
+        display: flex;
+        justify-content: space-between;
+
+        button{
+          padding-left: 2.1rem;
+          padding-right: 2.1rem;
+        }
+      }
+    }
+  }
+}
+
+.checked{
+  color: lighten(black, 30) !important;
+
+}
+
+button.active{
+  color: lighten(black, 30);
+}

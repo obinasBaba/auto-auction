@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './whatkindvehicle.module.scss';
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   TextField,
 } from '@mui/material';
 
-const WhatKindVehicle = () => {
+const WhatKindVehicle = (props: any) => {
   const types = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Minivan', 'Cabriolet'];
 
   return (
@@ -48,10 +48,6 @@ const WhatKindVehicle = () => {
               ))}
             </RadioGroup>
           </FormControl>
-
-          <Button variant="contained" className="in_btn" size="large" fullWidth>
-            Next
-          </Button>
         </div>
       </div>
     </div>
