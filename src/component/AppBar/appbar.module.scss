@@ -4,9 +4,10 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: s.f-unit(1rem);
+  //padding: s.f-unit(1rem);
+  @include s.padding(1rem, 2rem);
 
-  background-color: rgba(0, 128, 128, 0.13);
+  //background-color: rgba(0, 128, 128, 0.13);
 
   //border: thin solid red;
 
@@ -14,9 +15,22 @@
   // @include s.padding(bottom, 8rem);
 
   & :global{
-
     .wrapper{
 
+    }
+
+    .logo{
+      @include s.height_width(2.5rem, 2.5rem);
+    }
+
+    .sign_up{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      button{
+        border-radius: 5000px;
+      }
     }
   }
 }

@@ -142,6 +142,14 @@ export const UIProvider: FC<{ children: React.ReactElement }> = (props) => {
         : dispatch({ type: 'OPEN_SIDEBAR' }),
     [dispatch, state.displaySidebar],
   );
+
+  const toggleModal = useCallback(
+    () =>
+      state.displayModal
+        ? dispatch({ type: 'CLOSE_MODAL' })
+        : dispatch({ type: 'OPEN_MODAL' }),
+    [state.displayModal, dispatch],
+  );
   const closeSidebarIfPresent = useCallback(
     () => state.displaySidebar && dispatch({ type: 'CLOSE_SIDEBAR' }),
     [dispatch, state.displaySidebar],
@@ -186,6 +194,7 @@ export const UIProvider: FC<{ children: React.ReactElement }> = (props) => {
       openSidebar,
       closeSidebar,
       toggleSidebar,
+      toggleModal,
       closeSidebarIfPresent,
       openDropdown,
       closeDropdown,
@@ -194,6 +203,9 @@ export const UIProvider: FC<{ children: React.ReactElement }> = (props) => {
       setModalView,
       setSidebarView,
       setUserAvatar,
+      boo: function () {
+        return false;
+      },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state],
@@ -202,12 +214,20 @@ export const UIProvider: FC<{ children: React.ReactElement }> = (props) => {
   return <UIContext.Provider value={value} {...props} />;
 };
 
+type UiType = {
+  toggleSidebar: () => void;
+  openModal: () => void;
+  closeModal: () => void;
+  toggleModal: () => void;
+} & State;
+
 export const useUI = () => {
   const context = React.useContext(UIContext);
   if (context === undefined) {
     throw new Error('useUI must be used within a UIProvider');
   }
-  return context;
+
+  return context as UiType;
 };
 
 export const ManagedUIContext: FC<{ children: React.ReactElement }> = ({

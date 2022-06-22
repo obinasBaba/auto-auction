@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './appbar.module.scss';
-import { Avatar, Box, Slide, useScrollTrigger } from '@mui/material';
+import { Avatar, Box, Button, Slide, useScrollTrigger } from '@mui/material';
+import { useUI } from '@/component/ui/context';
 
 interface Props {
   window?: () => Window;
@@ -21,11 +22,18 @@ function HideOnScroll(props: Props) {
 }
 
 const AppBar = () => {
+  const ctx = useUI();
+
   return (
     <HideOnScroll>
-      <Box className={s.container} sx={{ border: 1 }}>
-        <Avatar src="/broken-image.jpg" />
-        <Avatar src="/broken-image.jpg" />
+      <Box className={s.container}>
+        <Avatar src="./logo.svg" className="logo" />
+        <div className="sign_up">
+          <Avatar src="/broken-image.jpg" />
+          <Button variant="outlined" size="large" onClick={ctx.toggleModal}>
+            Sign Up
+          </Button>
+        </div>
       </Box>
     </HideOnScroll>
   );

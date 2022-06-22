@@ -1,0 +1,39 @@
+@use '@/styles' as s;
+
+.container{
+
+  width: 100%;
+  max-width: s.f-unit(27rem);
+  transform: scale(.96);
+  background-color: white;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  border-radius: 10px;
+
+  //display: none;
+
+
+  & :global{
+
+    h2{
+      margin-bottom: 0;
+    }
+
+    .thank_wrapper{
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+
+      @include s.padding(1.5rem, 2rem);
+
+      .icon{
+        @include s.font-size-title(4rem);
+        fill: #d77652;
+      }
+    }
+  }
+
+}

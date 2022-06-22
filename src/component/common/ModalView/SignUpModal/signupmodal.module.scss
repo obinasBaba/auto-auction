@@ -1,0 +1,13 @@
+@use '@/styles' as s;
+@use "@/component/common/ModalView/components/components.module.scss" as c;
+
+.container{
+
+  @include c.scaffold(){
+
+    .agree{
+      color: s.$clrs-secondary;
+    }
+  }
+
+}

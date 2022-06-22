@@ -1,165 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './modalview.module.scss';
+
+import { motion } from 'framer-motion';
 import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Icon,
-  IconButton,
-  InputAdornment,
-  TextField,
-} from '@mui/material';
-import {
-  CheckCircle,
-  Facebook,
-  Google,
-  Mail,
-  RadioButtonChecked,
-  RadioButtonUnchecked,
-  Twitter,
-  Visibility,
-  VisibilityOff,
-} from '@mui/icons-material';
+  blurVariants,
+  containerVariants,
+  modalVariants,
+} from '@/component/common/ModalView/variants';
+import SignUpModal from '@/component/common/ModalView/SignUpModal';
+import SignInModal from '@/component/common/ModalView/SignInModal';
+import ConfirmationModal from '@/component/common/ModalView/ConfirmationModal';
 
-const ButtonWithStartIcon = ({ icon: Icon, text }: any) => {
-  return (
-    <Button
-      variant="outlined"
-      startIcon={<Icon />}
-      color="secondary"
-      size="large"
-      className={s.btn}
-    >
-      {text}
-    </Button>
-  );
+type ModalViewType = {
+  close: () => void;
+  children?: React.ReactElement;
 };
 
-const SignUpHeader = ({ text }: any) => {
-  return (
-    <header className={s.signup_header}>
-      <h3 className="title">{text}</h3>
-    </header>
-  );
-};
+type Modals = 'SIGN_UP' | 'CONFIRMATION' | 'SIGN_IN';
 
-const TextCheckBox = ({ text, ...props }: any) => {
-  return (
-    <FormControlLabel
-      label={text}
-      control={
-        <Checkbox
-          icon={<RadioButtonUnchecked />}
-          checkedIcon={<RadioButtonChecked />}
-        />
-      }
-      {...props}
-    />
-  );
-};
-
-const ModalView = () => {
-  const [values, setValues] = React.useState<any>({
-    showPassword: false,
+const ModalView: React.FC<ModalViewType> = ({ close }) => {
+  const [activeModal, setActiveModal] = useState<{ name: Modals }>({
+    name: 'SIGN_IN',
   });
 
+  const switchModal = (name: Modals) => {
+    setActiveModal({ name });
+  };
+
   return (
-    <div className={s.container}>
-      <div className="sign_in">
-        <SignUpHeader text="Sign Up" />
+    <motion.div
+      className={s.container}
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+    >
+      <motion.div className="blur" onClick={close} variants={blurVariants} />
 
-        <div className="sign_in_wrapper">
-          <div className="content">
-            <div className="form">
-              <TextField
-                id="email"
-                label="Email"
-                type="email"
-                required
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <Mail />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <TextField
-                id="password"
-                label="Password"
-                type={values.showPassword ? 'text' : 'password'}
-                required
-                variant="outlined"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton
-                        onClick={(_) =>
-                          setValues({ showPassword: !values.showPassword })
-                        }
-                        // edge="end"
-                      >
-                        {values.showPassword ? (
-                          <VisibilityOff />
-                        ) : (
-                          <Visibility />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <div className="helper">
-                <TextCheckBox text="Remember Me" />
-
-                <Button color="secondary">Recover Password</Button>
-              </div>
-              <Button variant="contained" className="in_btn" size="large">
-                Sign In
-              </Button>
-            </div>
-
-            <div className="or">
-              <p>or</p>
-            </div>
-
-            <div className="providers">
-              <ButtonWithStartIcon icon={Google} text="Sign Up with Google" />
-              <ButtonWithStartIcon
-                icon={Facebook}
-                text="Sign Up with Facebook"
-              />
-              <ButtonWithStartIcon icon={Twitter} text="Sign Up with Twitter" />
-            </div>
-          </div>
-        </div>
-
-        <div className="no_account">
-          <p>
-            You don&apos;t have an account?{' '}
-            <Button color="secondary">Sign Up</Button>
-          </p>
-        </div>
-      </div>
-
-      <div className={s.thank_you}>
-        <SignUpHeader text="Sign Up" />
-
-        <div className="thank_wrapper">
-          <CheckCircle fontSize="large" className="icon" />
-
-          <h2>Thank You!</h2>
-          <p>We sent you an email </p>
-
-          <Button variant="contained" className="in_btn" size="large" fullWidth>
-            Go To Dashboard
-          </Button>
-        </div>
-      </div>
-    </div>
+      <motion.div
+        className="wrapper"
+        variants={modalVariants}
+        key={activeModal.name}
+      >
+        {activeModal.name === 'SIGN_UP' ? (
+          <SignUpModal switchModal={switchModal} />
+        ) : activeModal.name === 'SIGN_IN' ? (
+          <SignInModal switchModal={switchModal} />
+        ) : (
+          activeModal.name === 'CONFIRMATION' ?? <ConfirmationModal />
+        )}
+      </motion.div>
+    </motion.div>
   );
 };
 

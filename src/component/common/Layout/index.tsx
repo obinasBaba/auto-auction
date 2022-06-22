@@ -5,6 +5,7 @@ import AppBar from '@/component/AppBar';
 import DashBoardSideNav from '@/component/common/DashBoardSideNav';
 import { useUI } from '@/component/ui/context';
 import ModalView from '@/component/common/ModalView';
+import { AnimatePresence } from 'framer-motion';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -13,10 +14,12 @@ type LayoutProps = {
 
 const ModalUI: React.FC = () => {
   const { displayModal, closeModal, modalView } = useUI();
-  return displayModal ? <ModalView /> : null;
+  return displayModal ? <ModalView close={closeModal} /> : null;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
+  const { displayModal, closeModal, modalView } = useUI();
+
   return (
     <div className={s.container}>
       <AppBar />
@@ -24,9 +27,16 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
       <div className="content">
         {pageProps.dashBoard && <DashBoardSideNav />}
 
-        <ModalUI />
+        <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
+          {displayModal && <ModalView close={closeModal} />}
+        </AnimatePresence>
 
-        <main className={'main'}>{children}</main>
+        <main className={'main'} key={'main'}>
+          <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
+            {children}
+          </AnimatePresence>
+          {children}
+        </main>
       </div>
 
       <footer className={s.footer}>
