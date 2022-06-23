@@ -21,7 +21,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: 'auger',
+    fontFamily: 'Sofia Pro',
   },
   palette: {
     primary: {

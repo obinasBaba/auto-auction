@@ -1,0 +1,29 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+  max-width: max-content;
+  //position: absolute;
+  //left: 20%;
+  //flex: 1;
+
+   @include s.margin(top, 7rem);
+   @include s.margin(bottom, 8rem);
+
+  & :global{
+
+    .stepper{
+
+
+
+    }
+
+    .wrapper{
+
+    }
+  }
+}
+
+.step_content{
+  height: 25vmin;
+}

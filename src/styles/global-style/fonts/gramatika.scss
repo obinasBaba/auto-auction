@@ -3,8 +3,8 @@
 @font-face {
   font-family: 'Gramatika';
   src: local('Gramatika Black'), local('Gramatika-Black'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Black.woff2') format('woff2'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Black.woff') format('woff');
+  url('./Gramatika/Gramatika - Black.woff2') format('woff2'),
+  url('./Gramatika/Gramatika - Black.woff') format('woff');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -13,8 +13,8 @@
 @font-face {
   font-family: 'Gramatika';
   src: local('Gramatika Bold'), local('Gramatika-Bold'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Bold.woff2') format('woff2'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Bold.woff') format('woff');
+  url('./Gramatika/Gramatika - Bold.woff2') format('woff2'),
+  url('./Gramatika/Gramatika - Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -23,8 +23,8 @@
 @font-face {
   font-family: 'Gramatika';
   src: local('Gramatika Regular'), local('Gramatika-Regular'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Regular.woff2') format('woff2'),
-  url('/public/assets/fonts/Gramatika/Gramatika - Regular.woff') format('woff');
+  url('./Gramatika/Gramatika - Regular.woff2') format('woff2'),
+  url('./Gramatika/Gramatika - Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import s from './whatkindvehicle.module.scss';
 import {
-  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -9,6 +8,7 @@ import {
   RadioGroup,
   TextField,
 } from '@mui/material';
+import { StepHeader } from '@/scenes/ListingPage/components';
 
 const WhatKindVehicle = (props: any) => {
   const types = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Minivan', 'Cabriolet'];
@@ -16,9 +16,8 @@ const WhatKindVehicle = (props: any) => {
   return (
     <div className={s.container}>
       <div className="kind_wrapper">
-        <h2>
-          What kind of vehicle <br /> are you listing
-        </h2>
+        <StepHeader text="What kind of vehicle are you listing" />
+
         <div className="form">
           <TextField
             id="email"

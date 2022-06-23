@@ -65,6 +65,7 @@ const SignInModal = ({ switchModal }: any) => {
         <div className="content">
           <form className="form" onSubmit={formik.handleSubmit}>
             <TextField
+              focused
               id="email"
               label="Email"
               type="email"

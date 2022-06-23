@@ -3,7 +3,6 @@
 .container {
   position: relative;
   width: 100%;
-  height: 100vh;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,13 +12,13 @@
 
   & :global{
 
-    .content{
+    .layout_content{
       width: 100%;
       display: flex;
       flex: 1;
+      min-height: 100vh;
 
       .main {
-        padding: 2rem 1rem;
         flex: 1;
         display: flex;
         flex-direction: column;

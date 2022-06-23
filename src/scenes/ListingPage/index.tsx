@@ -11,6 +11,7 @@ import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
 import ListingCreated from '@/scenes/ListingPage/ListingCreated';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
+import ListingProgress from '@/scenes/ListingPage/ListingProgress';
 
 const containerVariants = {};
 
@@ -82,39 +83,48 @@ const ListingPage = () => {
       initial="initial"
       animate="animate"
       exit="exit"
+      layout
     >
-      <motion.div
-        className="steps_wrapper"
-        variants={wrapperVariants}
-        key={activeStep.name}
-      >
-        {activeStep.component({ controller: { nextStep, prevStep, setStep } })}
-      </motion.div>
+      <motion.div className="container_wrapper" layout>
+        <ListingProgress />
 
-      {idx != steps.length - 1 && (
-        <motion.div className={s.control_btn} layout>
-          {idx !== 0 && (
-            <Button
-              variant="contained"
-              className="in_btn"
-              size="large"
-              color="secondary"
-              onClick={() => prevStep()}
-            >
-              Back
-            </Button>
-          )}
-
-          <Button
-            variant="contained"
-            size="large"
-            className={clsx([{ [s.alone]: idx === 0 }])}
-            onClick={() => nextStep()}
+        <div className="main_content">
+          <motion.div
+            className="animator"
+            variants={wrapperVariants}
+            key={activeStep.name}
           >
-            Next
-          </Button>
-        </motion.div>
-      )}
+            {activeStep.component({
+              controller: { nextStep, prevStep, setStep },
+            })}
+          </motion.div>
+
+          {idx != steps.length - 1 && (
+            <motion.div className={s.control_btn} layout>
+              {idx !== 0 && (
+                <Button
+                  variant="contained"
+                  className="in_btn"
+                  size="large"
+                  color="secondary"
+                  onClick={() => prevStep()}
+                >
+                  Back
+                </Button>
+              )}
+
+              <Button
+                variant="contained"
+                size="large"
+                className={clsx([{ [s.alone]: idx === 0 }])}
+                onClick={() => nextStep()}
+              >
+                Next
+              </Button>
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
     </motion.div>
   );
 };

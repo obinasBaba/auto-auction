@@ -1,34 +1,58 @@
 @use '@/styles' as s;
 
 .container {
+  position: relative;
   width: 100%;
   height: 100%;
-
   display: grid;
   place-items: center;
   //border: thick solid red;
-  // @include s.margin(top, 10rem);
+   @include s.padding(top, 4rem);
+  @include s.padding(hor, 2rem );
   // @include s.padding(bottom, 8rem);
 
   & :global {
 
-    .steps_wrapper {
+    .animator {
       width: 100%;
+      //border: thin solid red;
 
+      & > :first-child{
+
+        //min-width: s.f-unit(30rem);
+
+      }
     }
 
-    .stepper {
-      margin-top: auto;
-    }
+    .container_wrapper {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      gap: 5vmin;
 
-    .wrapper {
+      .main_content{
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        //border: thin solid teal;
+
+        min-width: 50rem;
+
+        //flex: 6;
+      }
+
+      & > *{
+        //flex: 1;
+        //border: thin solid teal;
+      }
 
     }
   }
 
   .control_btn {
     width: 100%;
-    max-width: s.f-unit(24rem);
+    max-width: s.f-unit(26rem);
     margin: s.f-unit(3rem) 0 auto;
     display: flex;
     justify-content: space-between;

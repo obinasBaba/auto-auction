@@ -1,16 +1,16 @@
 @use '@/styles' as s;
 
 .container{
+  position: fixed;
+  top: 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  //padding: s.f-unit(1rem);
+  z-index: 999;
   @include s.padding(1rem, 2rem);
 
   //background-color: rgba(0, 128, 128, 0.13);
-
   //border: thin solid red;
-
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 

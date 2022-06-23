@@ -1,0 +1,78 @@
+/*//SOFIA-PRO FONT*/
+
+@font-face {
+      font-family: 'Sofia Pro';
+  src: local('Sofia Pro Bold'), local('SofiaProBold'),
+  url('./SofiaPro/Sofia-Pro - Bold.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro - Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+      font-family: 'Sofia Pro';
+  src: local('Sofia Pro Semi-Bold'), local('SofiaProSemiBold'),
+  url('./SofiaPro/Sofia-Pro - SemiBold.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro - SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+      font-family: 'Sofia Pro';
+  src: local('Sofia Pro Regular'), local('SofiaProRegular'),
+  url('./SofiaPro/Sofia-Pro - Regular.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro - Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+      font-family: 'Sofia Pro';
+  src: local('Sofia Pro Light'), local('SofiaProLight'),
+  url('./SofiaPro/Sofia-Pro - Light.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro - Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*// GRAMATIKA FONT*/
+
+
+/*//SOFIA-PRO-SOFT FONT*/
+
+@font-face {
+  font-family: 'Sofia-Soft';
+  src: local('Sofia Pro Soft Bold'), local('SofiaProSoftBold'),
+  url('./SofiaPro/Sofia-Pro-Soft - Bold.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro-Soft - Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sofia-Soft';
+  src: local('Sofia Pro Soft Regular'), local('SofiaProSoftRegular'),
+  url('./SofiaPro/Sofia-Pro-Soft - Regular.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro-Soft - Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sofia-Soft';
+  src: local('Sofia Pro Soft Light'), local('SofiaProSoftLight'),
+  url('./SofiaPro/Sofia-Pro-Soft - Light.woff2') format('woff2'),
+  url('./SofiaPro/Sofia-Pro-Soft - Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+

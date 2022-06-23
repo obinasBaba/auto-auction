@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
     <div className={s.container}>
       <AppBar />
 
-      <div className="content">
+      <div className="layout_content">
         {pageProps.dashBoard && <DashBoardSideNav />}
 
         <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>

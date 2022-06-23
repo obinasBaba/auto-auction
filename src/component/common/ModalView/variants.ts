@@ -8,7 +8,7 @@ export const containerVariants: Variants = {
   },
   exit: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.35,
       staggerDirection: -1,
     },
   },

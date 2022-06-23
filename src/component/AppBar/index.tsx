@@ -2,6 +2,7 @@ import React from 'react';
 import s from './appbar.module.scss';
 import { Avatar, Box, Button, Slide, useScrollTrigger } from '@mui/material';
 import { useUI } from '@/component/ui/context';
+import Link from 'next/link';
 
 interface Props {
   window?: () => Window;
@@ -27,7 +28,12 @@ const AppBar = () => {
   return (
     <HideOnScroll>
       <Box className={s.container}>
-        <Avatar src="./logo.svg" className="logo" />
+        <Link href={'/'}>
+          <a>
+            <Avatar src="./logo.svg" className="logo" />
+          </a>
+        </Link>
+
         <div className="sign_up">
           <Avatar src="/broken-image.jpg" />
           <Button variant="outlined" size="large" onClick={ctx.toggleModal}>
