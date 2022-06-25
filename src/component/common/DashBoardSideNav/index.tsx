@@ -1,31 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import s from './dashboard.module.scss';
 import {
   Button,
+  Icon,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
 } from '@mui/material';
-import { Mail as MailIcon, ShoppingCart } from '@mui/icons-material';
-
-const items = [
-  { items: ['Dashboard'] },
-  {
-    title: 'Auction',
-    items: ['Auctions', 'Calendar', 'Active Bids', 'saved'],
-  },
-  {
-    title: 'Vehicle finder',
-    items: ['search', 'listings', 'Recent view', 'help center'],
-  },
-];
+import { items as data } from './data';
+import { ShoppingCart } from '@mui/icons-material';
+import clsx from 'clsx';
 
 const DashBoardSideNav = () => {
+  const [active, setActive] = useState<string>('Dashboard');
+
   return (
     <aside className={s.container}>
       <div className="dashboard_wrapper">
-        {items.map(({ title, items }, idx) => (
+        {data.map(({ title, items }, idx) => (
           <div key={idx}>
             <div className="block">
               {title && (
@@ -34,12 +27,20 @@ const DashBoardSideNav = () => {
                 </h4>
               )}
               <div className="block_list">
-                {items.map((item, idx) => (
-                  <ListItemButton key={item}>
+                {items.map(({ name, Icon }, itemIdx) => (
+                  <ListItemButton
+                    key={name}
+                    selected={name === active}
+                    onClick={() => setActive(name)}
+                    className={clsx([
+                      'list_item_btn',
+                      { [s.active]: name === active },
+                    ])}
+                  >
                     <ListItemIcon>
-                      <MailIcon />
+                      <Icon color={name === active ? 'primary' : 'secondary'} />
                     </ListItemIcon>
-                    <ListItemText primary={item} />
+                    <ListItemText primary={name} />
                   </ListItemButton>
                 ))}
               </div>

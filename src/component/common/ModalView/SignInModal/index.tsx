@@ -27,6 +27,7 @@ import {
 } from '@/component/common/ModalView/components';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { signIn } from 'next-auth/react';
 
 const validationSchema = yup.object({
   email: yup
@@ -141,7 +142,15 @@ const SignInModal = ({ switchModal }: any) => {
           </div>
 
           <div className="providers">
-            <ProvidersButton icon={Google} text="Sign Up with Google" />
+            <ProvidersButton
+              icon={Google}
+              text="Sign Up with Google"
+              onClick={() =>
+                signIn('google', {
+                  callbackUrl: 'http://localhost:3000/new-listing',
+                })
+              }
+            />
             <ProvidersButton icon={Facebook} text="Sign Up with Facebook" />
             <ProvidersButton icon={Twitter} text="Sign Up with Twitter" />
           </div>

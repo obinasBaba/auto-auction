@@ -1,6 +1,6 @@
 @use '@/styles' as s;
 
-.container{
+.container {
   position: fixed;
   top: 0;
   width: 100%;
@@ -14,23 +14,24 @@
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 
-  & :global{
-    .wrapper{
+  & :global {
+    .wrapper {
 
     }
 
-    .logo{
-      @include s.height_width(2.5rem, 2.5rem);
+    .logo {
+      //@include s.height_width(2.5rem, 2.5rem);
     }
 
-    .sign_up{
+    .tools {
       display: flex;
       align-items: center;
       gap: 1rem;
 
-      button{
+      button {
         border-radius: 5000px;
       }
+
     }
   }
 }

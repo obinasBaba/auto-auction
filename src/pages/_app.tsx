@@ -9,31 +9,40 @@ import theme from '@/theme';
 import createEmotionCache from '@/createEmotoinCache';
 import Head from 'next/head';
 import { ManagedUIContext } from '@/component/ui/context';
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  session?: Session;
 }
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props: MyAppProps) {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-
+export default function MyApp({
+  Component,
+  session,
+  emotionCache = clientSideEmotionCache,
+  pageProps,
+}: MyAppProps) {
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
-      <ManagedUIContext>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Layout pageProps={pageProps}>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </ManagedUIContext>
-    </CacheProvider>
+    <SessionProvider session={session} refetchInterval={0}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <title>This is a Layout</title>
+        </Head>
+        <ManagedUIContext>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <Layout pageProps={pageProps}>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </ManagedUIContext>
+      </CacheProvider>
+    </SessionProvider>
   );
 }

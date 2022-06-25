@@ -1,0 +1,56 @@
+@use '@/styles' as s;
+
+.container {
+  position: relative;
+
+  & :global {
+
+    .pp {
+      cursor: pointer;
+    }
+
+    .profile_popup {
+      position: absolute;
+      right: 0;
+      top: 110%;
+      width: max-content;
+      box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+      background-color: white;
+      border-radius: 15px;
+
+      padding: s.f-unit(1.5rem);
+      padding-left: s.f-unit(.5rem);
+
+
+      .list_item_btn {
+        &:hover {
+          background-color: rgba(121, 99, 240, 0.08);
+
+          svg, span {
+            color: s.$clrs-accent;
+
+          }
+        }
+
+      }
+
+
+      & > nav {
+        & > * {
+          //padding-left: 0;
+
+          @include s.media-breakpoint-up(lg) {
+            padding-right: s.f-unit(3rem);
+          }
+        }
+      }
+
+    }
+
+    .wrapper {
+
+    }
+  }
+
+
+}

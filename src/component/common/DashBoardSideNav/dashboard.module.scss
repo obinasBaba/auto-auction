@@ -1,16 +1,33 @@
-@use '@styles' as s;
+@use '@/styles' as s;
 
-.container {
+aside.container {
   width: 100%;
   border-right: 2px solid lighten(lightgray, 10);
   max-width: 350px;
+
+  @include s.margin(top, 5rem);
 
   & :global {
 
     .dashboard_wrapper {
       padding: 1rem 2rem;
 
-      .sell_car{
+      .block_list{
+        .list_item_btn{
+          &:hover{
+            background-color: rgba(121, 99, 240, 0.08);
+             span {
+              color: s.$clrs-accent;
+
+            }
+          }
+          span{
+            color: gray;
+          }
+        }
+      }
+
+      .sell_car {
         margin-top: s.f-unit(1.5rem);
         display: flex;
         flex-flow: column;
@@ -21,7 +38,7 @@
         padding: s.f-unit(1rem);
         background-color: lighten(lightgray, 10);
 
-        .btn{
+        .btn {
           border-radius: 8px;
           background-color: white;
           color: black;
@@ -30,6 +47,16 @@
 
       }
 
+    }
+  }
+}
+
+.active{
+
+  & :global{
+    span{
+      font-weight: 900 ;
+      color: s.$clrs-accent !important;
     }
   }
 }

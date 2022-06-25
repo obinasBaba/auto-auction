@@ -41,7 +41,11 @@ export const TextCheckBox: Component = ({ text, ...props }: any) => {
   );
 };
 
-export const ProvidersButton: Component = ({ icon: Icon, text }: any) => {
+export const ProvidersButton: Component = ({
+  icon: Icon,
+  text,
+  ...props
+}: any) => {
   return (
     <Button
       variant="outlined"
@@ -49,6 +53,7 @@ export const ProvidersButton: Component = ({ icon: Icon, text }: any) => {
       color="secondary"
       size="large"
       className={s.prov_btn}
+      {...props}
     >
       {text}
     </Button>
