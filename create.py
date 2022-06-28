@@ -18,8 +18,11 @@ name = sys.argv[2]
 src_name = os.getcwd() + path + name
 
 if not name[0].isupper():
-    print('Are You sure Compoenent with SMALL - Letters : - ?'.replace('-', name))
-    exit()
+    con = input('Are You sure Compoenent with SMALL - Letters : - ?'.replace('-', name))
+    if con == 'y' or 'Y':
+      print('component with lowercase created')
+    else:
+        exit()
 
 styleTxt = """@use '@/styles' as s;
 
@@ -59,6 +62,6 @@ if not os.path.exists(src_name):
         f.write(styleTxt)
 
     with open(src_name + '/index.tsx', 'wt') as f:
-        f.write(componentTxt.replace('-', name).replace('_', name.lower()))
+        f.write(componentTxt.replace('-', name.capitalize()).replace('_', name.lower()))
 else:
     raise Exception('directory already exists DUMB_ASS: -'.replace('-', name))

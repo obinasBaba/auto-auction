@@ -17,7 +17,8 @@
       width: 100%;
       //border: thin solid red;
 
-      & > :first-child{
+      & > *{
+        //border: thin dashed saddlebrown ;
 
         //min-width: s.f-unit(30rem);
 
@@ -31,14 +32,23 @@
       gap: 5vmin;
 
       .main_content{
+        border: thin solid red;
         display: flex;
-        flex-flow: column;
-        justify-content: center;
         align-items: center;
-        //border: thin solid teal;
 
-        min-width: 50rem;
+        padding: 10px;
 
+
+        form{
+          //width: 100%;
+          display: flex;
+          flex-flow: column;
+          justify-content: center;
+          align-items: center;
+          border: thin solid teal;
+
+          min-width: 50rem;
+        }
         //flex: 6;
       }
 
@@ -53,7 +63,7 @@
   .control_btn {
     width: 100%;
     max-width: s.f-unit(26rem);
-    margin: s.f-unit(3rem) 0 auto;
+    margin: s.f-unit(5rem) 0 auto;
     display: flex;
     justify-content: space-between;
 

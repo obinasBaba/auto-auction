@@ -33,9 +33,12 @@
           button{
             position: relative;
             border: none;
+            border-radius: 10px;
             background-color: transparent;
             padding: .7rem 22px;
             flex: 1;
+            cursor: pointer;
+
             .border{
               position: absolute;
               border: 2px solid lightgray;
@@ -49,6 +52,11 @@
           display: flex;
           flex-flow: column;
           margin-top: 1rem;
+
+          & > div{
+            display: flex;
+            flex-flow: column
+          }
 
           & > *{
             color: s.$clrs-secondary;

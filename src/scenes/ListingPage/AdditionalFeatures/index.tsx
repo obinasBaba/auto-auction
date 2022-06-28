@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import s from './additionalfeatures.module.scss';
-import { Checkbox, FormControlLabel } from '@mui/material';
-import { motion } from 'framer-motion';
+import { Button, Checkbox, FormControlLabel } from '@mui/material';
+import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
 
 const FeatureCheckBox = ({ label, checked, ...props }: any) => (
@@ -20,6 +20,18 @@ const FeatureCheckBox = ({ label, checked, ...props }: any) => (
   />
 );
 
+const featureWrapperVariant = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+const MotionWrapper = ({ children, ...props }: any) => (
+  <motion.div initial="initial" animate="animate" exit="exit" {...props}>
+    {children}
+  </motion.div>
+);
+
 const AdditionalFeatures = (props: any) => {
   const [active, setActive] = useState<number>(0);
 
@@ -32,21 +44,23 @@ const AdditionalFeatures = (props: any) => {
 
         <div className="form">
           <div className="feat_types">
-            <button
+            <Button
               // variant="outlined"
               className={clsx({ [s.active]: active === 0 })}
               color="secondary"
+              type="button"
               onClick={() => setActive(0)}
             >
-              Comfort features
+              Comfort
               {active === 0 && (
                 <motion.div layoutId="border" className="border" />
               )}
-            </button>
+            </Button>
 
-            <button
+            <Button
               // variant="outlined"
               color="secondary"
+              type="button"
               className={clsx({ [s.active]: active === 1 })}
               onClick={() => setActive(1)}
             >
@@ -54,19 +68,35 @@ const AdditionalFeatures = (props: any) => {
               {active === 1 && (
                 <motion.div layoutId="border" className="border" />
               )}
-            </button>
+            </Button>
           </div>
 
           <div className="feat_items">
-            <FeatureCheckBox label="Seat heater" checked />
-            <FeatureCheckBox label="Leather seats" checked />
-            <FeatureCheckBox label="Navigation system" checked />
-            <FeatureCheckBox label="Air conditioner" checked />
-            <FeatureCheckBox label="Parking control" checked />
-            <FeatureCheckBox label="Rear view camera" />
-            <FeatureCheckBox label="Multimedia system" />
-            <FeatureCheckBox label="Central lock" />
-            <FeatureCheckBox label="Alloy Wheels" />
+            <AnimatePresence exitBeforeEnter>
+              {active === 0 && (
+                <MotionWrapper variants={featureWrapperVariant} key="comfort">
+                  <>
+                    <FeatureCheckBox label="Seat heater" checked />
+                    <FeatureCheckBox label="Leather seats" checked />
+                    <FeatureCheckBox label="Navigation system" checked />
+                    <FeatureCheckBox label="Air conditioner" />
+                    <FeatureCheckBox label="Parking control" />
+                  </>
+                </MotionWrapper>
+              )}
+              {active === 1 && (
+                <MotionWrapper
+                  variants={featureWrapperVariant}
+                  key="technology"
+                >
+                  <FeatureCheckBox label="Rear view camera" checked />
+                  <FeatureCheckBox label="Multimedia system" checked />
+                  <FeatureCheckBox label="Media player" />
+                  <FeatureCheckBox label="Central lock" />
+                  <FeatureCheckBox label="Alloy Wheels" />
+                </MotionWrapper>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

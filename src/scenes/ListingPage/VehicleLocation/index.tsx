@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import s from './vehiclelocation.module.scss';
-import { MenuItem, TextField } from '@mui/material';
-import { ControlButtons } from '@/scenes/ListingPage/components';
+import { TextField } from '@mui/material';
+import { Field } from 'formik';
 
 const VehicleLocation = (props: any) => {
   const countries = ['one', 'two', 'three'];
@@ -20,48 +20,46 @@ const VehicleLocation = (props: any) => {
         </h2>
 
         <div className="form">
-          <TextField
-            id="Town"
-            select
-            label="Select Town"
-            // error
-            value={country}
-            onChange={handleChange}
-            // helperText=""
-          >
-            {countries.map((make) => (
-              <MenuItem key={make} value={make}>
-                {make}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            id="car-models"
+          <Field
+            name="address.state"
+            label="Select State"
             variant="outlined"
-            label="Street Address"
+            // error
+            // helperText=""
+            as={TextField}
           />
 
-          <TextField
-            id="car-models"
+          <Field
+            name="address.streetAddress"
             variant="outlined"
+            label="Street Address"
+            as={TextField}
+          />
+
+          <Field
+            name="address.apartmentNumber"
+            variant="outlined"
+            type="number"
             label="Suite, apartment number"
+            as={TextField}
           />
 
           <div className="state">
-            <TextField
-              id="year"
-              label="State"
+            <Field
+              name="address.city"
+              label="City"
               type="text"
               required
               variant="outlined"
+              as={TextField}
             />
-            <TextField
-              id="mileage"
+            <Field
+              name="address.zipcode"
               label="ZipCode"
               type="number"
               required
               variant="outlined"
+              as={TextField}
             />
           </div>
         </div>

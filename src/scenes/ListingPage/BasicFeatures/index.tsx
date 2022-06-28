@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import s from './basicfeatures.module.scss';
-import { Button, MenuItem, TextField } from '@mui/material';
+import { MenuItem, TextField } from '@mui/material';
+import { Field } from 'formik';
 
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
+const models = ['model-1', 'model-2', 'model-3', 'model-4'];
+const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
+const color = ['color-1', 'color-2', 'color-3', 'color-4'];
+const gearbox = ['manual', 'automatic'];
 
 const BasicFeatures = (props: any) => {
   const [make, setMake] = useState('BMW');
@@ -19,80 +24,82 @@ const BasicFeatures = (props: any) => {
         </h2>
 
         <div className="form">
-          <TextField
+          <Field
             id="car-makes"
+            name="make"
             select
+            // value={type}
             label="Select Make"
-            // error
-            value={make}
-            onChange={() => handleChange}
-            // helperText=""
+            as={TextField}
           >
             {makes.map((make) => (
               <MenuItem key={make} value={make}>
                 {make}
               </MenuItem>
             ))}
-          </TextField>
+          </Field>
 
-          <TextField
+          <Field
             id="car-models"
-            select
+            name="model"
             label="Model"
+            as={TextField}
+            select
             // error
-            value={make}
             // onChange={handleChange}
             // helperText=""
           >
-            {makes.map((make) => (
+            {models.map((make) => (
               <MenuItem key={make} value={make}>
                 {make}
               </MenuItem>
             ))}
-          </TextField>
+          </Field>
 
           <div className="year_mile">
-            <TextField
-              id="year"
+            <Field
+              name="year"
               label="Year"
-              type="date"
+              type="number"
               required
               variant="outlined"
+              as={TextField}
             />
-            <TextField
-              id="mileage"
+            <Field
+              name="mileage"
               label="Mileage"
               type="number"
               required
               variant="outlined"
+              as={TextField}
             />
           </div>
 
           <div className="year_mile engin_gear">
-            <TextField id="car-models" select label="Engine" value="">
-              {makes.map((make) => (
+            <Field name="engine" label="Engine" select as={TextField}>
+              {engine.map((make) => (
                 <MenuItem key={make} value={make}>
                   {make}
                 </MenuItem>
               ))}
-            </TextField>
+            </Field>
 
-            <TextField id="car-models" select label="GearBox" value="">
-              {makes.map((make) => (
+            <Field name="gearbox" label="GearBox" select as={TextField}>
+              {gearbox.map((make) => (
                 <MenuItem key={make} value={make}>
                   {make}
                 </MenuItem>
               ))}
-            </TextField>
+            </Field>
           </div>
 
-          <TextField id="color" select label="Body Color" value="">
-            {makes.map((make) => (
+          <Field name="color" label="Body Color" select as={TextField}>
+            {color.map((make) => (
               <MenuItem key={make} value={make}>
                 {make}
               </MenuItem>
             ))}
-          </TextField>
+          </Field>
         </div>
       </div>
     </div>

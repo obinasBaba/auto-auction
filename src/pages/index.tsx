@@ -1,8 +1,31 @@
 import Head from 'next/head';
 import LandingPage from '@/scenes/LandingPage';
+import { useEffect } from 'react';
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
-export default function Home() {
+export async function getStaticProps({}: GetStaticPropsContext<{
+  slug: string;
+}>) {
+  // return {
+  //   notFound: true,
+  // };
+  const acc = 'await prisma.user.findMany();';
+  return {
+    props: {
+      acc,
+    },
+    revalidate: 200,
+  };
+}
+
+export default function Home(
+  props: InferGetStaticPropsType<typeof getStaticProps>,
+) {
   // const { openModal, closeModal } = useUI();
+
+  useEffect(() => {
+    console.log('props: ', props.acc);
+  }, []);
 
   return (
     <>

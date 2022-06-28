@@ -20,11 +20,18 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
-  session: {
-    strategy: 'jwt',
+  pages: {
+    signIn: '/auth/sign-in',
+    newUser: '/auth/thankyou',
+    signOut: 'auth/sign-out',
+    error: '/auth/sign-in',
   },
+  /* session: {
+     // strategy: 'jwt',
+   },*/
+
   callbacks: {
-    /*async signIn({user, account, profile, email, credentials}){
+    /*async sign-in({user, account, profile, email, credentials}){
 
     },*/
     async jwt({ token }) {
