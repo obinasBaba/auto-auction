@@ -65,12 +65,8 @@ const Profile = ({ session }: { session: Session }) => {
 
   return (
     <motion.div className={s.container} layout>
-      <IconButton color="primary">
-        <Avatar
-          className="pp"
-          src={session?.user?.image ?? '/'}
-          onClick={() => setShow(!show)}
-        />
+      <IconButton color="primary" onClick={() => setShow(!show)}>
+        <Avatar className="pp" src={session?.user?.image ?? '/'} />
       </IconButton>
 
       <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>

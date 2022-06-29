@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { AnimatePresence, LayoutGroup, motion, Variants } from 'framer-motion';
 import Profile from './Profile';
+import Logo from '@/public/logo.svg';
 
 interface Props {
   window?: () => Window;
@@ -60,7 +61,7 @@ const AppBar = () => {
       <Box className={s.container}>
         <Link href={'/'}>
           <a>
-            <Avatar src="./logo.svg" className="logo" />
+            <Avatar src={'./logo.svg'} className="logo" />
           </a>
         </Link>
 

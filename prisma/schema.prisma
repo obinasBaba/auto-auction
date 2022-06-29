@@ -8,8 +8,8 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+  id                Int     @id @default(autoincrement())
+  userId            Int
   type              String
   provider          String
   providerAccountId String
@@ -26,21 +26,26 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           Int      @id @default(autoincrement())
   sessionToken String   @unique
-  userId       String
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
+  id            Int       @id @default(autoincrement())
+  name          String
+  first_name    String?
+  last_name     String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  auction       auction[]
+  bid           bid[]
+  vehicle       vehicle[]
 }
 
 model VerificationToken {
@@ -51,7 +56,139 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model text {
-  id   Int    @id
-  name String @db.VarChar(255)
+model address {
+  id                                  Int       @id @default(autoincrement())
+  country                             String?
+  zipcode                             Int?      @db.SmallInt
+  city                                String?   @db.VarChar(15)
+  street_address                      String?
+  vehicle_id                          Int
+  vehicle_address_vehicle_idTovehicle vehicle   @relation("address_vehicle_idTovehicle", fields: [vehicle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vehicle_addressTovehicle_address_id vehicle[] @relation("addressTovehicle_address_id")
+}
+
+model auction {
+  id            Int            @id @default(autoincrement())
+  dealer_id     Int
+  item_id       Int
+  winner_id     Int
+  title         String         @db.VarChar(50)
+  starting_bid  Decimal        @db.Decimal(10, 2)
+  current_price Decimal        @db.Decimal(10, 2)
+  starting_date DateTime       @db.Timestamp(6)
+  ending_date   DateTime?      @db.Timestamp(6)
+  status        auction_status
+  highest_bid   Decimal        @db.Decimal(10, 2)
+  reserve_price Int
+  User          User           @relation(fields: [dealer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  vehicle       vehicle        @relation(fields: [item_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  bid           bid[]
+}
+
+model bid {
+  id         Int     @id @default(autoincrement())
+  auction_id Int
+  dealer_id  Int
+  amount     Int
+  auction    auction @relation(fields: [auction_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User       User    @relation(fields: [dealer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model car_engine {
+  id             Int       @id @default(autoincrement())
+  name           String?
+  fuel           fuel?
+  cylinder_count Int?      @db.SmallInt
+  vehicle        vehicle[]
+}
+
+model car_make {
+  id       Int       @id @default(autoincrement())
+  logo_url String?
+  detail   String?
+  name     String?
+  vehicle  vehicle[]
+}
+
+model car_model {
+  id      Int       @id @default(autoincrement())
+  name    String?
+  vehicle vehicle[]
+}
+
+model car_type {
+  id      Int       @id @default(autoincrement())
+  name    String?
+  vehicle vehicle[]
+}
+
+model vehicle {
+  id                                  Int         @id @default(autoincrement())
+  vin                                 String      @unique
+  make_id                             Int
+  type_id                             Int
+  model_id                            Int
+  engine_id                           Int
+  address_id                          Int
+  dealer_id                           Int
+  condition                           condition?
+  gearbox                             gearbox?
+  drivetrain                          drivetrain?
+  name                                String?
+  listing_title                       String?
+  description                         String?
+  price                               Int?
+  year                                Int?        @db.SmallInt
+  mileage                             Int?
+  body_color                          String?     @db.VarChar(10)
+  interior_color                      String?     @db.VarChar(10)
+  created_at                          DateTime    @default(dbgenerated("(now() AT TIME ZONE 'utc'::text)")) @db.Timestamp(6)
+  address_addressTovehicle_address_id address     @relation("addressTovehicle_address_id", fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_address")
+  User                                User        @relation(fields: [dealer_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  car_engine                          car_engine  @relation(fields: [engine_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  car_make                            car_make    @relation(fields: [make_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  car_model                           car_model   @relation(fields: [model_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  car_type                            car_type    @relation(fields: [type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  address_address_vehicle_idTovehicle address[]   @relation("address_vehicle_idTovehicle")
+  auction                             auction[]
+}
+
+enum auction_status {
+  ACTIVE
+  ENDED
+}
+
+enum condition {
+  used
+  new
+}
+
+enum drivetrain {
+  all_wheel_drive__AWD_    @map("all-wheel-drive (AWD)")
+  front_wheel_drive__FWD_  @map("front-wheel-drive (FWD)")
+  rear_wheel_drive_RWD_    @map("rear-wheel-drive(RWD)")
+  four_wheel_drive_4WD_    @map("four-wheel-drive(4WD)")
+}
+
+enum features {
+  Seat_heater        @map("Seat heater")
+  Leather_seats      @map("Leather seats")
+  Navigation_system  @map("Navigation system")
+  Air_conditioner    @map("Air conditioner")
+  Parking_control    @map("Parking control")
+  Rear_view_camera   @map("Rear view camera")
+  Multimedia_system  @map("Multimedia system")
+  Central_lock       @map("Central lock")
+  Alloy_Wheels       @map("Alloy Wheels")
+  diesel
+}
+
+enum fuel {
+  gasoline
+  diesel
+}
+
+enum gearbox {
+  manual
+  automatic
 }

@@ -11,9 +11,14 @@ import {
 import { items as data } from './data';
 import { ShoppingCart } from '@mui/icons-material';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 
 const DashBoardSideNav = () => {
+  const { data: session } = useSession();
+
   const [active, setActive] = useState<string>('Dashboard');
+
+  if (!session) return null;
 
   return (
     <aside className={s.container}>

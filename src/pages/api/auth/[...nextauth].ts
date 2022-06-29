@@ -9,10 +9,23 @@ const prisma = new PrismaClient();
 export default NextAuth({
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
+
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+      profile(profile) {
+        console.log('profile -- - -- - - - -- - - ', profile);
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          first_name: profile.given_name,
+          last_name: profile.family_name,
+          // emailVerified: profile.email_verified,
+        };
+      },
     }),
     EmailProvider({
       server: process.env.EMAIL_SERVER,
@@ -20,6 +33,7 @@ export default NextAuth({
     }),
     // ...add more providers here
   ],
+
   pages: {
     signIn: '/auth/sign-in',
     newUser: '/auth/thankyou',

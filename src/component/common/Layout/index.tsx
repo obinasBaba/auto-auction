@@ -23,7 +23,6 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   return (
     <div className={s.container}>
       <AppBar />
-
       <div className="layout_content">
         {pageProps.dashBoard && <DashBoardSideNav />}
 
@@ -37,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
           </AnimatePresence>
         </main>
       </div>
-
+      layout
       <footer className={s.footer}>
         <a
           href="https://vercel.com?utm_source=typescript-nextjs-starter"
