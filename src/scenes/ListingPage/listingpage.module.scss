@@ -5,7 +5,8 @@
   width: 100%;
   height: 100%;
   display: grid;
-  place-items: center;
+  justify-content: center;
+  //place-items: center;
   //border: thick solid red;
    @include s.padding(top, 4rem);
   @include s.padding(hor, 2rem );
@@ -29,10 +30,13 @@
       width: 100%;
       max-width: 1200px;
       display: flex;
+      align-items: flex-start;
       gap: 5vmin;
 
+      //border: thin solid red;
+
       .main_content{
-        border: thin solid red;
+        //border: thin solid red;
         display: flex;
         align-items: center;
 
@@ -45,7 +49,7 @@
           flex-flow: column;
           justify-content: center;
           align-items: center;
-          border: thin solid teal;
+          //border: thin solid teal;
 
           min-width: 50rem;
         }

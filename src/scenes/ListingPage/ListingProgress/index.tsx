@@ -9,6 +9,7 @@ import {
   Stepper,
   Typography,
 } from '@mui/material';
+import { motion } from 'framer-motion';
 
 const steps = [
   {
@@ -45,7 +46,7 @@ const ListingProgress = () => {
   };
 
   return (
-    <div className={s.container}>
+    <motion.div className={s.container} layout>
       <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
         {steps.map((step, index) => (
           <Step key={step.label}>
@@ -69,7 +70,7 @@ const ListingProgress = () => {
           </Button>
         </Paper>
       )}
-    </div>
+    </motion.div>
   );
 };
 

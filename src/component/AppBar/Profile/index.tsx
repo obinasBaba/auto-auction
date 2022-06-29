@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import s from './profile.module.scss';
 import {
   Avatar,
@@ -49,6 +49,7 @@ const popupVariants: Variants = {
 };
 
 const Profile = ({ session }: { session: Session }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState<boolean>(false);
   const items = [
     { name: 'Profile Settings', Icon: Settings },
@@ -58,8 +59,9 @@ const Profile = ({ session }: { session: Session }) => {
   ];
 
   useEffect(() => {
-    console.log('render');
-  }, []);
+    console.log('show: ', show);
+    containerRef.current?.focus({ preventScroll: true });
+  }, [show]);
 
   return (
     <motion.div className={s.container} layout>
@@ -85,7 +87,14 @@ const Profile = ({ session }: { session: Session }) => {
           >
             <List component="nav" aria-label="main mailbox folders">
               {items.slice(0, 2).map(({ name, Icon }) => (
-                <ListItemButton key={name} className="list_item_btn">
+                <ListItemButton
+                  key={name}
+                  className="list_item_btn"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                >
                   <ListItemIcon>
                     <Icon />
                   </ListItemIcon>

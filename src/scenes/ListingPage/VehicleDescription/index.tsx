@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './vehicledescribtion.module.scss';
 import { TextField } from '@mui/material';
-import { ControlButtons } from '@/scenes/ListingPage/components';
+import { Field } from 'formik';
 
 const VehicleDescription = (props: any) => {
   return (
@@ -9,28 +9,30 @@ const VehicleDescription = (props: any) => {
       <div className="wrapper">
         <h2> Describe Your Vehicle </h2>
         <div className="form">
-          <TextField
-            id="title"
+          <Field
+            name="listingTitle"
             label="Listing Title"
             type="text"
             required
             variant="outlined"
+            as={TextField}
           />
-          <TextField
-            id="extended_desc"
+          <Field
+            name="description"
             label="Extended Description"
             multiline
             rows={8}
             type="text"
             required
             variant="outlined"
+            as={TextField}
           />
-          <TextField
-            id="price"
+          <Field
+            name="price"
             label="Price in USD"
             type="number"
-            required
             variant="outlined"
+            as={TextField}
           />
         </div>
       </div>

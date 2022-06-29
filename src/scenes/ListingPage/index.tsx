@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import s from './listingpage.module.scss';
-import WhatKindVehicle from '@/scenes/ListingPage/WhatKindVehicle';
-import BasicFeatures from '@/scenes/ListingPage/BasicFeatures';
-import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
-import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
-import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
 import AuctionRules from '@/scenes/ListingPage/AuctionRules';
-import { motion } from 'framer-motion';
-import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
+import { LayoutGroup, motion } from 'framer-motion';
 import ListingCreated from '@/scenes/ListingPage/ListingCreated';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
@@ -42,44 +36,45 @@ const color = ['color-1', 'color-2', 'color-3', 'color-4'];
 const gearbox = ['manual', 'automatic'];
 
 const steps = [
-  {
-    name: 'KIND',
-    component: (props: any) => <WhatKindVehicle {...props} />,
-    schema: yup.object({
-      vin: yup.number().min(7).required('what is you vin'),
-      type: yup
-        .string()
-        .required('you have to select the type of car you are listing -')
-        .oneOf(types, 'you have to select the type of car you are listing'),
-    }),
-  },
-  {
-    name: 'FEATURE',
-    component: (props: any) => <BasicFeatures {...props} />,
-    schema: yup.object({
-      make: yup
-        .string()
-        .oneOf(makes, 'select the manufacture of you vehicle!!'),
-      model: yup.string().oneOf(models, 'select the Model of you vehicle!!'),
-      color: yup.string().oneOf(color, 'select the color of you vehicle!!'),
-      engine: yup
-        .string()
-        .oneOf(engine, 'select the Engine model of you vehicle!!'),
-      gearbox: yup
-        .string()
-        .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
-      year: yup
-        .number()
-        .positive('year need to be positive')
-        .required('what year is your car?'),
-      mileage: yup.number().min(4).required('mileage of you car?'),
-    }),
-  },
-  {
-    name: 'FEATURE_2',
-    component: (props: any) => <AdditionalFeatures {...props} />,
-    schema: yup.object({}),
-  },
+  /* {
+     name: 'KIND',
+     component: (props: any) => <WhatKindVehicle {...props} />,
+     schema: yup.object({
+       vin: yup.number().min(7).required('what is you vin'),
+       type: yup
+         .string()
+         .required('you have to select the type of car you are listing -')
+         .oneOf(types, 'you have to select the type of car you are listing'),
+     }),
+   },
+   {
+     name: 'FEATURE',
+     component: (props: any) => <BasicFeatures {...props} />,
+     schema: yup.object({
+       make: yup
+         .string()
+         .oneOf(makes, 'select the manufacture of you vehicle!!'),
+       model: yup.string().oneOf(models, 'select the Model of you vehicle!!'),
+       color: yup.string().oneOf(color, 'select the color of you vehicle!!'),
+       engine: yup
+         .string()
+         .oneOf(engine, 'select the Engine model of you vehicle!!'),
+       gearbox: yup
+         .string()
+         .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
+       year: yup
+         .number()
+         .positive('year need to be positive')
+         .required('what year is your car?'),
+       mileage: yup.number().min(4).required('mileage of you car?'),
+     }),
+   },
+   {
+     name: 'FEATURE_2',
+     component: (props: any) => <AdditionalFeatures {...props} />,
+     schema: yup.object({}),
+   },
+
   {
     name: 'LOCATION',
     component: (props: any) => <VehicleLocation {...props} />,
@@ -96,13 +91,22 @@ const steps = [
   {
     name: 'PHOTOS',
     component: (props: any) => <VehiclePhoto {...props} />,
-    schema: yup.object({}),
+    schema: yup.array().of(
+      yup.object({
+        name: yup.string().required('name is required'),
+        src: yup.string().required('url is required'),
+      }),
+    ),
   },
   {
     name: 'DESCRIPTION',
     component: (props: any) => <VehicleDescription {...props} />,
-    schema: yup.object({}),
-  },
+    schema: yup.object({
+      listingTitle: yup.string().required('specify your listing Title'),
+      description: yup.string().required('your description please'),
+      price: yup.number(),
+    }),
+  },*/
   {
     name: 'RULE',
     component: (props: any) => <AuctionRules {...props} />,
@@ -149,10 +153,10 @@ const ListingPage = () => {
       exit="exit"
       layout
     >
-      <motion.div className="container_wrapper" layout>
+      <motion.div className="container_wrapper">
         <ListingProgress />
 
-        <div className="main_content">
+        <motion.div className="main_content">
           <Formik
             initialValues={{
               vin: '',
@@ -171,69 +175,78 @@ const ListingPage = () => {
                 apartmentNumber: '',
                 zipcode: '',
               },
+              images: [],
+              listingTitle: '',
+              description: '',
+              price: 0,
             }}
             validateOnMount={false}
             validateOnChange={false}
             onSubmit={nextStep}
             validationSchema={steps[idx].schema}
           >
-            {({ errors, values }) => (
+            {({ errors, values, setValues, setFieldValue }) => (
               <Form>
-                <motion.div
-                  className="animator"
-                  variants={wrapperVariants}
-                  key={activeStep.name}
-                >
-                  {activeStep.component({
-                    controller: { nextStep, prevStep, setStep },
-                    values,
-                    errors,
-                  })}
-
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '10%',
-                      right: '2%',
-                      maxWidth: '40ch',
-                    }}
+                <LayoutGroup id="unic">
+                  <motion.div
+                    className="animator"
+                    variants={wrapperVariants}
+                    key={activeStep.name}
                   >
-                    <pre style={{ color: 'red' }}>
-                      {JSON.stringify(errors, null, 2)}
-                    </pre>
-                    <pre>{JSON.stringify(values, null, 2)}</pre>
-                  </div>
-                </motion.div>
+                    {activeStep.component({
+                      controller: { nextStep, prevStep, setStep },
+                      values,
+                      setValues,
+                      setFieldValue,
+                      errors,
+                    })}
 
-                {idx != steps.length - 1 && (
-                  <motion.div className={s.control_btn} layout>
-                    {idx !== 0 && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '10%',
+                        right: '2%',
+                        maxWidth: '40ch',
+                        display: 'none',
+                      }}
+                    >
+                      <pre style={{ color: 'red' }}>
+                        {JSON.stringify(errors, null, 2)}
+                      </pre>
+                      <pre>{JSON.stringify(values, null, 2)}</pre>
+                    </div>
+                  </motion.div>
+
+                  {idx != steps.length - 1 && (
+                    <motion.div className={s.control_btn} layout>
+                      {idx !== 0 && (
+                        <Button
+                          variant="contained"
+                          className="in_btn"
+                          size="large"
+                          color="secondary"
+                          onClick={() => prevStep()}
+                        >
+                          Back
+                        </Button>
+                      )}
+
                       <Button
                         variant="contained"
-                        className="in_btn"
                         size="large"
-                        color="secondary"
-                        onClick={() => prevStep()}
+                        className={clsx([{ [s.alone]: idx === 0 }])}
+                        type="submit"
+                        // onClick={() => nextStep()}
                       >
-                        Back
+                        Next
                       </Button>
-                    )}
-
-                    <Button
-                      variant="contained"
-                      size="large"
-                      className={clsx([{ [s.alone]: idx === 0 }])}
-                      type="submit"
-                      // onClick={() => nextStep()}
-                    >
-                      Next
-                    </Button>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  )}
+                </LayoutGroup>
               </Form>
             )}
           </Formik>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );

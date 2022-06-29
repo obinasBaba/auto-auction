@@ -26,8 +26,18 @@ const featureWrapperVariant = {
   exit: { opacity: 0 },
 };
 
-const MotionWrapper = ({ children, ...props }: any) => (
-  <motion.div initial="initial" animate="animate" exit="exit" {...props}>
+export const MotionWrapper = ({
+  children,
+  variants = featureWrapperVariant,
+  ...props
+}: any) => (
+  <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={variants}
+    {...props}
+  >
     {children}
   </motion.div>
 );
