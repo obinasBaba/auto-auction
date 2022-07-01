@@ -26,7 +26,7 @@ const BasicFeatures = (props: any) => {
         <div className="form">
           <Field
             id="car-makes"
-            name="make"
+            name="item.make"
             select
             // value={type}
             label="Select Make"
@@ -41,7 +41,7 @@ const BasicFeatures = (props: any) => {
 
           <Field
             id="car-models"
-            name="model"
+            name="item.model"
             label="Model"
             as={TextField}
             select
@@ -56,9 +56,9 @@ const BasicFeatures = (props: any) => {
             ))}
           </Field>
 
-          <div className="year_mile">
+          <div className="hor">
             <Field
-              name="year"
+              name="item.year"
               label="Year"
               type="number"
               required
@@ -66,7 +66,7 @@ const BasicFeatures = (props: any) => {
               as={TextField}
             />
             <Field
-              name="mileage"
+              name="item.mileage"
               label="Mileage"
               type="number"
               required
@@ -75,8 +75,8 @@ const BasicFeatures = (props: any) => {
             />
           </div>
 
-          <div className="year_mile engin_gear">
-            <Field name="engine" label="Engine" select as={TextField}>
+          <div className="hor engin_gear">
+            <Field name="item.engine" label="Engine" select as={TextField}>
               {engine.map((make) => (
                 <MenuItem key={make} value={make}>
                   {make}
@@ -84,16 +84,22 @@ const BasicFeatures = (props: any) => {
               ))}
             </Field>
 
-            <Field name="gearbox" label="GearBox" select as={TextField}>
+            <TextField
+              // name="item.gearbox"
+              label="GearBox"
+              select
+              value=""
+              // as={TextField}
+            >
               {gearbox.map((make) => (
                 <MenuItem key={make} value={make}>
                   {make}
                 </MenuItem>
               ))}
-            </Field>
+            </TextField>
           </div>
 
-          <Field name="color" label="Body Color" select as={TextField}>
+          <Field name="item.color" label="Body Color" select as={TextField}>
             {color.map((make) => (
               <MenuItem key={make} value={make}>
                 {make}

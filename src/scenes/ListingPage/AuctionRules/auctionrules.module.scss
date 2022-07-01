@@ -69,6 +69,10 @@
           flex-flow: column;
 
 
+          label{
+            margin-left: 0;
+          }
+
           & > *{
             display: flex;
             flex-flow: column;
@@ -81,9 +85,19 @@
             line-height: 140%;
           }
 
-          .reserve_price{
+          .col{
             display: flex;
             flex-flow: column;
+            margin-bottom: s.f-unit(.6rem);
+
+
+
+
+            .col_input{
+              width: 100%;
+              margin: -8px auto 0;
+            }
+
           }
 
         }

@@ -39,6 +39,10 @@ aside.container {
         background-color: lighten(lightgray, 10);
         color: s.$clrs-secondary;
 
+        a{
+          width: 100%;
+        }
+
         .btn {
           border-radius: 8px;
           background-color: white;

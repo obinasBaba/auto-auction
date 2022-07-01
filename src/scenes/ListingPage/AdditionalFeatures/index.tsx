@@ -57,7 +57,7 @@ const AdditionalFeatures = (props: any) => {
             <Button
               // variant="outlined"
               className={clsx({ [s.active]: active === 0 })}
-              color="secondary"
+              color={!active ? 'primary' : 'secondary'}
               type="button"
               onClick={() => setActive(0)}
             >
@@ -69,7 +69,7 @@ const AdditionalFeatures = (props: any) => {
 
             <Button
               // variant="outlined"
-              color="secondary"
+              color={active ? 'primary' : 'secondary'}
               type="button"
               className={clsx({ [s.active]: active === 1 })}
               onClick={() => setActive(1)}

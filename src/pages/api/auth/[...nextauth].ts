@@ -15,7 +15,6 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
       profile(profile) {
-        console.log('profile -- - -- - - - -- - - ', profile);
         return {
           id: profile.sub,
           name: profile.name,
@@ -42,12 +41,24 @@ export default NextAuth({
   },
   /* session: {
      // strategy: 'jwt',
+
    },*/
 
-  callbacks: {
-    /*async sign-in({user, account, profile, email, credentials}){
+  cookies: {
+    sessionToken: {
+      name: 'next-auth.session-token',
+      options: {
+        httpOnly: false,
+        // sameSite: 'lax',
+        path: '/',
+        secure: true,
+      },
+    },
+  },
 
-    },*/
+  callbacks: {
+    /*async ,*/
+
     async jwt({ token }) {
       console.log('JWT: ', token);
 

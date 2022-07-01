@@ -12,9 +12,12 @@ import {
 import { CheckCircle, RadioButtonUnchecked } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { MotionWrapper } from '@/scenes/ListingPage/AdditionalFeatures';
+import { Field } from 'formik';
 
 const AuctionRules = (props: any) => {
   const [isAuction, setIsAuction] = useState<boolean>(true);
+  const [buyNow, setBuyNow] = useState<boolean>(false);
+  const [reservePrice, setReservePrice] = useState<boolean>(false);
 
   return (
     <motion.div className={s.container}>
@@ -60,8 +63,8 @@ const AuctionRules = (props: any) => {
             <AnimatePresence exitBeforeEnter>
               {isAuction ? (
                 <MotionWrapper key="auction">
-                  <TextField
-                    name="price"
+                  <Field
+                    name="auction.startingBid"
                     label="Starting Bid"
                     type="text"
                     required
@@ -72,60 +75,89 @@ const AuctionRules = (props: any) => {
                         <InputAdornment position="start">$</InputAdornment>
                       ),
                     }}
+                    as={TextField}
                   />
 
-                  <TextField
-                    name="price"
+                  <Field
+                    name="auction.duration"
                     label="Auction duration (Days)"
                     type="text"
                     select
                     required
                     variant="outlined"
+                    as={TextField}
                   >
                     {[5, 7, 10].map((day) => (
                       <MenuItem key={day} value={day}>
                         {day}
                       </MenuItem>
                     ))}
-                  </TextField>
+                  </Field>
 
-                  <TextField
-                    id="year"
+                  <Field
+                    name="auction.startingDate"
                     label="Schedule for listing start time"
                     type="date"
                     required
                     variant="outlined"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    as={TextField}
                   />
 
-                  <div className="reserve_price">
+                  <motion.div className="col">
                     <FormControlLabel
                       className="checkbox"
                       value="fixed"
-                      control={<Switch color="primary" />}
-                      label="Fixed minimal price"
+                      control={
+                        <Switch
+                          color="primary"
+                          checked={reservePrice}
+                          onChange={() => setReservePrice(!reservePrice)}
+                        />
+                      }
+                      label="Reserved price"
                       labelPlacement="start"
                     />
 
-                    <Input
-                      id="standard-adornment-amount"
-                      inputMode="numeric"
-                      type="number"
-                      startAdornment={
-                        <InputAdornment position="start">$</InputAdornment>
-                      }
-                    />
-                  </div>
+                    {reservePrice && (
+                      <Input
+                        id="standard-adornment-amount"
+                        inputMode="numeric"
+                        type="number"
+                        className="col_input"
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    )}
+                  </motion.div>
 
-                  <FormControlLabel
-                    className="checkbox"
-                    value="fixed"
-                    control={<Switch color="primary" />}
-                    label="Buy is now"
-                    labelPlacement="start"
-                  />
+                  <motion.div className="col">
+                    <FormControlLabel
+                      className="checkbox"
+                      control={
+                        <Switch
+                          color="primary"
+                          checked={buyNow}
+                          onChange={() => setBuyNow(!buyNow)}
+                        />
+                      }
+                      label="Buy It Now"
+                      labelPlacement="start"
+                    />
+
+                    {buyNow && (
+                      <Input
+                        name="buy_now"
+                        className="col_input"
+                        id="standard-adornment-amount"
+                        inputMode="numeric"
+                        type="number"
+                        startAdornment={
+                          <InputAdornment position="start">$</InputAdornment>
+                        }
+                      />
+                    )}
+                  </motion.div>
 
                   <FormControlLabel
                     className="checkbox"

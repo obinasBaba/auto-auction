@@ -21,11 +21,9 @@ const VehicleLocation = (props: any) => {
 
         <div className="form">
           <Field
-            name="address.state"
-            label="Select State"
+            name="address.country"
+            label="Country"
             variant="outlined"
-            // error
-            // helperText=""
             as={TextField}
           />
 
@@ -44,7 +42,7 @@ const VehicleLocation = (props: any) => {
             as={TextField}
           />
 
-          <div className="state">
+          <div className="hor">
             <Field
               name="address.city"
               label="City"

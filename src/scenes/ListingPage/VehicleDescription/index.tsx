@@ -10,7 +10,7 @@ const VehicleDescription = (props: any) => {
         <h2> Describe Your Vehicle </h2>
         <div className="form">
           <Field
-            name="listingTitle"
+            name="auction.title"
             label="Listing Title"
             type="text"
             required
@@ -18,7 +18,7 @@ const VehicleDescription = (props: any) => {
             as={TextField}
           />
           <Field
-            name="description"
+            name="auction.description"
             label="Extended Description"
             multiline
             rows={8}
@@ -28,7 +28,7 @@ const VehicleDescription = (props: any) => {
             as={TextField}
           />
           <Field
-            name="price"
+            // name="auction.price"
             label="Price in USD"
             type="number"
             variant="outlined"

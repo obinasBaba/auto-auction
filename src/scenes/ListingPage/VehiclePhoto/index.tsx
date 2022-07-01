@@ -68,14 +68,15 @@ function Previews({ values, setValues, setFieldValue }: any) {
             data: formData,
             onUploadProgress(p) {
               const progress = map(p?.loaded, 0, p?.total, 0, 1);
+              // update the progress
               setImagePreviews((prevState) =>
-                prevState.map((preview) =>
-                  preview.name === newImg.name
+                prevState.map((prevItems) =>
+                  prevItems.name === newImg.name
                     ? {
-                        ...preview,
+                        ...prevItems,
                         progress,
                       }
-                    : preview,
+                    : prevItems,
                 ),
               );
 
@@ -83,6 +84,11 @@ function Previews({ values, setValues, setFieldValue }: any) {
             },
           })
           .then((d) => {
+            setTimeout(() =>
+              imagePreviews.forEach(({ preview }) =>
+                URL.revokeObjectURL(preview),
+              ),
+            );
             setImagePreviews((prevState) =>
               prevState.map((preview) =>
                 preview.name === newImg.name
@@ -90,7 +96,6 @@ function Previews({ values, setValues, setFieldValue }: any) {
                       ...preview,
                       id: d.data?.asset_id,
                       url: d.data?.secure_url,
-                      loaded: true,
                     }
                   : preview,
               ),
@@ -104,20 +109,12 @@ function Previews({ values, setValues, setFieldValue }: any) {
 
   useEffect(() => {
     setFieldValue('images', imagePreviews);
-  }, [imagePreviews]);
+  }, [imagePreviews, setFieldValue]);
 
   useEffect(() => {
     console.log('images-chagned: ', values.images);
     // setImgs(values.images);
   }, [values.images]);
-
-  useEffect(() => {
-    // setImagePreviews(values.images)
-    return () => {
-      console.log('invoking urlObjurl');
-      imagePreviews.forEach((p) => URL.revokeObjectURL(p.preview));
-    };
-  }, []);
 
   return (
     <section className={s.container}>
@@ -160,7 +157,7 @@ function Previews({ values, setValues, setFieldValue }: any) {
             <div key={preview.name}>
               <div className="preview">
                 <img
-                  src={preview.loaded ? preview.url : preview.preview}
+                  src={preview.url || preview.preview}
                   alt={preview.name}
                   // Revoke data uri after image is loaded
                   onLoad={() => {
@@ -169,7 +166,7 @@ function Previews({ values, setValues, setFieldValue }: any) {
                 />
 
                 <IconButton className="close_btn">
-                  {preview.loaded ? <Close /> : <p>{preview.progress}</p>}
+                  {preview.url ? <Close /> : <p>{preview.progress}</p>}
                 </IconButton>
               </div>
             </div>

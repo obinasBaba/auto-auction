@@ -11,7 +11,7 @@ import {
 import { StepHeader } from '@/scenes/ListingPage/components';
 import { Field } from 'formik';
 
-const WhatKindVehicle = (props: any) => {
+const WhatKindVehicle = ({ errors }: any) => {
   const types = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Minivan', 'Cabriolet'];
 
   return (
@@ -21,15 +21,18 @@ const WhatKindVehicle = (props: any) => {
 
         <div className="form">
           <Field
-            name="vin"
+            name="item.vin"
             id="vin"
             label="Vin Code"
             type="number"
-            required
             placeholder="123456789"
             variant="outlined"
+            error={!!errors?.item?.vin}
+            helperText={errors?.item?.vin}
             as={TextField}
           />
+
+          {/*<TextField  />*/}
 
           <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">
@@ -43,7 +46,7 @@ const WhatKindVehicle = (props: any) => {
               {types.map((type, idx) => (
                 <Field
                   type="radio"
-                  name="type"
+                  name="item.type"
                   key={type}
                   value={type}
                   control={<Radio />}

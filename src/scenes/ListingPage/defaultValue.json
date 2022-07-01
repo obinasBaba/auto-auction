@@ -1,0 +1,43 @@
+{
+  "item": {
+    "vin": 123123123,
+    "type": "Sedan",
+    "make": "BMW",
+    "engine": "engine-1",
+    "model": "model-1",
+    "color": "color-1",
+    "year": 11111,
+    "mileage": 111111
+  },
+  "images": [
+    {
+      "name": "0-546397.jpg",
+      "id": "0bf6515fd4d0a52824d1457378f8e9f7",
+      "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1656592596/auto-auction/g4kalfvgfjalgmfp966q.jpg"
+    },
+    {
+      "name": "1-697187.jpg",
+      "id": "2250aafd785c89c71d055ac443fbdbbc",
+      "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1656592618/auto-auction/ncnyaizxdnw2q4ua9jbz.jpg"
+    },
+    {
+      "name": "1-900053.jpg",
+      "id": "72443a62895cdaf7ceb42e41fa8d7da4",
+      "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1656592618/auto-auction/me0knbyz6eewyn9o0vwz.jpg"
+    }
+  ],
+  "address": {
+    "country": "hwassa",
+    "city": "hawassa",
+    "streetAddress": "hawasa",
+    "apartmentNumber": 223423,
+    "zipcode": 7777
+  },
+  "auction": {
+    "title": "thisi is an auction title",
+    "description": "sdf",
+    "startingBid": "110",
+    "duration": 7,
+    "startingDate": "2022-06-09"
+  }
+}

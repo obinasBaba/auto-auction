@@ -12,6 +12,7 @@ import { items as data } from './data';
 import { ShoppingCart } from '@mui/icons-material';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 const DashBoardSideNav = () => {
   const { data: session } = useSession();
@@ -58,13 +59,17 @@ const DashBoardSideNav = () => {
             A new way to buy
             <br /> modern and sell old cars
           </p>
-          <Button
-            className="btn"
-            variant="contained"
-            startIcon={<ShoppingCart />}
-          >
-            Sell You Car
-          </Button>
+          <Link href={'/new-listing'}>
+            <a>
+              <Button
+                className="btn"
+                variant="contained"
+                startIcon={<ShoppingCart />}
+              >
+                Sell You Car
+              </Button>
+            </a>
+          </Link>
         </Paper>
       </div>
     </aside>

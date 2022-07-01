@@ -26,14 +26,14 @@
         width: 100%;
         display: flex;
         flex-flow: column;
-        gap: s.f-unit(.6rem);
+        gap: s.f-unit(1.2rem);
 
-        .year_mile{
+        .hor{
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: s.f-unit(.5rem);
+          gap: s.f-unit(.7rem);
 
           & > *{
             flex: 1;
