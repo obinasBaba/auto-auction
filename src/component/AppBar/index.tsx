@@ -1,13 +1,14 @@
 import React from 'react';
 import s from './appbar.module.scss';
 import { Avatar, Box, Button, Slide, useScrollTrigger } from '@mui/material';
-import { useUI } from '@/component/ui/context';
+import { useUI } from '@/context/ui/context';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { AnimatePresence, LayoutGroup, motion, Variants } from 'framer-motion';
-import Profile from './Profile';
-import Logo from '@/public/logo.svg';
+import ProfileIconButton from './ProfileIconButton';
+import SearchField from '@/component/AppBar/SearchField';
+import { MotionWrapper } from '@/scenes/ListingPage/AdditionalFeatures';
 
 interface Props {
   window?: () => Window;
@@ -17,6 +18,7 @@ interface Props {
 function HideOnScroll(props: Props) {
   const { children, window } = props;
   const trigger = useScrollTrigger({
+    threshold: 40,
     target: window ? window() : undefined,
   });
 
@@ -68,17 +70,18 @@ const AppBar = () => {
         <LayoutGroup id="id1">
           <motion.div className="tools" layout>
             <AnimatePresence
-              exitBeforeEnter
+              exitBeforeEnter={false}
               custom={{ globalObj: {} }}
               presenceAffectsLayout={false}
             >
-              {session && pathname !== '/dashboard' && (
-                <motion.div
-                  variants={btnVariant}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                >
+              {session && (
+                <MotionWrapper layout key="search">
+                  <SearchField key="search" />
+                </MotionWrapper>
+              )}
+
+              {session && !pathname.startsWith('/dashboard') && (
+                <MotionWrapper variants={btnVariant} layout key="btn">
                   <Link href={'/dashboard'}>
                     <a>
                       <Button variant="contained" size="large">
@@ -86,7 +89,7 @@ const AppBar = () => {
                       </Button>
                     </a>
                   </Link>
-                </motion.div>
+                </MotionWrapper>
               )}
             </AnimatePresence>
 
@@ -95,7 +98,7 @@ const AppBar = () => {
                 Sign Up
               </Button>
             ) : (
-              <Profile session={session} key={'rof'} />
+              <ProfileIconButton session={session} key={'rof'} />
             )}
           </motion.div>
         </LayoutGroup>

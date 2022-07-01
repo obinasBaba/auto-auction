@@ -12,11 +12,16 @@ import {
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import {
   HeadsetMic,
+  HeadsetMicTwoTone,
   Logout,
+  LogoutTwoTone,
+  ManageAccountsTwoTone,
   Settings,
   SwitchAccessShortcutAddOutlined,
 } from '@mui/icons-material';
 import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const popupVariants: Variants = {
   initial: {
@@ -48,8 +53,11 @@ const popupVariants: Variants = {
   },
 };
 
-const Profile = ({ session }: { session: Session }) => {
+const ItemButton = (props: any) => '';
+
+const ProfileIconButton = ({ session }: { session: Session }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const [show, setShow] = useState<boolean>(false);
   const items = [
     { name: 'Profile Settings', Icon: Settings },
@@ -59,7 +67,6 @@ const Profile = ({ session }: { session: Session }) => {
   ];
 
   useEffect(() => {
-    console.log('show: ', show);
     containerRef.current?.focus({ preventScroll: true });
   }, [show]);
 
@@ -77,37 +84,52 @@ const Profile = ({ session }: { session: Session }) => {
             initial="initial"
             animate="animate"
             exit="exit"
-            onBlur={() => {
-              setShow(false);
+            tabIndex={0}
+            ref={containerRef}
+            onBlur={(e) => {
+              if (e.relatedTarget === null) setShow(false);
             }}
           >
             <List component="nav" aria-label="main mailbox folders">
-              {items.slice(0, 2).map(({ name, Icon }) => (
-                <ListItemButton
-                  key={name}
-                  className="list_item_btn"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              ))}
+              <Link href={'/dashboard/profile'}>
+                <a>
+                  <ListItemButton
+                    className="list_item_btn"
+                    onClick={() => setShow(false)}
+                  >
+                    <ListItemIcon>
+                      <ManageAccountsTwoTone />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile Settings" />
+                  </ListItemButton>
+                </a>
+              </Link>
+
+              <ListItemButton className="list_item_btn">
+                <ListItemIcon>
+                  <HeadsetMicTwoTone />
+                </ListItemIcon>
+                <ListItemText primary="Help Center" />
+              </ListItemButton>
             </List>
             <Divider sx={{ marginLeft: '1rem' }} />
             <List component="nav" aria-label="secondary mailbox folder">
-              {items.slice(2).map(({ name, Icon }) => (
-                <ListItemButton key={name} className="list_item_btn">
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText primary={name} />
-                </ListItemButton>
-              ))}
+              <ListItemButton className="list_item_btn">
+                <ListItemIcon>
+                  <SwitchAccessShortcutAddOutlined />
+                </ListItemIcon>
+                <ListItemText primary="Switch to Seller" />
+              </ListItemButton>
+
+              <ListItemButton
+                className="list_item_btn"
+                onClick={() => signOut()}
+              >
+                <ListItemIcon>
+                  <LogoutTwoTone />
+                </ListItemIcon>
+                <ListItemText primary="LogOut" />
+              </ListItemButton>
             </List>
           </motion.div>
         )}
@@ -116,4 +138,4 @@ const Profile = ({ session }: { session: Session }) => {
   );
 };
 
-export default memo(Profile);
+export default memo(ProfileIconButton);

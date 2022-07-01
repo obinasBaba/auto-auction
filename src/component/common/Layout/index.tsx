@@ -3,9 +3,10 @@ import s from './layout.module.scss';
 import Image from 'next/image';
 import AppBar from '@/component/AppBar';
 import DashBoardSideNav from '@/component/common/DashBoardSideNav';
-import { useUI } from '@/component/ui/context';
+import { useUI } from '@/context/ui/context';
 import ModalView from '@/component/common/ModalView';
 import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -19,12 +20,18 @@ const ModalUI: React.FC = () => {
 
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   const { displayModal, closeModal, modalView } = useUI();
+  const { pathname, push } = useRouter();
+  // const { data: session } = useSession();
+  //
+  // if (pathname.startsWith('/dashboard')) if (!session) push('/');
 
   return (
     <div className={s.container}>
       <AppBar />
       <div className="layout_content">
-        {pageProps.dashBoard && <DashBoardSideNav />}
+        {(pageProps.dashBoard || pathname.startsWith('/dashboard')) && (
+          <DashBoardSideNav />
+        )}
 
         <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
           {displayModal && <ModalView close={closeModal} />}
@@ -37,16 +44,17 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
         </main>
       </div>
       <footer className={s.footer}>
-        <a
-          href="https://vercel.com?utm_source=typescript-nextjs-starter"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={s.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+        <nav>
+          <div className="left">
+            <p>Privacy Policy</p>
+            <p>Term of Use</p>
+            <p>@2022 All rights reserved</p>
+          </div>
+          <div className="right">
+            <p>English</p>
+            <p>top</p>
+          </div>
+        </nav>
       </footer>
     </div>
   );

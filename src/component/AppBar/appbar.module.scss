@@ -8,9 +8,13 @@
   align-items: center;
   justify-content: space-between;
   z-index: 999;
-  @include s.padding(1rem, 2rem);
+  @include s.padding(.8rem, 2rem);
 
-  //background-color: rgba(0, 128, 128, 0.13);
+  //background-color: rgba(121, 99, 240, 0.08);
+  background-image: linear-gradient(rgba(121, 99, 240, 0.08), rgba(121, 99, 240, 0));
+
+  backdrop-filter: blur(3px);
+
   //border: thin solid red;
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);

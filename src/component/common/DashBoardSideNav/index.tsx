@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './dashboard.module.scss';
 import {
   Button,
@@ -9,15 +9,21 @@ import {
   Paper,
 } from '@mui/material';
 import { items as data } from './data';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart, ShoppingCartTwoTone } from '@mui/icons-material';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const DashBoardSideNav = () => {
   const { data: session } = useSession();
+  const { pathname } = useRouter();
 
-  const [active, setActive] = useState<string>('Dashboard');
+  const [active, setActive] = useState<string>(pathname);
+
+  useEffect(() => {
+    console.log('dashboard render');
+  }, []);
 
   if (!session) return null;
 
@@ -33,21 +39,27 @@ const DashBoardSideNav = () => {
                 </h4>
               )}
               <div className="block_list">
-                {items.map(({ name, Icon }, itemIdx) => (
-                  <ListItemButton
-                    key={name}
-                    selected={name === active}
-                    onClick={() => setActive(name)}
-                    className={clsx([
-                      'list_item_btn',
-                      { [s.active]: name === active },
-                    ])}
-                  >
-                    <ListItemIcon>
-                      <Icon color={name === active ? 'primary' : 'secondary'} />
-                    </ListItemIcon>
-                    <ListItemText primary={name} />
-                  </ListItemButton>
+                {items.map(({ name, Icon, link }) => (
+                  <Link href={link} key={name}>
+                    <a>
+                      <ListItemButton
+                        key={name}
+                        selected={link === active}
+                        onClick={() => setActive(link)}
+                        className={clsx([
+                          'list_item_btn',
+                          { [s.active]: link === active },
+                        ])}
+                      >
+                        <ListItemIcon>
+                          <Icon
+                            color={link === active ? 'primary' : 'secondary'}
+                          />
+                        </ListItemIcon>
+                        <ListItemText primary={name} />
+                      </ListItemButton>
+                    </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -64,7 +76,7 @@ const DashBoardSideNav = () => {
               <Button
                 className="btn"
                 variant="contained"
-                startIcon={<ShoppingCart />}
+                startIcon={<ShoppingCart color="primary" />}
               >
                 Sell You Car
               </Button>

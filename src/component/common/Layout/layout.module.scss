@@ -38,6 +38,32 @@
     justify-content: center;
     align-items: center;
     padding: s.f-unit(1rem);
+
+    & :global{
+      nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        @include s.padding(hor, 2rem);
+
+        .right{
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .left{
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          & > :last-child{
+            color: lightgray;
+          }
+        }
+      }
+    }
   }
 
   .logo {

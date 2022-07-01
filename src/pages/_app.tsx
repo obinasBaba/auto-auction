@@ -8,9 +8,10 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import theme from '@/theme';
 import createEmotionCache from '@/createEmotoinCache';
 import Head from 'next/head';
-import { ManagedUIContext } from '@/component/ui/context';
+import { ManagedUIContext } from '@/context/ui/context';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import { AppContext } from '@/context';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -28,21 +29,26 @@ export default function MyApp({
 }: MyAppProps) {
   return (
     <SessionProvider session={session} refetchInterval={0}>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <title>This is a Layout</title>
-        </Head>
-        <ManagedUIContext>
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <Layout pageProps={pageProps}>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </ManagedUIContext>
-      </CacheProvider>
+      <AppContext>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+            <title>This is a Layout</title>
+          </Head>
+          <ManagedUIContext>
+            <ThemeProvider theme={theme}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <Layout pageProps={pageProps}>
+                <Component {...pageProps} />
+              </Layout>
+            </ThemeProvider>
+          </ManagedUIContext>
+        </CacheProvider>
+      </AppContext>
     </SessionProvider>
   );
 }

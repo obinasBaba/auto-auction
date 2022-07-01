@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import LandingPage from '@/scenes/LandingPage';
-import { useEffect } from 'react';
 import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
 export async function getStaticProps({}: GetStaticPropsContext<{
@@ -22,10 +21,6 @@ export default function Home(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
   // const { openModal, closeModal } = useUI();
-
-  useEffect(() => {
-    console.log('props: ', props.acc);
-  }, []);
 
   return (
     <>
