@@ -9,7 +9,7 @@ import {
   Paper,
 } from '@mui/material';
 import { items as data } from './data';
-import { ShoppingCart, ShoppingCartTwoTone } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -66,7 +66,7 @@ const DashBoardSideNav = () => {
           </div>
         ))}
 
-        <Paper className="sell_car">
+        <div className="sell_car">
           <p>
             A new way to buy
             <br /> modern and sell old cars
@@ -82,7 +82,7 @@ const DashBoardSideNav = () => {
               </Button>
             </a>
           </Link>
-        </Paper>
+        </div>
       </div>
     </aside>
   );

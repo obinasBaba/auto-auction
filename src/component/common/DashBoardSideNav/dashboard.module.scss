@@ -3,14 +3,21 @@
 aside.container {
   width: 100%;
   border-right: 2px solid lighten(lightgray, 10);
-  max-width: 350px;
+  max-width: max-content;
 
   @include s.margin(top, 5rem);
 
   & :global {
 
     .dashboard_wrapper {
+      max-width: 350px;
+      //border: thin solid chocolate;
       padding: 1rem 2rem;
+      @include s.padding(1rem, 2rem);
+
+      @include s.media-breakpoint-up(lg){
+        @include s.margin(left, 1rem);
+      }
 
       .block_list{
         .list_item_btn{
@@ -34,9 +41,13 @@ aside.container {
         align-items: center;
         justify-content: center;
         text-align: center;
-        width: 100%;
+        width: 112%;
+        transform: translateX(-8%);
         padding: s.f-unit(1rem);
+        border-radius: 10px;
         //background-color: lighten(lightgray, 10);
+        background-color: s.$clrs-gray-light;
+
         color: gray;
 
         a{

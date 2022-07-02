@@ -1,13 +1,8 @@
 import React from 'react';
-import s from './auction.module.scss';
-import { GetStaticPropsContext } from 'next';
+import AuctionPage from '@/scenes/AuctionPage';
 
 const Auction = () => {
-  return (
-    <div className={s.container}>
-      <h1>Auction Content</h1>
-    </div>
-  );
+  return <AuctionPage />;
 };
 
 export default Auction;

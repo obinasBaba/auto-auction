@@ -57,13 +57,13 @@ export const useAppContext = () => {
 export const AppContext: FC<{ children: React.ReactElement }> = ({
   children,
 }) => {
-  const { pathname, push } = useRouter();
+  /*  const { pathname, push } = useRouter();
   const { data: session } = useSession();
 
   useLayoutEffect(() => {
     console.log('pathname: ', pathname, 'sess: ', session);
     if (pathname.startsWith('/dashboard')) if (!session) push('/');
-  }, [pathname]);
+  }, [pathname]);*/
 
   return (
     <AppProvider>

@@ -8,6 +8,8 @@
   @include s.padding( hor, 2.5rem);
   @include s.padding( ver, 4rem);
 
+  max-width: 1400px;
+
 
   & :global {
 
@@ -15,7 +17,7 @@
       position: relative;
       //height: 250px;
       width: 100%;
-      max-width: 1300px;
+      max-width: 1400px;
       border-radius: 30px;
       overflow: hidden;
       padding: 2rem;
@@ -67,6 +69,10 @@
       grid-template-columns: repeat(3, 1fr);
       gap: s.f-unit(1.5rem);
 
+      @include s.media-breakpoint-up(lg){
+        //gap: s.f-unit(2rem);
+      }
+
       //border: thin solid red;
 
       a:hover {
@@ -84,7 +90,7 @@
         .btn {
           background-color: s.$clrs-secondary;
           border-radius: 10px;
-          padding: .74rem;
+          padding: s.f-unit(.74rem);
         }
 
         .text {
@@ -104,7 +110,7 @@
 
         &:hover {
           .btn {
-            background-color: rgba(121, 99, 240, 0.08);
+            background-color: s.$clrs-accent-light;
             color: #7963F0;
           }
 
