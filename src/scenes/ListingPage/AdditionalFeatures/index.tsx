@@ -3,6 +3,10 @@ import s from './additionalfeatures.module.scss';
 import { Button, Checkbox, FormControlLabel } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import clsx from 'clsx';
+import {
+  featureWrapperVariant,
+  MotionWrapper,
+} from '@/component/MotionWrapper';
 
 const FeatureCheckBox = ({ label, checked, ...props }: any) => (
   <FormControlLabel
@@ -18,28 +22,6 @@ const FeatureCheckBox = ({ label, checked, ...props }: any) => (
       />
     }
   />
-);
-
-const featureWrapperVariant = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
-};
-
-export const MotionWrapper = ({
-  children,
-  variants = featureWrapperVariant,
-  ...props
-}: any) => (
-  <motion.div
-    initial="initial"
-    animate="animate"
-    exit="exit"
-    variants={variants}
-    {...props}
-  >
-    {children}
-  </motion.div>
 );
 
 const AdditionalFeatures = (props: any) => {

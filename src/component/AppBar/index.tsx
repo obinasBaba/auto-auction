@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { AnimatePresence, LayoutGroup, motion, Variants } from 'framer-motion';
 import ProfileIconButton from './ProfileIconButton';
 import SearchField from '@/component/AppBar/SearchField';
-import { MotionWrapper } from '@/scenes/ListingPage/AdditionalFeatures';
+import { MotionWrapper } from '@/component/MotionWrapper';
 
 interface Props {
   window?: () => Window;

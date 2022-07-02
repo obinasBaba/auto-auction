@@ -10,7 +10,7 @@ import {
   Settings,
 } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
-import { MotionWrapper } from '@/scenes/ListingPage/AdditionalFeatures';
+import { MotionWrapper } from '@/component/MotionWrapper';
 
 const FilterItem = ({ label }: any) => {
   const [show, setShow] = useState<boolean>(false);
@@ -112,10 +112,10 @@ const AuctionPage = () => {
 
                   <div className="lot">
                     <Button color="secondary" variant="outlined" disabled>
-                      #2839984{' '}
+                      #2839984
                     </Button>
                     <Button color="primary" variant="contained">
-                      Bid Now{' '}
+                      Bid Now
                     </Button>
                   </div>
                 </div>
