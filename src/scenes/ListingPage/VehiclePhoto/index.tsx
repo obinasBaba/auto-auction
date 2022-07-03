@@ -5,6 +5,8 @@ import { Button, IconButton } from '@mui/material';
 import { Close, CloudUpload } from '@mui/icons-material';
 import clsx from 'clsx';
 import axios from 'axios';
+import { StepHeader } from '@/scenes/ListingPage/components';
+import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
 export const map = (
   value: number,
@@ -23,7 +25,9 @@ type Preview = {
   loaded: boolean;
 };
 
-function Previews({ values, setValues, setFieldValue }: any) {
+const Previews: ListingFormStepComponent = ({ formikProps }) => {
+  const { values, setFieldValue } = formikProps;
+
   const [imagePreviews, setImagePreviews] = useState<Preview[]>(values.images);
 
   const [imgs, setImgs] = useState<{ url: string; id: string; name: string }[]>(
@@ -111,14 +115,9 @@ function Previews({ values, setValues, setFieldValue }: any) {
     setFieldValue('images', imagePreviews);
   }, [imagePreviews, setFieldValue]);
 
-  useEffect(() => {
-    console.log('images-chagned: ', values.images);
-    // setImgs(values.images);
-  }, [values.images]);
-
   return (
     <section className={s.container}>
-      <h3>Upload listing photos</h3>
+      <StepHeader text="Upload listing photos" />
 
       <div className="wrapper">
         <div {...getRootProps({ className: 'dropzone' })}>
@@ -175,6 +174,6 @@ function Previews({ values, setValues, setFieldValue }: any) {
       </div>
     </section>
   );
-}
+};
 
 export default Previews;

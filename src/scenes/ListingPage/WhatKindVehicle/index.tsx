@@ -10,14 +10,17 @@ import {
 } from '@mui/material';
 import { StepHeader } from '@/scenes/ListingPage/components';
 import { Field } from 'formik';
+import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
-const WhatKindVehicle = ({ errors }: any) => {
+const WhatKindVehicle: ListingFormStepComponent = ({ formikProps }) => {
+  const { errors } = formikProps;
+
   const types = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Minivan', 'Cabriolet'];
 
   return (
     <div className={s.container}>
       <div className="kind_wrapper">
-        <StepHeader text="What kind of vehicle are you listing" />
+        <StepHeader text="What kind of vehicle are you listing?" />
 
         <div className="form">
           <Field
@@ -35,13 +38,12 @@ const WhatKindVehicle = ({ errors }: any) => {
           {/*<TextField  />*/}
 
           <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">
-              Vehicle Type
-            </FormLabel>
+            <FormLabel id="demo-radio-buttons-group-label">Body Type</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="female"
               name="radio-buttons-group"
+              sx={{ marginLeft: '7px' }}
             >
               {types.map((type, idx) => (
                 <Field

@@ -29,6 +29,6 @@ export const ControlButtons = ({ controller: { prevStep, nextStep } }: any) => {
 
 export const StepHeader = ({ text }: any) => {
   return (
-    <h1 className={s.step_header} dangerouslySetInnerHTML={{ __html: text }} />
+    <h2 className={s.step_header} dangerouslySetInnerHTML={{ __html: text }} />
   );
 };

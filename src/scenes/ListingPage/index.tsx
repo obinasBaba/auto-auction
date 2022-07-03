@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import s from './listingpage.module.scss';
 import AuctionRules from '@/scenes/ListingPage/AuctionRules';
-import { LayoutGroup, motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import ListingCreated from '@/scenes/ListingPage/ListingCreated';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
 import ListingProgress from '@/scenes/ListingPage/ListingProgress';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
 import WhatKindVehicle from '@/scenes/ListingPage/WhatKindVehicle';
 import BasicFeatures from '@/scenes/ListingPage/BasicFeatures';
@@ -30,7 +30,7 @@ const wrapperVariants = {
   },
   exit: {
     opacity: 0,
-    scale: 0.92,
+    // scale: 0.92,
   },
 };
 
@@ -40,12 +40,13 @@ const models = ['model-1', 'model-2', 'model-3', 'model-4'];
 const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
 const color = ['color-1', 'color-2', 'color-3', 'color-4'];
 const gearbox = ['manual', 'automatic'];
+const condition = ['used', 'new'];
 
 const getShape = (name: string, rules: object = {}) =>
   yup.object({ [name]: yup.object().shape({ ...rules }) });
 
 const steps = [
-  /**/ {
+  /* */ {
     name: 'KIND',
     component: (props: any) => <WhatKindVehicle {...props} />,
     schema: yup.object({
@@ -70,17 +71,24 @@ const steps = [
       engine: yup
         .string()
         .oneOf(engine, 'select the Engine model of you vehicle!!'),
-      gearbox: yup
+      condition: yup
         .string()
-        .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
-      year: yup.number().min(4).required('what year is your car?'),
-      mileage: yup.number().min(4).required('mileage of you car?'),
+        .oneOf(condition, 'select the condition of you car'),
+      year: yup
+        .number()
+        .min(4, 'there is no year like that')
+        .required('what year is your car?'),
+      mileage: yup.number().required('what is the mileage of you car?'),
     }),
   },
   {
     name: 'FEATURE_2',
     component: (props: any) => <AdditionalFeatures {...props} />,
-    schema: yup.object({}),
+    schema: getShape('item', {
+      gearbox: yup
+        .string()
+        .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
+    }),
   },
 
   {
@@ -143,11 +151,53 @@ const steps = [
   },
 ];
 
+const initialValues = {
+  item: {
+    vin: '',
+    type: types[0],
+    make: makes[0],
+    engine: engine[0],
+    model: models[0],
+    condition: '',
+    // gearbox: gearbox[0],
+    color: '',
+    drivetype: '',
+    title: '',
+    year: '',
+    mileage: '',
+    features: [] as string[],
+  },
+  images: [],
+  address: {
+    country: '',
+    city: '',
+    streetAddress: '',
+    apartmentNumber: '',
+    zipcode: '',
+  },
+  auction: {
+    title: '',
+    description: '',
+    // price: 0,
+    startingBid: '',
+    duration: '',
+    startingDate: '06/03/2022',
+  },
+  fieldNameMapping: {},
+};
+
+type ListingFormStepArgType = {
+  children?: React.ReactNode;
+  formikProps: FormikProps<typeof initialValues>;
+} & Record<string, any>;
+
+export type ListingFormStepComponent = React.FC<ListingFormStepArgType>;
+
 const ListingPage = () => {
   const [idx, setIdx] = useState(0);
 
   const [activeStep, setActiveStep] = useState<typeof steps[number]>({
-    ...steps[0],
+    ...steps[idx],
   });
 
   const nextStep = (arg: any) => {
@@ -182,72 +232,47 @@ const ListingPage = () => {
 
         <motion.div className="main_content">
           <Formik
-            initialValues={{
-              item: {
-                vin: '',
-                type: types[0],
-                make: makes[0],
-                engine: engine[0],
-                model: models[0],
-                // gearbox: gearbox[0],
-                color: color[0],
-                year: '',
-                mileage: '',
-              },
-              images: [],
-              address: {
-                country: '',
-                city: '',
-                streetAddress: '',
-                apartmentNumber: '',
-                zipcode: '',
-              },
-              auction: {
-                title: '',
-                description: '',
-                // price: 0,
-                startingBid: '',
-                duration: '',
-                startingDate: '06/03/2022',
-              },
-            }}
+            initialValues={initialValues}
             validateOnMount={false}
             validateOnChange={false}
             validateOnBlur={false}
             onSubmit={nextStep}
-            validationSchema={steps[idx].schema}
+            validationSchema={activeStep.schema}
           >
-            {({ errors, values, setValues, setFieldValue }) => (
+            {(formikProps) => (
               <Form>
                 <LayoutGroup id="unic">
-                  <motion.div
-                    className="animator"
-                    variants={wrapperVariants}
-                    key={activeStep.name}
-                  >
-                    {activeStep.component({
-                      controller: { nextStep, prevStep, setStep },
-                      values,
-                      setValues,
-                      setFieldValue,
-                      errors,
-                    })}
-
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '10%',
-                        right: '2%',
-                        maxWidth: '40ch',
-                        display: idx != steps.length - 1 ? 'none' : 'block',
-                      }}
+                  <AnimatePresence exitBeforeEnter>
+                    <motion.div
+                      className="animator"
+                      variants={wrapperVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      key={activeStep.name}
+                      layout
                     >
-                      <pre style={{ color: 'red' }}>
-                        {JSON.stringify(errors, null, 2)}
-                      </pre>
-                      <pre>{JSON.stringify(values, null, 2)}</pre>
-                    </div>
-                  </motion.div>
+                      {activeStep.component({
+                        controller: { nextStep, prevStep, setStep },
+                        formikProps,
+                      })}
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '10%',
+                      right: '2%',
+                      maxWidth: '40ch',
+                      display: idx != steps.length - 1 ? 'none' : 'block',
+                    }}
+                  >
+                    <pre style={{ color: 'red' }}>
+                      {JSON.stringify(formikProps.errors, null, 2)}
+                    </pre>
+                    <pre>{JSON.stringify(formikProps.values, null, 2)}</pre>
+                  </div>
 
                   {idx != 40 - 1 && (
                     <motion.div className={s.control_btn} layout>

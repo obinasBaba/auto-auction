@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import s from './vehiclelocation.module.scss';
 import { TextField } from '@mui/material';
 import { Field } from 'formik';
+import { StepHeader } from '@/scenes/ListingPage/components';
 
 const VehicleLocation = (props: any) => {
   const countries = ['one', 'two', 'three'];
@@ -15,9 +16,7 @@ const VehicleLocation = (props: any) => {
   return (
     <div className={s.container}>
       <div className="location_wrapper">
-        <h2 className="title">
-          Where&apos;s your vehicle <br /> located?
-        </h2>
+        <StepHeader text="Where's your vehicle <br /> located?" />
 
         <div className="form">
           <Field

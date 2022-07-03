@@ -24,6 +24,10 @@ const steps = [
     label: 'Dates, prices and conditions',
     description: 'Set prices and auctions',
   },
+  {
+    label: 'Done',
+    description: 'Check everything',
+  },
 ];
 
 const ListingProgress = () => {

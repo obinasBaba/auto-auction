@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import s from './basicfeatures.module.scss';
 import { MenuItem, TextField } from '@mui/material';
 import { Field } from 'formik';
+import { StepHeader } from '@/scenes/ListingPage/components';
+import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
 const models = ['model-1', 'model-2', 'model-3', 'model-4'];
 const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
-const color = ['color-1', 'color-2', 'color-3', 'color-4'];
-const gearbox = ['manual', 'automatic'];
+const titles = [
+  'Clean', //Everything is okay and the car is in good shape structurally.
+  'Salvage', //wrecked car that you may have trouble getting insurance for because of damage.
+  'Rebuilt, Rebuildable & Reconstructed', // If a salvaged car has been fixed enough to drive safely,
+  'Clear', //  There is no debt against the car.
+];
+const condition = ['used', 'new'];
+const driveType = ['4WD', 'AWD', 'FWD', 'RWD'];
 
-const BasicFeatures = (props: any) => {
-  const [make, setMake] = useState('BMW');
+const years = [
+  1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+  2004, 2005, 2006, 2007,
+];
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMake(event.target.value);
-  };
+const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
+  const { errors } = formikProps;
 
   return (
     <div className={s.container}>
       <div className="features_wrapper">
-        <h2 className="title">
-          Tell us basic features <br /> of you car
-        </h2>
+        <StepHeader text="Tell us basic features <br /> of you car" />
 
         <div className="form">
           <Field
@@ -61,10 +68,28 @@ const BasicFeatures = (props: any) => {
               name="item.year"
               label="Year"
               type="number"
+              select
               required
               variant="outlined"
               as={TextField}
-            />
+              error={!!errors?.item?.year}
+              helperText={errors?.item?.year}
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    style: {
+                      maxHeight: 48 * 4.6,
+                    },
+                  },
+                },
+              }}
+            >
+              {years.map((make) => (
+                <MenuItem key={make} value={make}>
+                  {make}
+                </MenuItem>
+              ))}
+            </Field>
             <Field
               name="item.mileage"
               label="Mileage"
@@ -76,33 +101,44 @@ const BasicFeatures = (props: any) => {
           </div>
 
           <div className="hor engin_gear">
-            <Field name="item.engine" label="Engine" select as={TextField}>
-              {engine.map((make) => (
+            <Field
+              name="item.drivetype"
+              label="Drive Type"
+              select
+              as={TextField}
+            >
+              {driveType.map((type) => (
+                <MenuItem key={type} value={type}>
+                  {type}
+                </MenuItem>
+              ))}
+            </Field>
+
+            <Field
+              name="item.condition"
+              label="condition"
+              select
+              required
+              as={TextField}
+            >
+              {condition.map((make) => (
                 <MenuItem key={make} value={make}>
                   {make}
                 </MenuItem>
               ))}
             </Field>
-
-            <TextField
-              // name="item.gearbox"
-              label="GearBox"
-              select
-              value=""
-              // as={TextField}
-            >
-              {gearbox.map((make) => (
-                <MenuItem key={make} value={make}>
-                  {make}
-                </MenuItem>
-              ))}
-            </TextField>
           </div>
 
-          <Field name="item.color" label="Body Color" select as={TextField}>
-            {color.map((make) => (
-              <MenuItem key={make} value={make}>
-                {make}
+          <Field
+            name={'item.title'}
+            label="Vehicle Title"
+            select
+            required
+            as={TextField}
+          >
+            {titles.map((title) => (
+              <MenuItem key={title} value={title}>
+                {title}
               </MenuItem>
             ))}
           </Field>

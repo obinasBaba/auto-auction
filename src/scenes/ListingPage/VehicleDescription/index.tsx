@@ -2,12 +2,14 @@ import React from 'react';
 import s from './vehicledescribtion.module.scss';
 import { TextField } from '@mui/material';
 import { Field } from 'formik';
+import { StepHeader } from '@/scenes/ListingPage/components';
 
 const VehicleDescription = (props: any) => {
   return (
     <div className={s.container}>
       <div className="wrapper">
-        <h2> Describe Your Vehicle </h2>
+        <StepHeader text=" Describe Your Vehicle " />
+
         <div className="form">
           <Field
             name="auction.title"
@@ -29,9 +31,10 @@ const VehicleDescription = (props: any) => {
           />
           <Field
             // name="auction.price"
-            label="Price in USD"
+            label="est Retail Price"
             type="number"
             variant="outlined"
+            // required
             as={TextField}
           />
         </div>

@@ -16,7 +16,7 @@
       flex-flow: column;
       align-items: center;
       justify-content: center;
-      gap: s.f-unit(2rem);
+      gap: s.f-unit(1rem);
 
       .title {
         text-align: center;
@@ -24,6 +24,25 @@
 
       .form{
         width: 100%;
+        display: flex;
+        flex-flow: column;
+        gap: .5rem;
+
+
+        h4{
+          margin-bottom: 0;
+        }
+
+        .fs{
+          width: 100%;
+          //padding: 1rem;
+          padding-top: s.f-unit(1.5rem);
+
+          border-radius: 10px;
+          & > legend{
+            padding: 0 .5rem;
+          }
+        }
 
         .feat_types{
           width: 100%;
@@ -65,6 +84,38 @@
             color: s.$clrs-secondary;
           }
         }
+
+        .hor{
+          width: 100%;
+          display: flex;
+          gap: .5rem;
+
+          & > * {
+            flex: 1;
+          }
+
+          .drive{
+            flex: 1.5;
+          }
+          .fuel{
+            flex: 1.2;
+          }
+        }
+
+        .chips{
+          display: flex;
+          flex-wrap: wrap;
+          gap: .3rem;
+          width: 100%;
+          //max-height: 150px;
+
+          .chip{
+            &:hover{
+              background-color: rgba(121, 99, 240, 0.18);
+            }
+          }
+
+          }
       }
 
       .control{
