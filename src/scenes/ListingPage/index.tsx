@@ -228,82 +228,84 @@ const ListingPage = () => {
       layout
     >
       <motion.div className="container_wrapper">
-        <ListingProgress />
+        <LayoutGroup>
+          <ListingProgress idx={idx} />
 
-        <motion.div className="main_content">
-          <Formik
-            initialValues={initialValues}
-            validateOnMount={false}
-            validateOnChange={false}
-            validateOnBlur={false}
-            onSubmit={nextStep}
-            validationSchema={activeStep.schema}
-          >
-            {(formikProps) => (
-              <Form>
-                <LayoutGroup id="unic">
-                  <AnimatePresence exitBeforeEnter>
-                    <motion.div
-                      className="animator"
-                      variants={wrapperVariants}
-                      initial="initial"
-                      animate="animate"
-                      exit="exit"
-                      key={activeStep.name}
-                      layout
+          <motion.div className="main_content">
+            <Formik
+              initialValues={initialValues}
+              validateOnMount={false}
+              validateOnChange={false}
+              validateOnBlur={false}
+              onSubmit={nextStep}
+              validationSchema={activeStep.schema}
+            >
+              {(formikProps) => (
+                <Form>
+                  <LayoutGroup id="unic">
+                    <AnimatePresence exitBeforeEnter>
+                      <motion.div
+                        className="animator"
+                        variants={wrapperVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        key={activeStep.name}
+                        layout
+                      >
+                        {activeStep.component({
+                          controller: { nextStep, prevStep, setStep },
+                          formikProps,
+                        })}
+                      </motion.div>
+                    </AnimatePresence>
+
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '10%',
+                        right: '2%',
+                        maxWidth: '40ch',
+                        display: idx != steps.length - 1 ? 'none' : 'block',
+                      }}
                     >
-                      {activeStep.component({
-                        controller: { nextStep, prevStep, setStep },
-                        formikProps,
-                      })}
-                    </motion.div>
-                  </AnimatePresence>
+                      <pre style={{ color: 'red' }}>
+                        {JSON.stringify(formikProps.errors, null, 2)}
+                      </pre>
+                      <pre>{JSON.stringify(formikProps.values, null, 2)}</pre>
+                    </div>
 
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '10%',
-                      right: '2%',
-                      maxWidth: '40ch',
-                      display: idx != steps.length - 1 ? 'none' : 'block',
-                    }}
-                  >
-                    <pre style={{ color: 'red' }}>
-                      {JSON.stringify(formikProps.errors, null, 2)}
-                    </pre>
-                    <pre>{JSON.stringify(formikProps.values, null, 2)}</pre>
-                  </div>
+                    {idx != 40 - 1 && (
+                      <motion.div className={s.control_btn} layout>
+                        {idx !== 0 && (
+                          <Button
+                            variant="contained"
+                            className="in_btn"
+                            size="large"
+                            color="secondary"
+                            onClick={() => prevStep()}
+                          >
+                            Back
+                          </Button>
+                        )}
 
-                  {idx != 40 - 1 && (
-                    <motion.div className={s.control_btn} layout>
-                      {idx !== 0 && (
                         <Button
                           variant="contained"
-                          className="in_btn"
                           size="large"
-                          color="secondary"
-                          onClick={() => prevStep()}
+                          className={clsx([{ [s.alone]: idx === 0 }])}
+                          type="submit"
+                          // onClick={() => nextStep()}
                         >
-                          Back
+                          Next
                         </Button>
-                      )}
-
-                      <Button
-                        variant="contained"
-                        size="large"
-                        className={clsx([{ [s.alone]: idx === 0 }])}
-                        type="submit"
-                        // onClick={() => nextStep()}
-                      >
-                        Next
-                      </Button>
-                    </motion.div>
-                  )}
-                </LayoutGroup>
-              </Form>
-            )}
-          </Formik>
-        </motion.div>
+                      </motion.div>
+                    )}
+                  </LayoutGroup>
+                </Form>
+              )}
+            </Formik>
+          </motion.div>
+        </LayoutGroup>
       </motion.div>
     </motion.div>
   );

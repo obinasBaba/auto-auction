@@ -6,7 +6,7 @@
   height: 100%;
   display: grid;
   justify-content: center;
-  //place-items: center;
+  place-items: center;
   //border: thick solid red;
    @include s.padding(top, 4rem);
   @include s.padding(hor, 2rem );

@@ -1,6 +1,6 @@
 @use '@/styles' as s;
 
-.container{
+.container {
   width: 100%;
   max-width: max-content;
   //position: absolute;
@@ -10,23 +10,54 @@
   //align-self: start;
   //justify-self: start;
 
-   @include s.margin(top, 7rem);
-   @include s.margin(bottom, 8rem);
+  @include s.margin(top, 7rem);
+  @include s.margin(bottom, 8rem);
 
-  & :global{
 
-    .stepper{
+  & :global {
 
+    div.MuiStepConnector-root {
+    }
+
+    div.active + div.MuiStepConnector-root {
+      opacity: 0;
+      position: absolute;
+    }
+
+    .MuiStepContent-root{
+      border-left: none;
+      padding-left: 0;
+    }
+
+
+    .stepper {
 
 
     }
 
-    .wrapper{
+    .wrapper {
 
     }
   }
 }
 
-.step_content{
+.step_content {
+  position: relative;
   height: 20vmin;
+  border: none;
+
+  & :global{
+    .bg_line{
+      position: absolute;
+      background-color: #bbb8b8;
+      height: 100%;
+      width: 2px;
+    }
+
+    .p_line{
+      position: absolute;
+      width: 3px;
+      background-color: s.$clrs-accent;
+    }
+  }
 }

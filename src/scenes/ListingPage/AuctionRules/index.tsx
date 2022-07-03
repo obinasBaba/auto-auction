@@ -100,6 +100,9 @@ const AuctionRules = (props: any) => {
                     type="date"
                     required
                     variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     as={TextField}
                   />
 
