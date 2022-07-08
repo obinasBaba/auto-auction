@@ -1,0 +1,18 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+  display: grid;
+  place-items: center;
+  max-width: s.f-unit-light(1.87rem);
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global{
+
+    .wrapper{
+
+    }
+  }
+}

@@ -39,41 +39,49 @@ const Profile = () => {
       title: 'Account Information',
       subTitle: 'Profile pic and name',
       Icon: AccountCircleTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Security',
       subTitle: 'Your credentials',
       Icon: SecurityTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Login details',
       subTitle: 'Password & security',
       Icon: FingerprintTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Billing',
       subTitle: 'Setup payment methods',
       Icon: MonetizationOnTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Notifications',
       subTitle: 'Your email notification',
       Icon: NotificationsActiveTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Privacy',
       subTitle: 'Linked apps and services',
       Icon: LockOpenTwoTone,
+      link: 'profile-setting',
     },
     {
       title: 'Global preferences',
       subTitle: 'Profile pic and name',
       Icon: Settings,
+      link: 'profile-setting',
     },
     {
       title: 'Business account',
       subTitle: 'Team for collaborations',
       Icon: BusinessCenterTwoTone,
+      link: 'profile-setting',
     },
   ];
 
@@ -103,10 +111,10 @@ const Profile = () => {
       </div>
 
       <div className="setting_list">
-        {data.map(({ title, subTitle, Icon }) => (
-          <Link href={'/dashboard/profile'} key={title}>
+        {data.map(({ title, subTitle, Icon, link }) => (
+          <Link href={`/dashboard/profile/${link}`} key={title}>
             <a>
-              <Paper elevation={2} key={title}>
+              <div className="setting_card" key={title}>
                 <div className="list_item">
                   <IconButton className="btn" color="secondary">
                     <Icon />
@@ -123,7 +131,7 @@ const Profile = () => {
                   </div>
                   <ArrowForward color="primary" className="icon_arrow" />
                 </div>
-              </Paper>
+              </div>
             </a>
           </Link>
         ))}

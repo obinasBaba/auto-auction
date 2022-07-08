@@ -46,7 +46,7 @@ const getShape = (name: string, rules: object = {}) =>
   yup.object({ [name]: yup.object().shape({ ...rules }) });
 
 const steps = [
-  /* */ {
+  /* {
     name: 'KIND',
     component: (props: any) => <WhatKindVehicle {...props} />,
     schema: yup.object({
@@ -66,8 +66,7 @@ const steps = [
       make: yup
         .string()
         .oneOf(makes, 'select the manufacture of you vehicle!!'),
-      model: yup.string().oneOf(models, 'select the Model of you vehicle!!'),
-      color: yup.string().oneOf(color, 'select the color of you vehicle!!'),
+      model: yup.string(),
       engine: yup
         .string()
         .oneOf(engine, 'select the Engine model of you vehicle!!'),
@@ -103,7 +102,7 @@ const steps = [
         apartmentNumber: yup.number().required('what is your home number'),
       }),
     }),
-  },
+  },*/
   {
     name: 'PHOTOS',
     component: (props: any) => <VehiclePhoto {...props} />,
@@ -147,7 +146,9 @@ const steps = [
   {
     name: 'CREATED',
     component: (props: any) => <ListingCreated {...props} />,
-    schema: yup.object({}),
+    schema: yup.object({
+      checkUp: yup.string(),
+    }),
   },
 ];
 
@@ -157,17 +158,23 @@ const initialValues = {
     type: types[0],
     make: makes[0],
     engine: engine[0],
-    model: models[0],
+    model: '',
     condition: '',
-    // gearbox: gearbox[0],
-    color: '',
-    drivetype: '',
+    transmission: '',
+    interior_color: '',
+    exterior_color: '',
+    cylinder: '',
+    engine_name: '',
+    drive_side: '',
+    fuel: '',
+    drive_type: '',
+    retail_price: '',
     title: '',
     year: '',
     mileage: '',
     features: [] as string[],
   },
-  images: [],
+  images: [] as any[],
   address: {
     country: '',
     city: '',
@@ -183,7 +190,6 @@ const initialValues = {
     duration: '',
     startingDate: '06/03/2022',
   },
-  fieldNameMapping: {},
 };
 
 type ListingFormStepArgType = {
@@ -242,7 +248,7 @@ const ListingPage = () => {
             >
               {(formikProps) => (
                 <Form>
-                  <LayoutGroup id="unic">
+                  <LayoutGroup>
                     <AnimatePresence exitBeforeEnter>
                       <motion.div
                         className="animator"

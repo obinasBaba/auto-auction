@@ -7,6 +7,17 @@ import clsx from 'clsx';
 import axios from 'axios';
 import { StepHeader } from '@/scenes/ListingPage/components';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
+import ProgressCircle from '@/component/ProgressCircle';
+import { MotionValue } from 'framer-motion';
+/*import cloudinary from 'cloudinary';
+
+cloudinary.v2.config({
+  cloud_name: 'dltkxbnvk',
+  api_key: '577792539154293',
+  api_secret: 'vLVZ03z1OdkFA8lzjuUK9AvD85I',
+  secure: true,
+
+})*/
 
 export const map = (
   value: number,
@@ -20,7 +31,7 @@ type Preview = {
   name: string;
   id: string;
   url: string;
-  progress: number;
+  progress: MotionValue<number>;
   preview: string;
   loaded: boolean;
 };
@@ -30,14 +41,8 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
 
   const [imagePreviews, setImagePreviews] = useState<Preview[]>(values.images);
 
-  const [imgs, setImgs] = useState<{ url: string; id: string; name: string }[]>(
-    [],
-  );
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const addImg = (img: Preview) => {
-    // setFiles((files) => [...files, img]);
-  };
+  const [dragEnter, setDragEnter] = useState(false);
 
   const { getRootProps, getInputProps, acceptedFiles, open } = useDropzone({
     maxFiles: 10,
@@ -47,6 +52,8 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
     accept: {
       'image/*': [],
     },
+    onDragOver: () => setDragEnter(true),
+    onDragLeave: () => setDragEnter(false),
 
     onDrop: async (acceptedFiles) => {
       for (const file of acceptedFiles) {
@@ -54,7 +61,7 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
           name: `${imagePreviews.length}-${file.name}`,
           id: '',
           url: '',
-          progress: 0,
+          progress: new MotionValue(0),
           preview: URL.createObjectURL(file),
           loaded: false,
         };
@@ -64,6 +71,13 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', 'auction-preset');
+        formData.append('resource_type', 'image');
+        formData.append(
+          'public_id',
+          'henokgetachew500@gmail.com/' + newImg.name,
+        );
+
+        // cloudinary.v1.uploader.upload('', {})
 
         axios
           .request({
@@ -71,20 +85,19 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
             url: 'https://api.cloudinary.com/v1_1/dltkxbnvk/image/upload',
             data: formData,
             onUploadProgress(p) {
-              const progress = map(p?.loaded, 0, p?.total, 0, 1);
+              newImg.progress.set(map(p?.loaded, 0, p?.total, 0, 1));
               // update the progress
               setImagePreviews((prevState) =>
                 prevState.map((prevItems) =>
                   prevItems.name === newImg.name
                     ? {
                         ...prevItems,
-                        progress,
                       }
                     : prevItems,
                 ),
               );
 
-              console.log('prog: ', progress);
+              console.log('prog: ', newImg.progress.get());
             },
           })
           .then((d) => {
@@ -120,13 +133,43 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
       <StepHeader text="Upload listing photos" />
 
       <div className="wrapper">
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input
-            {...getInputProps()}
-            id="file_"
-            ref={inputRef}
-            name="images[0]"
-          />
+        <aside className="preview_wrapper">
+          <div
+            {...getRootProps({
+              className: clsx(['dropzone', { enter: dragEnter }]),
+            })}
+          >
+            <input
+              {...getInputProps()}
+              id="file_"
+              ref={inputRef}
+              name="images[0]"
+            />
+          </div>
+          <div className="preview_list">
+            {imagePreviews.map((preview) => (
+              <div key={preview.name}>
+                <div className="preview">
+                  <img
+                    src={preview.url || preview.preview}
+                    alt={preview.name}
+                    // Revoke data uri after image is loaded
+                    onLoad={() => {
+                      URL.revokeObjectURL(preview.preview);
+                    }}
+                  />
+
+                  <IconButton className="close_btn" color="primary">
+                    {preview.url ? (
+                      <Close />
+                    ) : (
+                      <ProgressCircle progress={preview.progress} />
+                    )}
+                  </IconButton>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <div
             className={clsx('guide guid_bottom', [
@@ -150,26 +193,6 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
               </>
             )}
           </div>
-        </div>
-        <aside className="preview_list">
-          {imagePreviews.map((preview) => (
-            <div key={preview.name}>
-              <div className="preview">
-                <img
-                  src={preview.url || preview.preview}
-                  alt={preview.name}
-                  // Revoke data uri after image is loaded
-                  onLoad={() => {
-                    URL.revokeObjectURL(preview.preview);
-                  }}
-                />
-
-                <IconButton className="close_btn">
-                  {preview.url ? <Close /> : <p>{preview.progress}</p>}
-                </IconButton>
-              </div>
-            </div>
-          ))}
         </aside>
       </div>
     </section>

@@ -6,7 +6,16 @@ import { StepHeader } from '@/scenes/ListingPage/components';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
-const models = ['model-1', 'model-2', 'model-3', 'model-4'];
+const models = [
+  'Airwave',
+  'Avancier',
+  'Lagreat',
+  'MR-V',
+  'N360',
+  'N600',
+  'N Box',
+  'Avancier',
+];
 const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
 const titles = [
   'Clean', //Everything is okay and the car is in good shape structurally.
@@ -102,7 +111,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor engin_gear">
             <Field
-              name="item.drivetype"
+              name="item.drive_type"
               label="Drive Type"
               select
               as={TextField}

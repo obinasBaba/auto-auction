@@ -30,11 +30,11 @@ const VehicleDescription = (props: any) => {
             as={TextField}
           />
           <Field
-            // name="auction.price"
+            name="item.retail_price"
             label="est Retail Price"
             type="number"
             variant="outlined"
-            // required
+            required
             as={TextField}
           />
         </div>

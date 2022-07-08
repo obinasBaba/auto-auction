@@ -3,8 +3,11 @@ import s from './listingcreated.module.scss';
 import { Button } from '@mui/material';
 import { fetcher } from '@/helpers/fetcher';
 import data from '../defaultValue.json';
+import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
-const ListingCreated = ({ values }: any) => {
+const ListingCreated: ListingFormStepComponent = ({ formikProps }) => {
+  const { values } = formikProps;
+
   useEffect(() => {
     console.log('data: ', data);
   });
@@ -27,6 +30,7 @@ const ListingCreated = ({ values }: any) => {
               id,
               name,
             }));
+
             fetcher(
               /* GraphQL */ `
                 mutation ($input: AuctionListingInput!) {

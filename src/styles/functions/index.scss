@@ -14,6 +14,10 @@
   @return calc(#{$amount} * var(--coef-indent));
 }
 
+@function f-unit-light($amount){
+  @return calc(#{$amount} * var(--coef-size));
+}
+
 @function fluid-size($amount){
   @return calc(#{$amount} * var(--coef-size));
 }

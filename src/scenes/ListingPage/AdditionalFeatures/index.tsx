@@ -10,9 +10,7 @@ import {
 } from '@mui/material';
 import clsx from 'clsx';
 import { StepHeader } from '@/scenes/ListingPage/components';
-import { Box } from '@mui/system';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
-import { Done } from '@mui/icons-material';
 import { Field } from 'formik';
 
 const FeatureCheckBox = ({ label, checked, ...props }: any) => (
@@ -51,7 +49,7 @@ const technology = [
   'Alloy Wheels',
 ];
 
-const cylinders = ['2', '3', '4', '5', '6', '8', '10', '12'];
+const cylinders = [2, 3, 4, 5, 6, 8, 10, 12];
 const fuel = ['Bi-Fuel', 'Biodiesel', 'Diesel', 'Electric', 'Gasoline'];
 
 const side = ['Right-hand', 'Left-hand'];
@@ -106,6 +104,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
             <Field
               name="item.cylinder"
               label="no of cylinders"
+              type="number"
               select
               as={TextField}
             >
@@ -130,7 +129,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor">
             <Field
-              name="item.driveside"
+              name="item.drive_side"
               label="Drive Side"
               select
               as={TextField}

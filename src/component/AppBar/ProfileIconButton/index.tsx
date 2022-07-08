@@ -59,12 +59,6 @@ const ProfileIconButton = ({ session }: { session: Session }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [show, setShow] = useState<boolean>(false);
-  const items = [
-    { name: 'Profile Settings', Icon: Settings },
-    { name: 'Help Center', Icon: HeadsetMic },
-    { name: 'Switch to Seller', Icon: SwitchAccessShortcutAddOutlined },
-    { name: 'Log Out', Icon: Logout },
-  ];
 
   useEffect(() => {
     containerRef.current?.focus({ preventScroll: true });

@@ -33,5 +33,5 @@ export const fetcher = async (
     console.error('error : ', errors, status);
   }
 
-  return { data, res };
+  return { data, res, errors };
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './auctionpage.module.scss';
 import Car from '@/public/auction-car1.jpg';
 import Image from 'next/image';
@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { MotionWrapper } from '@/component/MotionWrapper';
+import { fetcher } from '@/helpers/fetcher';
 
 const FilterItem = ({ label }: any) => {
   const [show, setShow] = useState<boolean>(false);
@@ -60,6 +61,29 @@ const FilterItem = ({ label }: any) => {
 };
 
 const AuctionPage = () => {
+  const [auctionList, setAuctionList] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetcher(/* GraphQL */ `
+      query {
+        auctionList {
+          id
+
+          itemDetail {
+            id
+            vin
+            name
+          }
+        }
+      }
+    `).then((r: any) => {
+      console.log('response ::    ', r);
+      if (r.data.auctionList && Array.isArray(r.data.auctionList)) {
+        setAuctionList(r.data.auctionList);
+      }
+    });
+  }, []);
+
   return (
     <div className={s.container}>
       <h1>Auctions</h1>
@@ -67,14 +91,21 @@ const AuctionPage = () => {
 
       <main className="auction_content">
         <div className="list">
-          {Array.from(new Array(5)).map((idx) => (
-            <div className="auction_item" key={idx}>
+          {auctionList.map(({ id, itemDetail: { vin, name } }, idx) => (
+            <div className="auction_item" key={id}>
               <div className="car_img">
                 <Image src={Car} objectFit="contain" />
               </div>
               <div className="detail">
-                <div>
-                  <h2 className="title">2013 Subaru Forester Premium Plus</h2>
+                <div className="header_detail">
+                  <Typography
+                    variant="body2"
+                    className="vin_detail"
+                    color="secondary"
+                  >
+                    # {vin}
+                  </Typography>
+                  <h2 className="title">{name}</h2>
                   <Typography
                     variant="subtitle2"
                     className="sub_detail"
@@ -84,10 +115,12 @@ const AuctionPage = () => {
                     &nbsp; AWD &nbsp; &#8226; &nbsp; 4-Cylinder Turbo
                   </Typography>
                 </div>
+
                 <div className="model">
                   <Settings />
                   <p>Subaru Champlin, Othoberg, Hi 797979</p>
                 </div>
+
                 <div className="other_detail">
                   <div className="col">
                     <h4>$21,480</h4>
