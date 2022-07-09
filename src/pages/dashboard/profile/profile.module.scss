@@ -6,65 +6,17 @@
 
   // @include s.margin(top, 10rem);
   @include s.padding( hor, 2.5rem);
-  @include s.padding( ver, 4rem);
+
 
   max-width: 1400px;
 
 
   & :global {
 
-    .blue_bg {
-      position: relative;
-      //height: 250px;
-      width: 100%;
-      max-width: 1400px;
-      border-radius: 30px;
-      overflow: hidden;
-      padding: 2rem;
 
-      .car {
-        position: absolute;
-        inset: 0;
-        //bottom: 50%;
-        top: 0;
-        //overflow: hidden;
-
-      }
-
-      .bg_overlay {
-        position: absolute;
-        background-color: rgba(90, 21, 227, 0.92);
-        mix-blend-mode: lighten;
-        inset: 0;
-        z-index: 1;
-
-      }
-
-      .content {
-        position: relative;
-        z-index: 2;
-        color: white;
-
-        .name {
-          display: flex;
-          flex-flow: column;
-          text-align: left;
-
-          h1 {
-            margin-bottom: 0;
-            color: white;
-          }
-
-          p {
-            margin-top: 0;
-          }
-
-        }
-      }
-    }
 
     .setting_list {
-      margin-top: 4rem;
+      margin-top: 3rem;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: s.f-unit(1.5rem);
@@ -76,14 +28,16 @@
       //border: thin solid red;
 
       a:hover {
-        .MuiPaper-root {
-          box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.08), 0px 7px 10px 1px rgba(0, 0, 0, 0.09), 0px 2px 16px 1px rgba(0, 0, 0, 0.08);
+        .setting_card {
+          //box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, 0.08), 0px 7px 10px 1px rgba(0, 0, 0, 0.09), 0px 2px 16px 1px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 12px 5px rgba(0, 0, 0, 0.08) ;
+
         }
       }
 
       .setting_card{
-        box-shadow: 0 4px 5px -2px rgba(0, 0, 0, 0.02), 0px 1px 16px 1px rgba(0, 0, 0, 0.09), 0px 2px 16px 1px rgba(0, 0, 0, 0.08);
         border-radius: s.f-unit-light(8px);
+        box-shadow: 0 4px 7px 1px rgba(0, 0, 0, 0.08) ;
 
       }
 

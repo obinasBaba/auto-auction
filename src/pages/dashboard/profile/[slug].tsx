@@ -4,30 +4,42 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from 'next';
+import { data } from './index';
 
 export async function getStaticProps({
   params,
 }: GetStaticPropsContext<{
   slug: string;
 }>) {
-  // return {
-  //   notFound: true,
-  // };
+  console.time('static-start');
+
+  const activePageData = data.find(({ link }) => params?.slug === link);
+  if (!activePageData)
+    return {
+      notFound: true,
+    };
+
+  console.timeEnd('static-start');
 
   return {
     props: {
       dashBoard: true,
       pageName: params?.slug,
+      headerInfo: {
+        title: activePageData.title,
+        subTitle: activePageData.subTitle,
+      },
     },
     revalidate: 200,
   };
 }
 
 export async function getStaticPaths({}: GetStaticPathsContext) {
-  const pages = ['profile-setting'];
-
+  console.time('path-start');
+  const paths = data.map(({ link }) => ({ params: { slug: link } }));
+  console.timeEnd('path-start');
   return {
-    paths: pages.map((page) => ({ params: { slug: page } })),
+    paths,
     fallback: false,
   };
 }

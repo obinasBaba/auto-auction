@@ -15,6 +15,8 @@ const SignIn = () => {
     <div className={s.container}>
       <Typography variant="h2"> SIGN IN </Typography>
 
+      <pre>{JSON.stringify({ callbackUrl, error }, null, 2)}</pre>
+
       <SignInModal />
     </div>
   );

@@ -68,7 +68,6 @@ const AuctionPage = () => {
       query {
         auctionList {
           id
-
           itemDetail {
             id
             vin
@@ -76,12 +75,14 @@ const AuctionPage = () => {
           }
         }
       }
-    `).then((r: any) => {
-      console.log('response ::    ', r);
-      if (r.data.auctionList && Array.isArray(r.data.auctionList)) {
-        setAuctionList(r.data.auctionList);
-      }
-    });
+    `)
+      .then((r: any) => {
+        console.log('response ::    ', r);
+        if (r.data.auctionList && Array.isArray(r.data.auctionList)) {
+          setAuctionList(r.data.auctionList);
+        }
+      })
+      .catch((e) => console.error(e));
   }, []);
 
   return (

@@ -1,0 +1,61 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+
+  @include s.padding( hor, 2.5rem);
+  @include s.padding( top, 5rem);
+
+  & :global{
+
+    .blue_bg {
+      position: relative;
+      //height: 250px;
+      width: 100%;
+      max-width: 1400px;
+      border-radius: 30px;
+      overflow: hidden;
+      padding: 2rem;
+
+      .car {
+        position: absolute;
+        inset: 0;
+        //bottom: 50%;
+        top: 0;
+        //overflow: hidden;
+
+      }
+
+      .bg_overlay {
+        position: absolute;
+        background-color: rgba(90, 21, 227, 0.92);
+        mix-blend-mode: lighten;
+        inset: 0;
+        z-index: 1;
+
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+        color: white;
+
+        .name {
+          display: flex;
+          flex-flow: column;
+          text-align: left;
+
+          h1 {
+            margin-bottom: 0;
+            color: white;
+          }
+
+          p {
+            margin-top: 0;
+          }
+
+        }
+      }
+    }
+  }
+}

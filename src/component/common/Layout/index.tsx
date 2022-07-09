@@ -1,12 +1,12 @@
 import React from 'react';
 import s from './layout.module.scss';
-import Image from 'next/image';
 import AppBar from '@/component/AppBar';
 import DashBoardSideNav from '@/component/common/DashBoardSideNav';
 import { useUI } from '@/context/ui/context';
 import ModalView from '@/component/common/ModalView';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
+import ProfileHeaderInfo from '@/component/common/Layout/components/ProfileHeaderInfo';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -21,9 +21,6 @@ const ModalUI: React.FC = () => {
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   const { displayModal, closeModal, modalView } = useUI();
   const { pathname, push } = useRouter();
-  // const { data: session } = useSession();
-  //
-  // if (pathname.startsWith('/dashboard')) if (!session) push('/');
 
   return (
     <div className={s.container}>
@@ -37,7 +34,11 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
           {displayModal && <ModalView close={closeModal} />}
         </AnimatePresence>
 
-        <main className={'main'} key={'main'}>
+        <main className="main" key="main">
+          {pageProps.headerInfo && (
+            <ProfileHeaderInfo headerInfo={pageProps.headerInfo} />
+          )}
+
           <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
             {children}
           </AnimatePresence>

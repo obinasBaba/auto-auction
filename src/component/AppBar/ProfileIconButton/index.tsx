@@ -11,12 +11,9 @@ import {
 } from '@mui/material';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import {
-  HeadsetMic,
   HeadsetMicTwoTone,
-  Logout,
   LogoutTwoTone,
   ManageAccountsTwoTone,
-  Settings,
   SwitchAccessShortcutAddOutlined,
 } from '@mui/icons-material';
 import { Session } from 'next-auth';
