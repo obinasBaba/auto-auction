@@ -18,13 +18,13 @@ const ProgressCircle = ({ progress, ...props }: any) => {
         <motion.path
           d="M46.5 24C46.5 36.4264 36.4264 46.5 24 46.5C11.5736 46.5 1.5 36.4264 1.5 24C1.5 11.5736 11.5736 1.5 24 1.5C36.4264 1.5 46.5 11.5736 46.5 24Z"
           stroke="lightgray"
-          stroke-width="3"
+          strokeWidth="3"
           // style={{ pathLength: 1 }}
         />
         <motion.path
           d="M46.5 24C46.5 36.4264 36.4264 46.5 24 46.5C11.5736 46.5 1.5 36.4264 1.5 24C1.5 11.5736 11.5736 1.5 24 1.5C36.4264 1.5 46.5 11.5736 46.5 24Z"
           stroke="#7963F0"
-          stroke-width="3"
+          strokeWidth="3"
           style={{ pathLength }}
         />
       </motion.svg>

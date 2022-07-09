@@ -74,7 +74,8 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
         formData.append('resource_type', 'image');
         formData.append(
           'public_id',
-          'henokgetachew500@gmail.com/' + newImg.name,
+          // 'henokgetachew500@gmail_com/' + newImg.name,
+          values.itemDetail.name.replace(' ', '_') + '/' + newImg.name,
         );
 
         // cloudinary.v1.uploader.upload('', {})
@@ -96,8 +97,6 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
                     : prevItems,
                 ),
               );
-
-              console.log('prog: ', newImg.progress.get());
             },
           })
           .then((d) => {

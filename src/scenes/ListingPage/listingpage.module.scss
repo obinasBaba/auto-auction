@@ -12,6 +12,9 @@
   @include s.padding(hor, 2rem );
   // @include s.padding(bottom, 8rem);
 
+  //border: thin solid red;
+
+
   & :global {
 
     .animator {
@@ -37,6 +40,7 @@
 
       .main_content{
         //border: thin solid red;
+        position: relative;
         display: flex;
         align-items: center;
         align-self: center;

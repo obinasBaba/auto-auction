@@ -1,0 +1,37 @@
+[
+  {
+    "title": "clean",
+    "startingDate": "2022-07-07T11:07:10.933Z",
+    "description": "This WHITE 2021 TOYOTA TACOMA ACC is part of our AUTOMOBILE vehicles. Join the auto auction to bid on this TOYOTA TACOMA ACC, which has a PA - CERT OF TITLE. Please note, the following damage may be present on the vehicle: MINOR DENT/SCRATCHES and , which can be viewed more closely by examining the photos included on this page.",
+    "startingBid": "4444.00",
+    "duration": 5,
+    "createdAt": "1657192030933",
+    "itemDetail": {
+      "vin": "3TYRX5GN1MT",
+      "bodyType": "VAN",
+      "make": "TOYOTA",
+      "model": null,
+      "name": "2021 TOYOTA TACOMA ACCESS CAB",
+      "mileage": 9860 ,
+      "year": 2016,
+      "condition": "used",
+      "transmission": "automatic",
+      "interiorColor": "GRAY",
+      "exteriorColor": "WHITE",
+      "engine": "2.7L 4",
+      "driveSide": "left",
+      "fuel": "gasoline",
+      "features": [],
+      "drivetrain": "awd",
+      "cylinders": 4,
+      "title": "clean",
+      "retailPrice": null
+    },
+    "address": {
+      "city": "haswass",
+      "country": "hawassa",
+      "zipcode": 233
+    },
+    "images": []
+  }
+]

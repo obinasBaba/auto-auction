@@ -14,6 +14,7 @@ import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
 import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
 import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
+import dummy from './dummy.json';
 
 const containerVariants = {};
 
@@ -114,7 +115,7 @@ const steps = [
         }),
       ),
     }),
-  },
+  } /*
   {
     name: 'DESCRIPTION',
     component: (props: any) => <VehicleDescription {...props} />,
@@ -142,7 +143,7 @@ const steps = [
         })
         .required('you need a auction object '),
     }),
-  },
+  },*/,
   {
     name: 'CREATED',
     component: (props: any) => <ListingCreated {...props} />,
@@ -153,11 +154,12 @@ const steps = [
 ];
 
 const initialValues = {
-  item: {
+  itemDetail: {
     vin: '',
     type: types[0],
     make: makes[0],
     engine: engine[0],
+    name: '',
     model: '',
     condition: '',
     transmission: '',
@@ -191,6 +193,8 @@ const initialValues = {
     startingDate: '06/03/2022',
   },
 };
+
+const dummyInitial = dummy[0];
 
 type ListingFormStepArgType = {
   children?: React.ReactNode;
@@ -235,11 +239,11 @@ const ListingPage = () => {
     >
       <motion.div className="container_wrapper">
         <LayoutGroup>
-          <ListingProgress idx={idx} />
+          {/*<ListingProgress idx={idx} />*/}
 
           <motion.div className="main_content">
             <Formik
-              initialValues={initialValues}
+              initialValues={dummyInitial}
               validateOnMount={false}
               validateOnChange={false}
               validateOnBlur={false}
@@ -270,9 +274,11 @@ const ListingPage = () => {
                       style={{
                         position: 'absolute',
                         top: '10%',
-                        right: '2%',
+                        left: '-50%',
                         maxWidth: '40ch',
-                        display: idx != steps.length - 1 ? 'none' : 'block',
+                        fontSize: '.8rem',
+                        pointerEvents: 'none',
+                        // display: idx != steps.length - 1 ? 'none' : 'block',
                       }}
                     >
                       <pre style={{ color: 'red' }}>
