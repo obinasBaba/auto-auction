@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, InputAdornment, TextField, Typography } from '@mui/material';
 import { ArrowForwardIos, Settings } from '@mui/icons-material';
 import s from './slug.module.scss';
@@ -11,6 +11,8 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { MotionWrapper } from '@/component/MotionWrapper';
+import { GetStaticPathsContext, GetStaticPropsContext } from 'next';
+import { fetcher } from '@/helpers/fetcher';
 
 const cars = [car1, car2, car3, car4, car5];
 
@@ -31,12 +33,106 @@ const variants: Variants = {
   },
 };
 
+export async function getStaticProps({}: GetStaticPropsContext) {
+  const {
+    data: { auctionList },
+  } = await fetcher(
+    /* GraphQL */ `
+      query ($auctionInfoId: ID!) {
+        auctionInfo(id: $auctionInfoId) {
+          id
+          description
+          itemDetail {
+            id
+            name
+            slug
+            defaultImage {
+              id
+              url
+            }
+          }
+          images {
+            id
+          }
+        }
+      }
+    `,
+    {
+      auctionInfoId: '1',
+    },
+  );
+
+  return {
+    props: {},
+    revalidate: 200,
+  };
+}
+
+export async function getStaticPaths({}: GetStaticPathsContext) {
+  const {
+    data: { auctionList },
+  } = await fetcher(/* GraphQL */ `
+    query {
+      auctionList {
+        id
+        itemDetail {
+          id
+          vin
+          name
+          slug
+          defaultImage {
+            id: imageId
+            url
+          }
+        }
+      }
+    }
+  `);
+
+  console.log('aucitonList: ', auctionList);
+
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
+
 const ProductDetail = () => {
   const [selectedImg, setSelectedImg] = useState<number>(1);
   const [hovered, setHovered] = useState<{ idx: number; hovering: boolean }>({
     idx: 1,
     hovering: false,
   });
+
+  useEffect(() => {
+    fetcher(
+      /* GraphQL */ `
+        query ($auctionInfoId: ID!) {
+          auctionInfo(id: $auctionInfoId) {
+            id
+            description
+            itemDetail {
+              id
+              name
+              slug
+              defaultImage {
+                id
+                url
+              }
+            }
+            images {
+              id
+            }
+          }
+        }
+      `,
+      {
+        auctionInfoId: '1',
+      },
+    )
+      .then((r) => console.log('result: ', r))
+      .catch((err) => console.log('errrr: ', err));
+  }, []);
 
   return (
     <div className={s.container}>
@@ -76,7 +172,9 @@ const ProductDetail = () => {
                 className={clsx({ [s.selected]: idx === selectedImg })}
                 alt="customer image"
               />
-              {idx === selectedImg && <motion.div className="outline" />}
+              {idx === selectedImg && (
+                <motion.div className="outline" layoutId="hoveroutline" />
+              )}
               {idx === hovered.idx && hovered.hovering && (
                 <motion.div className="hoverline" />
               )}
@@ -203,28 +301,6 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="pagination">
-        <Button className="page_no" variant="contained">
-          1
-        </Button>
-        <Button className="page_no" variant="contained">
-          2
-        </Button>
-        <Button className="page_no" variant="contained">
-          3
-        </Button>
-        <Button className="page_no" variant="contained">
-          4
-        </Button>
-        <Button
-          className="next_btn"
-          variant="outlined"
-          color="primary"
-          endIcon={<ArrowForwardIos sx={{ fontSize: 10 }} />}
-        >
-          Next
-        </Button>
       </div>
     </div>
   );

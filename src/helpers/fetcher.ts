@@ -11,7 +11,7 @@ export const fetcher = async (
 
   // console.log('token: ', query, variables);
 
-  const res = await fetch('http://localhost:8000/graphql/', {
+  const res = await fetch('http://localhost:4000/graphql/', {
     ...fetchOptions,
     method: 'POST',
     headers: {

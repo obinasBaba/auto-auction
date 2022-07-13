@@ -162,29 +162,6 @@
       }
     }
 
-    .pagination {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: s.f-unit(4rem);
-
-      button.page_no {
-        border-radius: 1000px;
-        min-width: 0;
-        height: 2.5rem;
-        width: 2.5rem;
-      }
-
-      button.next_btn {
-        //line-height: 1;
-        margin-left: 2rem;
-
-        svg {
-          font-size: 13px;
-          margin-bottom: 2.5px;
-        }
-      }
-    }
   }
 
   .selected {

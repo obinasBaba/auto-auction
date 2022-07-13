@@ -89,7 +89,7 @@ const Profile = () => {
         {data.map(({ title, subTitle, Icon, link }) => (
           <Link href={`/dashboard/profile/${link}`} key={title}>
             <a>
-              <div className="setting_card" key={title}>
+              <div className="setting_card">
                 <div className="list_item">
                   <IconButton className="btn" color="secondary">
                     <Icon />

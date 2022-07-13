@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 type HeaderInfo = {
   headerInfo: {
@@ -33,7 +34,7 @@ const ProfileHeaderInfo: React.FC<HeaderInfo> = ({
           <Image src={Car1} objectFit="cover" alt="Bg_overlay" />
         </div>
 
-        <div className="content">
+        <div className={clsx({ content: true, hor: !index })}>
           {index ? (
             <Avatar
               className="avatar"
@@ -43,7 +44,7 @@ const ProfileHeaderInfo: React.FC<HeaderInfo> = ({
           ) : (
             <Link href="/dashboard/profile">
               <a>
-                <IconButton>
+                <IconButton size="large">
                   <ArrowBack />
                 </IconButton>
               </a>

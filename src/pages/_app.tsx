@@ -12,8 +12,8 @@ import { ManagedUIContext } from '@/context/ui/context';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { AppContext } from '@/context';
-import NProgress from 'nprogress';
-import '@/public/nprogress.css';
+// import NProgress from 'nprogress';
+// import '@/public/nprogress.css';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -33,7 +33,7 @@ export default function MyApp({
 }: MyAppProps) {
   const router = useRouter();
 
-  useEffect(() => {
+  /* useEffect(() => {
     const handleStart = (url: any) => {
       NProgress.start();
     };
@@ -50,7 +50,7 @@ export default function MyApp({
       router.events.off('routeChangeComplete', handleStop);
       router.events.off('routeChangeError', handleStop);
     };
-  }, [router]);
+  }, [router]);*/
 
   return (
     <SessionProvider session={session} refetchInterval={0}>

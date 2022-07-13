@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import s from './auctionpage.module.scss';
-import Car from '@/public/auction-car1.jpg';
 import Image from 'next/image';
 import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import {
   AddCircleTwoTone,
+  ArrowForwardIos,
   FilterAlt,
   RemoveCircleTwoTone,
   Settings,
@@ -12,6 +12,7 @@ import {
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { MotionWrapper } from '@/component/MotionWrapper';
 import { fetcher } from '@/helpers/fetcher';
+import Link from 'next/link';
 
 const FilterItem = ({ label }: any) => {
   const [show, setShow] = useState<boolean>(false);
@@ -72,6 +73,11 @@ const AuctionPage = () => {
             id
             vin
             name
+            slug
+            defaultImage {
+              id: imageId
+              url
+            }
           }
         }
       }
@@ -82,7 +88,7 @@ const AuctionPage = () => {
           setAuctionList(r.data.auctionList);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.log(e));
   }, []);
 
   return (
@@ -92,70 +98,93 @@ const AuctionPage = () => {
 
       <main className="auction_content">
         <div className="list">
-          {auctionList.map(({ id, itemDetail: { vin, name } }, idx) => (
-            <div className="auction_item" key={id}>
-              <div className="car_img">
-                <Image src={Car} objectFit="contain" />
-              </div>
-              <div className="detail">
-                <div className="header_detail">
-                  <Typography
-                    variant="body2"
-                    className="vin_detail"
-                    color="secondary"
-                  >
-                    # {vin}
-                  </Typography>
-                  <h2 className="title">{name}</h2>
-                  <Typography
-                    variant="subtitle2"
-                    className="sub_detail"
-                    color="secondary"
-                  >
-                    11,475 Miles &nbsp; &#8226; &nbsp; White &nbsp; &#8226;
-                    &nbsp; AWD &nbsp; &#8226; &nbsp; 4-Cylinder Turbo
-                  </Typography>
-                </div>
+          {auctionList.map(
+            (
+              {
+                id,
+                itemDetail: {
+                  vin,
+                  name,
+                  defaultImage: { url },
+                },
+              },
+              idx,
+            ) => (
+              <Link href={`./auction/${'car1'}`} key={id}>
+                <a>
+                  <div className="auction_item">
+                    <div className="car_img">
+                      <Image
+                        src={url}
+                        height="100%"
+                        width="100%"
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <div className="detail">
+                      <div className="header_detail">
+                        <Typography
+                          variant="body2"
+                          className="vin_detail"
+                          color="secondary"
+                        >
+                          # {vin}
+                        </Typography>
+                        <h2 className="title">{name}</h2>
+                        <Typography
+                          variant="subtitle2"
+                          className="sub_detail"
+                          color="secondary"
+                        >
+                          11,475 Miles &nbsp; &#8226; &nbsp; White &nbsp;
+                          &#8226; &nbsp; AWD &nbsp; &#8226; &nbsp; 4-Cylinder
+                          Turbo
+                        </Typography>
+                      </div>
 
-                <div className="model">
-                  <Settings />
-                  <p>Subaru Champlin, Othoberg, Hi 797979</p>
-                </div>
+                      <div className="model">
+                        <Settings />
+                        <p>Subaru Champlin, Othoberg, Hi 797979</p>
+                      </div>
 
-                <div className="other_detail">
-                  <div className="col">
-                    <h4>$21,480</h4>
-                    <Typography
-                      variant="subtitle2"
-                      className="sub_detail"
-                      color="secondary"
-                    >
-                      price
-                    </Typography>
-                  </div>
-                  <div className="col">
-                    <h4>$71,480</h4>
-                    <Typography
-                      variant="subtitle2"
-                      className="sub_detail"
-                      color="secondary"
-                    >
-                      10 bids
-                    </Typography>
-                  </div>
+                      <div className="other_detail">
+                        <div className="col">
+                          <h4>$21,480</h4>
+                          <Typography
+                            variant="subtitle2"
+                            className="sub_detail"
+                            color="secondary"
+                          >
+                            price
+                          </Typography>
+                        </div>
+                        <div className="col">
+                          <h4>$71,480</h4>
+                          <Typography
+                            variant="subtitle2"
+                            className="sub_detail"
+                            color="secondary"
+                          >
+                            10 bids
+                          </Typography>
+                        </div>
 
-                  <div className="lot">
-                    <Button color="secondary" variant="outlined" disabled>
-                      #2839984
-                    </Button>
-                    <Button color="primary" variant="contained">
-                      Bid Now
-                    </Button>
+                        <div className="lot">
+                          <Button color="secondary" variant="outlined" disabled>
+                            #2839984
+                          </Button>
+                          <Button color="primary" variant="contained">
+                            Bid Now
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                </a>
+              </Link>
+            ),
+          )}
         </div>
         <div className="filter">
           <div className="filter_wrapper">
@@ -174,6 +203,29 @@ const AuctionPage = () => {
           </div>
         </div>
       </main>
+
+      <div className="pagination">
+        <Button className="page_no" variant="contained">
+          1
+        </Button>
+        <Button className="page_no" variant="contained">
+          2
+        </Button>
+        <Button className="page_no" variant="contained">
+          3
+        </Button>
+        <Button className="page_no" variant="contained">
+          4
+        </Button>
+        <Button
+          className="next_btn"
+          variant="outlined"
+          color="primary"
+          endIcon={<ArrowForwardIos sx={{ fontSize: 10 }} />}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
