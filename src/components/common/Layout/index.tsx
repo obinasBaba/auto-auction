@@ -1,38 +1,27 @@
 import React from 'react';
 import s from './layout.module.scss';
-import AppBar from '@/component/AppBar';
-import DashBoardSideNav from '@/component/common/DashBoardSideNav';
-import { useUI } from '@/context/ui/context';
-import ModalView from '@/component/common/ModalView';
+import DashBoardSideNav from '@/components/common/DashBoardSideNav';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
-import ProfileHeaderInfo from '@/component/common/Layout/components/ProfileHeaderInfo';
+import ProfileHeaderInfo from '@/components/common/Layout/components/ProfileHeaderInfo';
+import FixedLayer from '@/components/FixedLayer';
 
 type LayoutProps = {
   children: React.ReactNode;
   pageProps: any;
 };
 
-const ModalUI: React.FC = () => {
-  const { displayModal, closeModal, modalView } = useUI();
-  return displayModal ? <ModalView close={closeModal} /> : null;
-};
-
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
-  const { displayModal, closeModal, modalView } = useUI();
   const { pathname, push } = useRouter();
 
   return (
     <div className={s.container}>
-      <AppBar />
+      <FixedLayer />
+
       <div className="layout_content">
         {(pageProps.dashBoard || pathname.startsWith('/dashboard')) && (
           <DashBoardSideNav />
         )}
-
-        <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
-          {displayModal && <ModalView close={closeModal} />}
-        </AnimatePresence>
 
         <main className="main" key="main">
           {pageProps.headerInfo && (

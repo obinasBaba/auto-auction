@@ -12,7 +12,7 @@ import {
 import { CheckCircle, RadioButtonUnchecked } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { Field } from 'formik';
-import { MotionWrapper } from '@/component/MotionWrapper';
+import { MotionWrapper } from '@/components/MotionWrapper';
 
 const AuctionRules = (props: any) => {
   const [isAuction, setIsAuction] = useState<boolean>(true);

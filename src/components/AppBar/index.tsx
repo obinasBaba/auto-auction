@@ -3,12 +3,13 @@ import s from './appbar.module.scss';
 import { Avatar, Box, Button, Slide, useScrollTrigger } from '@mui/material';
 import { useUI } from '@/context/ui/context';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { AnimatePresence, LayoutGroup, motion, Variants } from 'framer-motion';
 import ProfileIconButton from './ProfileIconButton';
-import SearchField from '@/component/AppBar/SearchField';
-import { MotionWrapper } from '@/component/MotionWrapper';
+import SearchField from '@/components/AppBar/SearchField';
+import { MotionWrapper } from '@/components/MotionWrapper';
+import Logo from '@/public/logo.svg';
+import { useAppContext } from '@/context';
 
 interface Props {
   window?: () => Window;
@@ -55,15 +56,15 @@ const btnVariant: Variants = {
 
 const AppBar = () => {
   const ctx = useUI();
-  const { data: session } = useSession();
+  const { currentUser } = useAppContext();
   const { pathname } = useRouter();
 
   return (
     <HideOnScroll>
       <Box className={s.container}>
-        <Link href={'/'}>
-          <a>
-            <Avatar src={'./logo.svg'} className="logo" />
+        <Link href="/">
+          <a className="logo">
+            <Avatar src={Logo.src} className="logo" />
           </a>
         </Link>
 
@@ -74,13 +75,13 @@ const AppBar = () => {
               custom={{ globalObj: {} }}
               presenceAffectsLayout={false}
             >
-              {session && (
+              {currentUser && (
                 <MotionWrapper layout key="search">
                   <SearchField key="search" />
                 </MotionWrapper>
               )}
 
-              {session && !pathname.startsWith('/dashboard') && (
+              {currentUser && !pathname.startsWith('/dashboard') && (
                 <MotionWrapper variants={btnVariant} layout key="btn">
                   <Link href={'/dashboard'}>
                     <a>
@@ -93,12 +94,17 @@ const AppBar = () => {
               )}
             </AnimatePresence>
 
-            {!session ? (
-              <Button variant="outlined" size="large" onClick={ctx.toggleModal}>
+            {!currentUser ? (
+              <Button
+                variant="outlined"
+                className="extra_large"
+                size="large"
+                onClick={ctx.toggleModal}
+              >
                 Sign Up
               </Button>
             ) : (
-              <ProfileIconButton session={session} key={'rof'} />
+              <ProfileIconButton session={currentUser} key={'rof'} />
             )}
           </motion.div>
         </LayoutGroup>

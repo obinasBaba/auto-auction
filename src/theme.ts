@@ -12,9 +12,10 @@ const theme = createTheme({
           textTransform: 'capitalize',
           borderRadius: '5000px',
         },
-        sizeLarge: {
-          padding: '.9rem 22px',
-        },
+
+        // sizeLarge: {
+        //   padding: '.9rem 22px',
+        // },
         outlined: {},
       },
     },

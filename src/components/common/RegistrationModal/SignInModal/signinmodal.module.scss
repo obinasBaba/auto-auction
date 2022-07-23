@@ -1,65 +1,28 @@
 @use '@/styles' as s;
 
-.signup_header {
+.container {
+  position: relative;
   width: 100%;
-  display: grid;
-  place-items: center;
-  border-bottom: 1px solid #f1efef;
-  //padding: s.f-unit(.5rem) 0;
-  margin-bottom: s.f-unit(1rem);
-
-
-  & :global {
-    .title {
-      text-transform: capitalize;
-      //margin-top : 0;
-    }
-  }
-}
-
-.prov_btn {
-  text-transform: capitalize;
-
-
-  & > :first-child {
-    //margin-right: auto;
-    position: absolute;
-    left: 4%;
-  }
-
-  & > :last-child {
-  }
-}
-
-.no_account {
-  width: 100%;
-  background-color: #efefef;
-  text-align: center;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding: s.f-unit(.5rem);
-
-  p {
-    color: s.$clrs-secondary;
-    //margin-bottom: 0;
-  }
-}
-
-@mixin scaffold($arg : null) {
-
-  width: 100%;
-  max-width: s.f-unit(28rem);
-  transform: scale(.9);
+  //max-width: s.f-unit(28rem);
   background-color: white;
   display: flex;
   flex-flow: column;
   align-items: center;
-  border-radius: 10px;
+  //border-radius: 10px;
+  //overflow: hidden;
 
 
   & :global {
 
-    .wrapper {
+    .progress {
+      width: 100%;
+      border-radius: 5px;
+      position: absolute;
+      bottom: 0;
+      display: none;
+    }
+
+    .sign_in_wrapper {
       width: 100%;
       display: flex;
       flex-flow: column;
@@ -88,10 +51,26 @@
           flex-flow: column;
           gap: s.f-unit(.8rem);
 
+          .helper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-          @content
+             .MuiFormControlLabel-label {
+              color: gray;
+              font-size: .91rem;
+              user-select: none;
+            }
 
+            & p {
+              margin: 0;
+            }
+          }
 
+          .in_btn {
+            text-transform: capitalize;
+          }
         }
 
         .or {
@@ -128,15 +107,8 @@
       }
 
 
-
-    }.hor{
-  display: none;
-
-}
+    }
 
 
   }
-
 }
-
-

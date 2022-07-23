@@ -10,7 +10,7 @@ import car5 from '@/public/product1/44539872_Image_6.jpg';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import { MotionWrapper } from '@/component/MotionWrapper';
+import { MotionWrapper } from '@/components/MotionWrapper';
 import { GetStaticPathsContext, GetStaticPropsContext } from 'next';
 import { fetcher } from '@/helpers/fetcher';
 

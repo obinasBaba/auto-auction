@@ -1,7 +1,8 @@
+/*
 @use '@/styles' as s;
 
-.container {
-  position: relative;
+@mixin scaffold($arg : null) {
+
   width: 100%;
   max-width: s.f-unit(28rem);
   transform: scale(.9);
@@ -10,17 +11,9 @@
   flex-flow: column;
   align-items: center;
   border-radius: 10px;
-  overflow: hidden;
 
 
   & :global {
-
-    .progress{
-      width: 100%;
-      border-radius: 5px;
-      position: absolute;
-      bottom: 0;
-    }
 
     .sign_in_wrapper {
       width: 100%;
@@ -52,23 +45,12 @@
           gap: s.f-unit(.8rem);
 
 
-          .helper {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+          @content
 
-            & p {
-              margin: 0;
-            }
-          }
 
-          .in_btn {
-            text-transform: capitalize;
-          }
         }
 
-        .or {
+        !*.or {
           display: block;
           position: relative;
           width: 100%;
@@ -97,13 +79,16 @@
           display: flex;
           flex-flow: column;
           gap: s.f-unit(.4rem);
-        }
+        }*!
 
       }
-
 
     }
 
 
   }
+
 }
+
+
+*/

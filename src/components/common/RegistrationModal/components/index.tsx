@@ -17,8 +17,21 @@ export const SignFooter: Component = ({ text, ...props }) => {
   return (
     <div className={s.no_account}>
       <p>
-        You don&apos;t have an account?{' '}
-        <Button color="secondary" {...props}>
+        You don&apos;t have an account?&nbsp;&nbsp;
+        <Button color="warning" {...props}>
+          {text}
+        </Button>
+      </p>
+    </div>
+  );
+};
+
+export const SignUpFooter: Component = ({ text, ...props }) => {
+  return (
+    <div className={s.no_account}>
+      <p>
+        Already have an account?&nbsp;&nbsp;
+        <Button color="warning" {...props}>
           {text}
         </Button>
       </p>

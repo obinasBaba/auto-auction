@@ -49,7 +49,7 @@ const getShape = (name: string, rules: object = {}) =>
 const steps = [
   /* {
     name: 'KIND',
-    component: (props: any) => <WhatKindVehicle {...props} />,
+    components: (props: any) => <WhatKindVehicle {...props} />,
     schema: yup.object({
       item: yup.object().shape({
         vin: yup.number().min(7).required('what is you vin'),
@@ -62,7 +62,7 @@ const steps = [
   },
   {
     name: 'FEATURE',
-    component: (props: any) => <BasicFeatures {...props} />,
+    components: (props: any) => <BasicFeatures {...props} />,
     schema: getShape('item', {
       make: yup
         .string()
@@ -83,7 +83,7 @@ const steps = [
   },
   {
     name: 'FEATURE_2',
-    component: (props: any) => <AdditionalFeatures {...props} />,
+    components: (props: any) => <AdditionalFeatures {...props} />,
     schema: getShape('item', {
       gearbox: yup
         .string()
@@ -93,7 +93,7 @@ const steps = [
 
   {
     name: 'LOCATION',
-    component: (props: any) => <VehicleLocation {...props} />,
+    components: (props: any) => <VehicleLocation {...props} />,
     schema: yup.object({
       address: yup.object({
         country: yup.string().required('what is your location'),
@@ -118,7 +118,7 @@ const steps = [
   } /*
   {
     name: 'DESCRIPTION',
-    component: (props: any) => <VehicleDescription {...props} />,
+    components: (props: any) => <VehicleDescription {...props} />,
     schema: yup.object({
       auction: yup.object({
         title: yup.string().required('specify your listing Title'),
@@ -129,7 +129,7 @@ const steps = [
   },
   {
     name: 'RULE',
-    component: (props: any) => <AuctionRules {...props} />,
+    components: (props: any) => <AuctionRules {...props} />,
     schema: yup.object({
       auction: yup
         .object()

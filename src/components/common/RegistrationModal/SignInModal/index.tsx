@@ -1,6 +1,5 @@
 import React from 'react';
 import s from './signinmodal.module.scss';
-import clsx from 'clsx';
 import {
   Button,
   Checkbox,
@@ -11,12 +10,10 @@ import {
   TextField,
 } from '@mui/material';
 import {
-  Facebook,
   Google,
   Mail,
   RadioButtonChecked,
   RadioButtonUnchecked,
-  Twitter,
   Visibility,
   VisibilityOff,
 } from '@mui/icons-material';
@@ -24,10 +21,11 @@ import {
   ProvidersButton,
   SignFooter,
   SignUpHeader,
-} from '@/component/common/ModalView/components';
+  TextCheckBox,
+} from '@/components/common/RegistrationModal/components';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { signIn } from 'next-auth/react';
+import { motion } from 'framer-motion';
 
 const validationSchema = yup.object({
   email: yup
@@ -59,14 +57,13 @@ const SignInModal = ({ switchModal }: any) => {
   });
 
   return (
-    <div className={clsx(['sign_ing', s.container])}>
+    <motion.div className={s.container} layout>
       <SignUpHeader text="Sign In" />
 
       <div className="sign_in_wrapper">
         <div className="content">
           <form className="form" onSubmit={formik.handleSubmit}>
             <TextField
-              focused
               id="email"
               label="Email"
               type="email"
@@ -127,6 +124,9 @@ const SignInModal = ({ switchModal }: any) => {
 
               <Button color="secondary">Recover Password</Button>
             </div>
+
+            <TextCheckBox className="agree" text="Login as Admin" />
+
             <Button
               variant="contained"
               className="in_btn"
@@ -142,25 +142,15 @@ const SignInModal = ({ switchModal }: any) => {
           </div>
 
           <div className="providers">
-            <ProvidersButton
-              icon={Google}
-              text="Sign Up with Google"
-              onClick={() =>
-                signIn('google', {
-                  callbackUrl: 'http://localhost:3000/new-listing',
-                })
-              }
-            />
-            <ProvidersButton icon={Facebook} text="Sign Up with Facebook" />
-            <ProvidersButton icon={Twitter} text="Sign Up with Twitter" />
+            <ProvidersButton icon={Google} text="Continue with Google" />
           </div>
         </div>
       </div>
 
-      <SignFooter text="Sign Up" onClick={() => switchModal('SIGN_UP')} />
+      <SignFooter text="Sign Up" onClick={() => switchModal()} />
 
       <LinearProgress className="progress" />
-    </div>
+    </motion.div>
   );
 };
 

@@ -8,6 +8,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
+
+  //border: thick solid red;
+
+  //background-color: rgba(121, 99, 240, 0.19);
+
+  //max-width: 1500px;
+  //margin: 0 auto;
 
 
   & :global{
@@ -18,12 +26,16 @@
       flex: 1;
       min-height: 100vh;
 
+
+
       .main {
         flex: 1;
         display: flex;
         flex-direction: column;
         //justify-content: center;
         //align-items: center;
+        width: 100%;
+
 
       }
     }
@@ -68,12 +80,6 @@
       }
     }
   }
-
-  .logo {
-    height: 1em;
-    margin-left: 0.5rem;
-  }
-
 
 }
 

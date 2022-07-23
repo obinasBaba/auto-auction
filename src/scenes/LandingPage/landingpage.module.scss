@@ -5,7 +5,10 @@
   display: grid;
   place-items: center;
 
-  // @include s.margin(top, 10rem);
+  border: thin solid red;
+
+
+   @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 
   & :global{

@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './registrationconfirmationmodal.module.scss';
-import { SignUpHeader } from '@/component/common/ModalView/components';
+import { SignUpHeader } from '@/components/common/RegistrationModal/components';
 import { CheckCircle } from '@mui/icons-material';
 import { Button } from '@mui/material';
 

@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import EmailProvider from 'next-auth/providers/email';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 const prisma = new PrismaClient();
 
@@ -15,6 +14,7 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
       profile(profile) {
+        console.log('yourProfile: ', profile);
         return {
           id: profile.sub,
           name: profile.name,
@@ -22,13 +22,10 @@ export default NextAuth({
           image: profile.picture,
           first_name: profile.given_name,
           last_name: profile.family_name,
+
           // emailVerified: profile.email_verified,
         };
       },
-    }),
-    EmailProvider({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
     }),
     // ...add more providers here
   ],
@@ -37,7 +34,7 @@ export default NextAuth({
     signIn: '/auth/sign-in',
     newUser: '/auth/thankyou',
     signOut: 'auth/sign-out',
-    error: '/auth/sign-in',
+    // error: '/auth/sign-in',
   },
   /* session: {
      // strategy: 'jwt',
@@ -45,6 +42,7 @@ export default NextAuth({
    },*/
 
   cookies: {
+    // this customization enables to access the cookie with code
     sessionToken: {
       name: 'next-auth.session-token',
       options: {
@@ -59,15 +57,21 @@ export default NextAuth({
   callbacks: {
     /*async ,*/
 
+    async signIn(arg) {
+      console.log('args ----', arg);
+      // window.close()
+      return true;
+    },
+
     async jwt({ token }) {
       console.log('JWT: ', token);
 
       return token;
     },
     async redirect({ url, baseUrl }) {
-      console.log('redirect: ', url, baseUrl);
+      console.log('i redirect u --: ', url, baseUrl);
 
-      return baseUrl;
+      return url;
     },
   },
 });

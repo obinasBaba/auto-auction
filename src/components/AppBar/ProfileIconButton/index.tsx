@@ -52,7 +52,8 @@ const popupVariants: Variants = {
 
 const ItemButton = (props: any) => '';
 
-const ProfileIconButton = ({ session }: { session: Session }) => {
+const ProfileIconButton = (props: any) => {
+  const { currentUser } = props;
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [show, setShow] = useState<boolean>(false);
@@ -64,7 +65,7 @@ const ProfileIconButton = ({ session }: { session: Session }) => {
   return (
     <motion.div className={s.container} layout>
       <IconButton color="primary" onClick={() => setShow(!show)}>
-        <Avatar className="pp" src={session?.user?.image ?? '/'} />
+        <Avatar className="pp" src={currentUser?.image ?? '/'} />
       </IconButton>
 
       <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>

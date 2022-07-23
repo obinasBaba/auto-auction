@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import axios from 'axios';
 import { StepHeader } from '@/scenes/ListingPage/components';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
-import ProgressCircle from '@/component/ProgressCircle';
+import ProgressCircle from '@/components/ProgressCircle';
 import { MotionValue } from 'framer-motion';
 /*import cloudinary from 'cloudinary';
 

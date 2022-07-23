@@ -1,18 +1,10 @@
 import Head from 'next/head';
 import LandingPage from '@/scenes/LandingPage';
-import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import { InferGetStaticPropsType } from 'next';
 
-export async function getStaticProps({}: GetStaticPropsContext<{
-  slug: string;
-}>) {
-  // return {
-  //   notFound: true,
-  // };
-  const acc = 'await prisma.user.findMany();';
+export async function getStaticProps() {
   return {
-    props: {
-      acc,
-    },
+    props: {},
     revalidate: 200,
   };
 }
@@ -20,8 +12,6 @@ export async function getStaticProps({}: GetStaticPropsContext<{
 export default function Home(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
-  // const { openModal, closeModal } = useUI();
-
   return (
     <>
       <Head>

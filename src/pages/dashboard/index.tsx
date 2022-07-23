@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Typography } from '@mui/material';
 import { GetStaticPropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { useAppContext } from '@/context';
 
 export async function getStaticProps({}: GetStaticPropsContext<{
   slug: string;
@@ -18,9 +20,20 @@ export async function getStaticProps({}: GetStaticPropsContext<{
 }
 
 const DashBoard = () => {
+  const { currentUser } = useAppContext();
+  const router = useRouter();
+
+  useLayoutEffect(() => {
+    if (!currentUser) router.push('/');
+  }, [currentUser]);
+
+  if (!currentUser) return null;
+
   return (
     <div>
-      <Typography variant="h1">DashBoard Content</Typography>
+      <Typography variant="h1">
+        DashBoard Content {JSON.stringify(currentUser, null, 2)}
+      </Typography>
     </div>
   );
 };

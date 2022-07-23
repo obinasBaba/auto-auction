@@ -1,7 +1,6 @@
-import React, { FC, useLayoutEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from 'next-themes';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { gql, useQuery } from '@apollo/client';
 
 export interface State {
   pathname: string;
@@ -31,8 +30,25 @@ function uiReducer(state: State, action: Action) {
   }
 }
 
+const GET_USER = gql`
+  query Me {
+    me {
+      id
+      firstName
+      LastName
+      email
+    }
+  }
+`;
+
 export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState);
+  const { client, data: currentUser, error, loading } = useQuery(GET_USER, {});
+  const [session, setSession] = useState();
+
+  useEffect(() => {
+    console.log('data: ', currentUser, error, loading);
+  }, [currentUser, error, loading]);
 
   const value = useMemo(
     () => ({
@@ -42,7 +58,12 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
     [state],
   );
 
-  return <UIContext.Provider value={value} {...props} />;
+  return (
+    <UIContext.Provider
+      value={{ ...value, client, currentUser: currentUser?.me }}
+      {...props}
+    />
+  );
 };
 
 export const useAppContext = () => {

@@ -1,21 +1,18 @@
 @use '@/styles' as s;
 
 .container {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 999;
   @include s.padding(.8rem, 2rem);
 
   //background-color: rgba(121, 99, 240, 0.08);
   background-image: linear-gradient(rgba(121, 99, 240, 0.08), rgba(121, 99, 240, 0));
 
   backdrop-filter: blur(3px);
-
-  //border: thin solid red;
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 
@@ -26,6 +23,8 @@
 
     .logo {
       //@include s.height_width(2.5rem, 2.5rem);
+      //border-radius: 50%;
+      //overflow: hidden;
     }
 
     .tools {

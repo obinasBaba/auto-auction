@@ -10,7 +10,7 @@ import {
   Settings,
 } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
-import { MotionWrapper } from '@/component/MotionWrapper';
+import { MotionWrapper } from '@/components/MotionWrapper';
 import { fetcher } from '@/helpers/fetcher';
 import Link from 'next/link';
 

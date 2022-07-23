@@ -1,5 +1,51 @@
 @use '@/styles' as s;
 
+.signup_header {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  border-bottom: 1px solid #f1efef;
+  //padding: s.f-unit(.5rem) 0;
+  margin-bottom: s.f-unit(1rem);
+
+
+  & :global {
+    .title {
+      text-transform: capitalize;
+      //margin-top : 0;
+    }
+  }
+}
+
+.prov_btn {
+  text-transform: capitalize;
+
+
+  & > :first-child {
+    //margin-right: auto;
+    //position: absolute;
+    //left: 4%;
+  }
+
+  & > :last-child {
+  }
+}
+
+.no_account {
+  width: 100%;
+  background-color: s.$clrs-accent-light;
+  text-align: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: s.f-unit(.2rem);
+  margin-top: auto;
+
+  p {
+    color: gray;
+    //margin-bottom: 0;
+  }
+}
+
 @mixin scaffold($arg : null) {
 
   width: 100%;
@@ -14,7 +60,7 @@
 
   & :global {
 
-    .sign_in_wrapper {
+    .wrapper {
       width: 100%;
       display: flex;
       flex-flow: column;
@@ -49,7 +95,7 @@
 
         }
 
-        /*.or {
+        .or {
           display: block;
           position: relative;
           width: 100%;
@@ -78,13 +124,17 @@
           display: flex;
           flex-flow: column;
           gap: s.f-unit(.4rem);
-        }*/
+        }
 
       }
 
+
+
     }
 
-
+    .hor{
+      display: none;
+    }
   }
 
 }

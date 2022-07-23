@@ -1,0 +1,58 @@
+@use '@/styles' as s;
+
+.container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+
+  & :global {
+
+    .blur{
+      z-index: 1;
+      position: absolute;
+      inset: 0;
+      background-color: lighten(rgba(0, 0, 0, 0.2), 20);
+      backdrop-filter: blur(5px);
+    }
+
+    .wrapper {
+      z-index: 2;
+      width: 100%;
+      margin: auto;
+      max-width: 60rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .art{
+        position: relative;
+
+        .overlay{
+          position: absolute;
+          inset: 0;
+          background-color: s.$clrs-accent-light;
+          backdrop-filter: blur(5px);
+        }
+
+        .img{
+          position: absolute;
+          inset: 0;
+
+          & > :first-child{
+            display: block !important;
+            height: 100% !important;
+
+            width: 100% !important;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.thank_you{
+}
+
+

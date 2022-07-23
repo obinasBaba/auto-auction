@@ -1,6 +1,7 @@
 @use "normalize";
 @use "../variables/fonts" as f;
 @use "../mixins/font" as *;
+@use "../functions" as s;
 @use "../variables/breakpoints" as *;
 
 
@@ -77,6 +78,14 @@ body {
   -webkit-font-smoothing: antialiased;
 
   //background-color: #f6f6f6 !important;
+  display: grid;
+  place-content: center;
+
+  .MuiButton-root.extra_large{
+    //padding: .9rem 1.375rem;
+    padding-top: s.f-unit-light(.6rem);
+    padding-bottom: s.f-unit-light(.6rem);
+  }
 }
 
 h1,
