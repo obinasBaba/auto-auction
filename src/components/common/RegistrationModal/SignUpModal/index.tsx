@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './signupmodal.module.scss';
 import {
   Button,
@@ -16,23 +16,62 @@ import {
 } from '@/components/common/RegistrationModal/components';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
+import { gql, useMutation } from '@apollo/client';
+
+const SIGN_UP = gql`
+  mutation SignUp($input: UserInput!) {
+    userCreate(input: $input) {
+      errors {
+        message
+      }
+      user {
+        id
+        email
+        firstName
+        LastName
+      }
+      authToken
+    }
+  }
+`;
 
 const SignUpModal = ({ switchModal }: any) => {
+  const [sendQuery, { loading, data, error, client }] = useMutation(
+    SIGN_UP,
+    {},
+  );
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      rememberMe: true,
+      firstName: '',
+      lastName: '',
+      // rememberMe: true,
     },
-    validationSchema: {},
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      sendQuery({
+        variables: {
+          input: { ...values, userName: values.firstName },
+        },
+      })
+        .then(({ errors: gErrors, data, context, extensions }) => {
+          console.log(gErrors, data);
+          const { errors, user, authToken } = data.userCreate;
+        })
+        .catch((error) => {
+          console.log('erro: ', JSON.stringify(error, null, 2));
+        });
     },
   });
 
   const [values, setValues] = React.useState<any>({
     showPassword: false,
   });
+
+  useEffect(() => {
+    console.log('data', data, loading, error?.networkError);
+  }, [loading, data, error]);
 
   return (
     <motion.div className={s.container} layout>
@@ -63,15 +102,19 @@ const SignUpModal = ({ switchModal }: any) => {
 
             <div className="hor">
               <TextField
-                name="first_name"
+                name="firstName"
                 label="First name"
                 type="text"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
                 required
               />
               <TextField
-                name="last_name"
+                name="lastName"
                 label="Last name"
                 type="text"
+                value={formik.values.lastName}
+                onChange={formik.handleChange}
                 required
               />
             </div>

@@ -43,11 +43,17 @@ const GET_USER = gql`
 
 export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState);
-  const { client, data: currentUser, error, loading } = useQuery(GET_USER, {});
+  const {
+    client,
+    data: currentUser,
+    error,
+    loading,
+    refetch,
+  } = useQuery(GET_USER, {});
   const [session, setSession] = useState();
 
   useEffect(() => {
-    console.log('data: ', currentUser, error, loading);
+    console.log('Medata: ', currentUser, error, loading);
   }, [currentUser, error, loading]);
 
   const value = useMemo(
@@ -60,7 +66,7 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
 
   return (
     <UIContext.Provider
-      value={{ ...value, client, currentUser: currentUser?.me }}
+      value={{ ...value, client, currentUser: currentUser?.me, refetch }}
       {...props}
     />
   );

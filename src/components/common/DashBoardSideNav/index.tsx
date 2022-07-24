@@ -6,17 +6,16 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Paper,
 } from '@mui/material';
 import { items as data } from './data';
 import { ShoppingCart } from '@mui/icons-material';
 import clsx from 'clsx';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAppContext } from '@/context';
 
 const DashBoardSideNav = () => {
-  const { data: session } = useSession();
+  const { currentUser } = useAppContext();
   const { pathname } = useRouter();
 
   const [active, setActive] = useState<string>(pathname);
@@ -25,7 +24,7 @@ const DashBoardSideNav = () => {
     console.log('dashboard render');
   }, []);
 
-  if (!session) return null;
+  if (!currentUser) return null;
 
   return (
     <aside className={s.container}>

@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   const { pathname, push } = useRouter();
 
   return (
-    <div className={s.container}>
+    <div className={s.root}>
       <FixedLayer />
 
       <div className="layout_content">

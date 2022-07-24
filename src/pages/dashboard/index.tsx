@@ -25,15 +25,13 @@ const DashBoard = () => {
 
   useLayoutEffect(() => {
     if (!currentUser) router.push('/');
-  }, [currentUser]);
+  }, [currentUser, router]);
 
   if (!currentUser) return null;
 
   return (
     <div>
-      <Typography variant="h1">
-        DashBoard Content {JSON.stringify(currentUser, null, 2)}
-      </Typography>
+      <Typography variant="h1">DashBoard Content</Typography>
     </div>
   );
 };

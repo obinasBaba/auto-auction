@@ -24,7 +24,7 @@ type Modals = 'SIGN_UP' | 'CONFIRMATION' | 'SIGN_IN';
 const RegistrationModal: React.FC<ModalViewType> = ({ close }) => {
   const { displayModal, closeModal, modalView } = useUI();
 
-  const [signIn, setSignIn] = useState<boolean>(false);
+  const [signIn, setSignIn] = useState<boolean>(true);
 
   const switchModal = () => {
     setSignIn(!signIn);

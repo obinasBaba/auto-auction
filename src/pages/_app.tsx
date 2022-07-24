@@ -22,7 +22,7 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import getUserToken from '@/helpers/getUserToken';
+import { getUserToken } from '@/helpers/tokens';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

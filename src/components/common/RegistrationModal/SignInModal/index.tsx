@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './signinmodal.module.scss';
 import {
   Button,
@@ -26,35 +26,74 @@ import {
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
+import { gql, useMutation } from '@apollo/client';
+import { setUserToken } from '@/helpers/tokens';
+import { useAppContext } from '@/context';
+import { useUI } from '@/context/ui/context';
 
 const validationSchema = yup.object({
   email: yup
     .string()
     .email('Enter a valid email')
     .required('Email is required'),
-  password: yup
-    .string()
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+  password: yup.string().required('Password is required'),
   rememberMe: yup.boolean(),
 });
 
+const SIGN_IN = gql`
+  mutation SignIn($input: AuthInput!) {
+    userLogin(input: $input) {
+      errors {
+        message
+      }
+      user {
+        id
+        email
+        firstName
+        LastName
+        userName
+      }
+      authToken
+    }
+  }
+`;
+
 const SignInModal = ({ switchModal }: any) => {
+  const { closeModal } = useUI();
+
+  const [sendQuery, { loading, data, error }] = useMutation(SIGN_IN);
+  const { refetch } = useAppContext();
+
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      rememberMe: true,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      sendQuery({
+        variables: {
+          input: values,
+        },
+      })
+        .then(({ errors: gErrors, data, context, extensions }) => {
+          console.log(data);
+          const { errors, user, authToken } = data.userLogin;
+          if (user && authToken) {
+            setUserToken(authToken);
+            refetch();
+            // closeModal();
+          }
+        })
+        .catch((error) => console.log(JSON.stringify(error, null, 2)));
     },
   });
 
   const [values, setValues] = React.useState<any>({
     showPassword: false,
   });
+
+  // useEffect(() => {}, [loading, data, error]);
 
   return (
     <motion.div className={s.container} layout>

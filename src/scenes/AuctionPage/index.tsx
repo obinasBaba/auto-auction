@@ -11,8 +11,8 @@ import {
 } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { MotionWrapper } from '@/components/MotionWrapper';
-import { fetcher } from '@/helpers/fetcher';
 import Link from 'next/link';
+import { gql, useQuery } from '@apollo/client';
 
 const FilterItem = ({ label }: any) => {
   const [show, setShow] = useState<boolean>(false);
@@ -61,35 +61,87 @@ const FilterItem = ({ label }: any) => {
   );
 };
 
+const ALL_AUCTIONS = gql`
+  query ActiveAuction($input: AuctionFilterInput) {
+    auctionList(input: $input) {
+      id
+      title
+      startingDate
+      description
+      startingBid
+      duration
+      createdAt
+      status
+      itemDetail {
+        id
+        vin
+        bodyType
+        make
+        model
+        name
+        description
+        mileage
+        year
+        condition
+        transmission
+        interiorColor
+        exteriorColor
+        engine
+        driveSide
+        fuel
+        features
+        drivetrain
+        cylinders
+        title
+        retailPrice
+        defaultImage {
+          id
+          imageId
+          isDefault
+          url
+          name
+        }
+      }
+      address {
+        id
+        city
+        country
+        zipcode
+      }
+      images {
+        id
+        imageId
+        isDefault
+        url
+        name
+      }
+
+      address {
+        id
+        city
+      }
+      itemDetail {
+        id
+      }
+    }
+  }
+`;
+
 const AuctionPage = () => {
+  const { data, loading, error } = useQuery(ALL_AUCTIONS, {});
   const [auctionList, setAuctionList] = useState<any[]>([]);
 
   useEffect(() => {
-    fetcher(/* GraphQL */ `
-      query {
-        auctionList {
-          id
-          itemDetail {
-            id
-            vin
-            name
-            slug
-            defaultImage {
-              id: imageId
-              url
-            }
-          }
-        }
-      }
-    `)
-      .then((r: any) => {
-        console.log('response ::    ', r);
-        if (r.data.auctionList && Array.isArray(r.data.auctionList)) {
-          setAuctionList(r.data.auctionList);
-        }
-      })
-      .catch((e) => console.log(e));
-  }, []);
+    console.log('all auctions: ', data, loading);
+    if (error) {
+      console.log(JSON.stringify(error, null, 2));
+    }
+
+    if (data) {
+      console.log(data.auctionList[0]);
+      setAuctionList(data.auctionList);
+    }
+  }, [data, loading, error]);
 
   return (
     <div className={s.container}>
@@ -102,10 +154,11 @@ const AuctionPage = () => {
             (
               {
                 id,
+                status,
                 itemDetail: {
                   vin,
                   name,
-                  defaultImage: { url },
+                  defaultImage: { url, name: imgName = 'car image' },
                 },
               },
               idx,
@@ -115,6 +168,7 @@ const AuctionPage = () => {
                   <div className="auction_item">
                     <div className="car_img">
                       <Image
+                        alt={imgName}
                         src={url}
                         height="100%"
                         width="100%"
@@ -174,8 +228,18 @@ const AuctionPage = () => {
                           <Button color="secondary" variant="outlined" disabled>
                             #2839984
                           </Button>
-                          <Button color="primary" variant="contained">
-                            Bid Now
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            disabled={
+                              status === 'inactive' || status === 'ended'
+                            }
+                          >
+                            {status === 'active'
+                              ? 'Bid Now'
+                              : status === 'inactive'
+                              ? 'not started'
+                              : 'ended'}
                           </Button>
                         </div>
                       </div>
