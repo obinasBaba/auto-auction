@@ -9,6 +9,7 @@ import { StepHeader } from '@/scenes/ListingPage/components';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
 import ProgressCircle from '@/components/ProgressCircle';
 import { MotionValue } from 'framer-motion';
+import { useAppContext } from '@/context';
 /*import cloudinary from 'cloudinary';
 
 cloudinary.v2.config({
@@ -40,6 +41,7 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
   const { values, setFieldValue } = formikProps;
 
   const [imagePreviews, setImagePreviews] = useState<Preview[]>(values.images);
+  const { currentUser } = useAppContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragEnter, setDragEnter] = useState(false);
@@ -75,7 +77,9 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
         formData.append(
           'public_id',
           // 'henokgetachew500@gmail_com/' + newImg.name,
-          values.itemDetail.name.replace(' ', '_') + '/' + newImg.name,
+          `${currentUser?.email}_${values.itemDetail.name.replace(' ', '_')}/${
+            newImg.name
+          }`,
         );
 
         // cloudinary.v1.uploader.upload('', {})

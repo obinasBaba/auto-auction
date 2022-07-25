@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import s from './activebidspage.module.scss';
-import { gql, useQuery } from '@apollo/client';
-import { useAppContext } from '@/context';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 import ActiveAuctionItem from '@/scenes/ActiveBidsPage/ActiveAuctionItem';
+import useError from '@/helpers/useError';
 
 const ACTIVE_AUCTIONS = gql`
   query ActiveAuction($input: AuctionFilterInput) {
@@ -69,15 +69,44 @@ const ACTIVE_AUCTIONS = gql`
   }
 `;
 
+const SUBSCRIBE_CREATE_BID = gql`
+  subscription {
+    bidCreate {
+      bid {
+        id
+        amount
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
 const ActiveBidsPage = () => {
   const [activeAuctions, setActiveAuctions] = useState<any[]>([]);
-  const { data, loading, error } = useQuery(ACTIVE_AUCTIONS, {
+  const {
+    data: subData,
+    error: subError,
+    loading: subLoading,
+  } = useSubscription(SUBSCRIBE_CREATE_BID);
+  const { data, loading, error, refetch } = useQuery(ACTIVE_AUCTIONS, {
     variables: {
       input: {
         status: ['active'],
       },
     },
   });
+
+  useError(subError);
+
+  useEffect(() => {
+    console.log('subscription: ', subData, subLoading);
+
+    if (subData) {
+      refetch();
+    }
+  }, [subError, subData, subLoading]);
 
   useEffect(() => {
     console.log('active auctions: ', data, loading);

@@ -1,16 +1,34 @@
 import React, { useEffect } from 'react';
 import s from './listingcreated.module.scss';
 import { Button } from '@mui/material';
-import { fetcher } from '@/helpers/fetcher';
-import data from '../defaultValue.json';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
+import { gql, useMutation } from '@apollo/client';
+import useError from '@/helpers/useError';
+
+const CREATE_AUCTION = gql`
+  mutation ($input: AuctionListingInput!) {
+    auctionCreate(input: $input) {
+      errors {
+        message
+      }
+      auction {
+        id
+        startingDate
+        endingDate
+      }
+    }
+  }
+`;
 
 const ListingCreated: ListingFormStepComponent = ({ formikProps }) => {
   const { values } = formikProps;
+  const [createAuction, { data, error, loading }] = useMutation(CREATE_AUCTION);
+
+  useError(error);
 
   useEffect(() => {
-    console.log('data: ', data);
-  });
+    console.log('data: ', data, loading);
+  }, [data, loading]);
 
   return (
     <div className={s.container}>
@@ -31,23 +49,17 @@ const ListingCreated: ListingFormStepComponent = ({ formikProps }) => {
               name,
             }));
 
-            fetcher(
-              /* GraphQL */ `
-                mutation ($input: AuctionListingInput!) {
-                  auctionCreate(input: $input) {
-                    errors {
-                      message
-                    }
-                    auction {
-                      id
-                    }
-                  }
-                }
-              `,
-              { input: values },
-            ).then((r) => {
-              console.log('response ::    ', r);
-            });
+            values.itemDetail.vin = values.itemDetail.vin + Math.random() * 100;
+
+            createAuction({
+              variables: {
+                input: values,
+              },
+            })
+              .then((r) => {
+                console.log('create auction data ::    ', r.data.auctionCreate);
+              })
+              .catch(console.log);
           }}
         >
           proceed to auction setup

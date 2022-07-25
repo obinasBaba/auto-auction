@@ -20,14 +20,30 @@ import {
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
+  split,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { getUserToken } from '@/helpers/tokens';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
   session?: Session;
 }
+
+const wsLink =
+  typeof window !== 'undefined'
+    ? new GraphQLWsLink(
+        createClient({
+          url: 'ws://localhost:4000/graphql',
+          connectionParams: {
+            authToken: getUserToken(),
+          },
+        }),
+      )
+    : null;
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -35,6 +51,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = getUserToken();
+
   return {
     headers: {
       ...headers,
@@ -43,8 +60,23 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const splitLink =
+  typeof window !== 'undefined' && wsLink != null
+    ? split(
+        ({ query }) => {
+          const dif = getMainDefinition(query);
+          return (
+            dif.kind === 'OperationDefinition' &&
+            dif.operation === 'subscription'
+          );
+        },
+        wsLink,
+        authLink.concat(httpLink),
+      )
+    : authLink.concat(httpLink);
+
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: splitLink,
   cache: new InMemoryCache(),
 });
 

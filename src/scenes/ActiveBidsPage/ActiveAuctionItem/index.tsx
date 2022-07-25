@@ -33,13 +33,6 @@ const ActiveAuctionItem = ({ item }: any) => {
 
   useError(error);
 
-  const {
-    id,
-    itemDetail: {
-      defaultImage: { url, name },
-    },
-  } = item;
-
   const formik = useFormik({
     initialValues: {
       amount: 0,
@@ -63,6 +56,13 @@ const ActiveAuctionItem = ({ item }: any) => {
         .catch(console.log);
     },
   });
+
+  const {
+    id,
+    itemDetail: {
+      defaultImage: { url, name },
+    },
+  } = item;
 
   return (
     <div className={s.container}>

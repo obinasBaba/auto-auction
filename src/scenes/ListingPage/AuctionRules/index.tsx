@@ -13,11 +13,17 @@ import { CheckCircle, RadioButtonUnchecked } from '@mui/icons-material';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { Field } from 'formik';
 import { MotionWrapper } from '@/components/MotionWrapper';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { ListingFormStepComponent } from '@/scenes/ListingPage';
 
-const AuctionRules = (props: any) => {
+const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
   const [isAuction, setIsAuction] = useState<boolean>(true);
   const [buyNow, setBuyNow] = useState<boolean>(false);
   const [reservePrice, setReservePrice] = useState<boolean>(false);
+
+  const [value, setValue] = React.useState<Date | null>(new Date());
 
   return (
     <motion.div className={s.container}>
@@ -78,7 +84,7 @@ const AuctionRules = (props: any) => {
                     as={TextField}
                   />
 
-                  <Field
+                  {/*  <Field
                     name="auction.duration"
                     label="Auction duration (Days)"
                     type="text"
@@ -92,19 +98,66 @@ const AuctionRules = (props: any) => {
                         {day}
                       </MenuItem>
                     ))}
-                  </Field>
+                  </Field>*/}
 
-                  <Field
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DateTimePicker
+                      disablePast
+                      renderInput={(props) => (
+                        <Field
+                          name="auction.startingDate"
+                          required
+                          variant="outlined"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          {...props}
+                          as={TextField}
+                        />
+                      )}
+                      label="auction starting date"
+                      value={formikProps.values.auction.startingDate}
+                      onChange={(value) =>
+                        formikProps.setFieldValue('auction.startingDate', value)
+                      }
+                    />
+                  </LocalizationProvider>
+
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DateTimePicker
+                      disablePast
+                      renderInput={(props) => (
+                        <Field
+                          name="auction.endingDate"
+                          required
+                          variant="outlined"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          {...props}
+                          as={TextField}
+                        />
+                      )}
+                      label="auction ending date"
+                      value={formikProps.values.auction.endingDate}
+                      onChange={(value) =>
+                        formikProps.setFieldValue('auction.endingDate', value)
+                      }
+                    />
+                  </LocalizationProvider>
+
+                  {/*<Field
                     name="auction.startingDate"
                     label="Schedule for listing start time"
-                    type="date"
                     required
                     variant="outlined"
                     InputLabelProps={{
                       shrink: true,
                     }}
                     as={TextField}
-                  />
+                  />*/}
 
                   <motion.div className="col">
                     <FormControlLabel

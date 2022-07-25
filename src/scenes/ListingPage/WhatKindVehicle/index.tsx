@@ -24,14 +24,14 @@ const WhatKindVehicle: ListingFormStepComponent = ({ formikProps }) => {
 
         <div className="form">
           <Field
-            name="item.vin"
+            name="itemDetail.vin"
             id="vin"
             label="Vin Code"
-            type="number"
+            type="text"
             placeholder="123456789"
             variant="outlined"
-            error={!!errors?.item?.vin}
-            helperText={errors?.item?.vin}
+            error={!!errors?.itemDetail?.vin}
+            helperText={errors?.itemDetail?.vin}
             as={TextField}
           />
 
@@ -48,7 +48,7 @@ const WhatKindVehicle: ListingFormStepComponent = ({ formikProps }) => {
               {types.map((type, idx) => (
                 <Field
                   type="radio"
-                  name="item.type"
+                  name="itemDetail.type"
                   key={type}
                   value={type}
                   control={<Radio />}

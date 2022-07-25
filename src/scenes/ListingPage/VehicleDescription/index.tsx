@@ -30,7 +30,7 @@ const VehicleDescription = (props: any) => {
             as={TextField}
           />
           <Field
-            name="item.retail_price"
+            name="itemDetail.retailPrice"
             label="est Retail Price"
             type="number"
             variant="outlined"

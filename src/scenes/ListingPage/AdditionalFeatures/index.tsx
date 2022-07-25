@@ -75,7 +75,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
   const [selectedFeat, setSelectedFeat] = useState([comfort[2]]);
 
   useEffect(() => {
-    setFieldValue('item.features', selectedFeat);
+    setFieldValue('itemDetail.features', selectedFeat);
   }, [selectedFeat, setFieldValue]);
 
   return (
@@ -88,7 +88,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor">
             <Field
-              name="item.fuel"
+              name="itemDetail.fuel"
               label="Fuel type"
               select
               as={TextField}
@@ -102,7 +102,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
             </Field>
 
             <Field
-              name="item.cylinder"
+              name="itemDetail.cylinder"
               label="no of cylinders"
               type="number"
               select
@@ -117,7 +117,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
           </div>
 
           <Field
-            name="item.engine_name"
+            name="itemDetail.engine_name"
             label="Engine name"
             variant="outlined"
             type="text"
@@ -129,7 +129,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor">
             <Field
-              name="item.drive_side"
+              name="itemDetail.drive_side"
               label="Drive Side"
               select
               as={TextField}
@@ -143,7 +143,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
             </Field>
 
             <Field
-              name="item.transmission"
+              name="itemDetail.transmission"
               label="Transmission"
               select
               as={TextField}
@@ -159,7 +159,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor">
             <Field
-              name="item.interior_color"
+              name="itemDetail.interior_color"
               label="Interior Color"
               select
               as={TextField}
@@ -172,7 +172,7 @@ const AdditionalFeatures: ListingFormStepComponent = ({ formikProps }) => {
             </Field>
 
             <Field
-              name="item.exterior_color"
+              name="itemDetail.exterior_color"
               label="Exterior Color"
               select
               as={TextField}

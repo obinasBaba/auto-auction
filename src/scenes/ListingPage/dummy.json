@@ -1,37 +1,51 @@
 [
   {
-    "title": "clean",
-    "startingDate": "2022-07-07T11:07:10.933Z",
-    "description": "This WHITE 2021 TOYOTA TACOMA ACC is part of our AUTOMOBILE vehicles. Join the auto auction to bid on this TOYOTA TACOMA ACC, which has a PA - CERT OF TITLE. Please note, the following damage may be present on the vehicle: MINOR DENT/SCRATCHES and , which can be viewed more closely by examining the photos included on this page.",
-    "startingBid": "4444.00",
-    "duration": 5,
-    "createdAt": "1657192030933",
     "itemDetail": {
-      "vin": "3TYRX5GN1MT",
-      "bodyType": "VAN",
-      "make": "TOYOTA",
-      "model": null,
-      "name": "2021 TOYOTA TACOMA ACCESS CAB",
-      "mileage": 9860 ,
-      "year": 2016,
-      "condition": "used",
+      "vin": "asdfasdf2432342",
+      "type": "Sedan",
+      "make": "Audi",
+      "engine": "engine-1",
+      "name": "",
+      "model": "N360",
+      "condition": "new",
       "transmission": "automatic",
-      "interiorColor": "GRAY",
-      "exteriorColor": "WHITE",
-      "engine": "2.7L 4",
-      "driveSide": "left",
-      "fuel": "gasoline",
-      "features": [],
-      "drivetrain": "awd",
-      "cylinders": 4,
-      "title": "clean",
-      "retailPrice": null
+      "interior_color": "Gold",
+      "exterior_color": "Gold",
+      "cylinder": 5,
+      "engine_name": "2.7L 4",
+      "drive_side": "left",
+      "fuel": "Biodiesel",
+      "driveType": "AWD",
+      "retailPrice": 2322323,
+      "title": "Salvage",
+      "year": 1992,
+      "mileage": 7656,
+      "features": [
+        "Air conditioner",
+        "Leather seats",
+        "Navigation system"
+      ]
     },
+    "images": [
+      {
+        "name": "0-546397.jpg",
+        "id": "a37a6ef542d34a054263dcf9c771eede",
+        "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1658635543/henokgetachew500%40gmail.com_/0-546397.jpg.jpg"
+      }
+    ],
     "address": {
-      "city": "haswass",
-      "country": "hawassa",
-      "zipcode": 233
+      "country": "Ethiopia",
+      "streetAddress": "hawasa",
+      "city": "hawassa",
+      "zipcode": 7777,
+      "apartmentNumber": 3232
     },
-    "images": []
+    "auction": {
+      "title": "asdadfs",
+      "description": "adfasdfafsd",
+      "startingBid": "345345",
+      "startingDate": "Date.now()",
+      "endingDate": ""
+    }
   }
 ]

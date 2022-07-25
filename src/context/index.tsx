@@ -49,7 +49,7 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
     error,
     loading,
     refetch,
-  } = useQuery(GET_USER, {});
+  } = useQuery(GET_USER, { nextFetchPolicy: 'network-only' });
   const [session, setSession] = useState();
 
   useEffect(() => {

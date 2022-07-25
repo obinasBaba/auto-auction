@@ -5,16 +5,15 @@ import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import ListingCreated from '@/scenes/ListingPage/ListingCreated';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
-import ListingProgress from '@/scenes/ListingPage/ListingProgress';
 import { Form, Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
+import dummy from './dummy.json';
 import WhatKindVehicle from '@/scenes/ListingPage/WhatKindVehicle';
 import BasicFeatures from '@/scenes/ListingPage/BasicFeatures';
-import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
+import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
 import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
-import dummy from './dummy.json';
 
 const containerVariants = {};
 
@@ -51,19 +50,13 @@ const steps = [
     name: 'KIND',
     components: (props: any) => <WhatKindVehicle {...props} />,
     schema: yup.object({
-      item: yup.object().shape({
-        vin: yup.number().min(7).required('what is you vin'),
-        type: yup
-          .string()
-          .required('you have to select the type of car you are listing -')
-          .oneOf(types, 'you have to select the type of car you are listing'),
-      }),
+      item: yup.object().shape({}),
     }),
   },
   {
     name: 'FEATURE',
     components: (props: any) => <BasicFeatures {...props} />,
-    schema: getShape('item', {
+    schema: getShape('itemDetail', {
       make: yup
         .string()
         .oneOf(makes, 'select the manufacture of you vehicle!!'),
@@ -84,7 +77,7 @@ const steps = [
   {
     name: 'FEATURE_2',
     components: (props: any) => <AdditionalFeatures {...props} />,
-    schema: getShape('item', {
+    schema: getShape('itemDetail', {
       gearbox: yup
         .string()
         .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
@@ -103,10 +96,10 @@ const steps = [
         apartmentNumber: yup.number().required('what is your home number'),
       }),
     }),
-  },*/
+  },
   {
     name: 'PHOTOS',
-    component: (props: any) => <VehiclePhoto {...props} />,
+    components: (props: any) => <VehiclePhoto {...props} />,
     schema: yup.object({
       images: yup.array().of(
         yup.object({
@@ -115,7 +108,7 @@ const steps = [
         }),
       ),
     }),
-  } /*
+  },
   {
     name: 'DESCRIPTION',
     components: (props: any) => <VehicleDescription {...props} />,
@@ -126,7 +119,7 @@ const steps = [
         price: yup.number(),
       }),
     }),
-  },
+  },*/
   {
     name: 'RULE',
     components: (props: any) => <AuctionRules {...props} />,
@@ -138,15 +131,15 @@ const steps = [
             .number()
             .typeError('must be a number')
             .required('state your staring bid price'),
-          duration: yup.number().required('duration is required'),
+          // duration: yup.number().required('duration is required'),
           startingDate: yup.string().required('auction schedule is requred'),
         })
         .required('you need a auction object '),
     }),
-  },*/,
+  },
   {
     name: 'CREATED',
-    component: (props: any) => <ListingCreated {...props} />,
+    components: (props: any) => <ListingCreated {...props} />,
     schema: yup.object({
       checkUp: yup.string(),
     }),
@@ -169,8 +162,8 @@ const initialValues = {
     engine_name: '',
     drive_side: '',
     fuel: '',
-    drive_type: '',
-    retail_price: '',
+    driveType: '',
+    retailPrice: '',
     title: '',
     year: '',
     mileage: '',
@@ -178,19 +171,20 @@ const initialValues = {
   },
   images: [] as any[],
   address: {
-    country: '',
-    city: '',
-    streetAddress: '',
-    apartmentNumber: '',
-    zipcode: '',
+    /* country: '',
+     city: '',
+     streetAddress: '',
+     apartmentNumber: '',
+     zipcode: '',*/
   },
   auction: {
     title: '',
     description: '',
     // price: 0,
     startingBid: '',
-    duration: '',
-    startingDate: '06/03/2022',
+    // duration: '',
+    startingDate: new Date(),
+    endingDate: new Date(),
   },
 };
 
@@ -263,7 +257,7 @@ const ListingPage = () => {
                         key={activeStep.name}
                         layout
                       >
-                        {activeStep.component({
+                        {activeStep.components({
                           controller: { nextStep, prevStep, setStep },
                           formikProps,
                         })}
@@ -273,8 +267,8 @@ const ListingPage = () => {
                     <div
                       style={{
                         position: 'absolute',
-                        top: '10%',
-                        left: '-50%',
+                        top: '0%',
+                        left: '-30%',
                         maxWidth: '40ch',
                         fontSize: '.8rem',
                         pointerEvents: 'none',

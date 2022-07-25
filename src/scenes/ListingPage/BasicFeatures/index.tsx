@@ -8,7 +8,6 @@ import { ListingFormStepComponent } from '@/scenes/ListingPage';
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
 const models = [
   'Airwave',
-  'Avancier',
   'Lagreat',
   'MR-V',
   'N360',
@@ -42,7 +41,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
         <div className="form">
           <Field
             id="car-makes"
-            name="item.make"
+            name="itemDetail.make"
             select
             // value={type}
             label="Select Make"
@@ -57,7 +56,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <Field
             id="car-models"
-            name="item.model"
+            name="itemDetail.model"
             label="Model"
             as={TextField}
             select
@@ -74,15 +73,15 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor">
             <Field
-              name="item.year"
+              name="itemDetail.year"
               label="Year"
               type="number"
               select
               required
               variant="outlined"
               as={TextField}
-              error={!!errors?.item?.year}
-              helperText={errors?.item?.year}
+              error={!!errors?.itemDetail?.year}
+              helperText={errors?.itemDetail?.year}
               SelectProps={{
                 MenuProps: {
                   PaperProps: {
@@ -100,7 +99,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
               ))}
             </Field>
             <Field
-              name="item.mileage"
+              name="itemDetail.mileage"
               label="Mileage"
               type="number"
               required
@@ -111,7 +110,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
 
           <div className="hor engin_gear">
             <Field
-              name="item.drive_type"
+              name="itemDetail.driveType"
               label="Drive Type"
               select
               as={TextField}
@@ -124,7 +123,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
             </Field>
 
             <Field
-              name="item.condition"
+              name="itemDetail.condition"
               label="condition"
               select
               required
@@ -139,7 +138,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
           </div>
 
           <Field
-            name={'item.title'}
+            name="itemDetail.title"
             label="Vehicle Title"
             select
             required
