@@ -10,7 +10,7 @@ import createEmotionCache from '@/createEmotoinCache';
 import Head from 'next/head';
 import { ManagedUIContext } from '@/context/ui/context';
 import { Session } from 'next-auth';
-import { AppContext } from '@/context';
+import { AppContext, useAppContext } from '@/context';
 import NProgress from 'nprogress';
 import '@/public/nprogress.css';
 import { useEffect } from 'react';

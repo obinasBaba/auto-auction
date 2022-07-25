@@ -45,7 +45,7 @@ const ActiveAuctionItem = ({ item }: any) => {
           input: {
             ...values,
             auctionId: id,
-            dealerId: currentUser.id,
+            dealerId: currentUser?.id,
             createdAt: Date.now().toString(),
           },
         },

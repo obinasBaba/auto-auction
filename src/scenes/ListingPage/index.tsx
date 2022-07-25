@@ -272,6 +272,7 @@ const ListingPage = () => {
                         maxWidth: '40ch',
                         fontSize: '.8rem',
                         pointerEvents: 'none',
+                        // display: 'none',
                         // display: idx != steps.length - 1 ? 'none' : 'block',
                       }}
                     >

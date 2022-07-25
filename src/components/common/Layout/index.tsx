@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './layout.module.scss';
 import DashBoardSideNav from '@/components/common/DashBoardSideNav';
 import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import ProfileHeaderInfo from '@/components/common/Layout/components/ProfileHeaderInfo';
 import FixedLayer from '@/components/FixedLayer';
+import { useAppContext } from '@/context';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -13,6 +14,14 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
   const { pathname, push } = useRouter();
+  const router = useRouter();
+  const { currentUser } = useAppContext();
+
+  useEffect(() => {
+    if (router.pathname.startsWith('/dashboard') && !currentUser) {
+      // router.push('/');
+    }
+  }, [currentUser, router]);
 
   return (
     <div className={s.root}>

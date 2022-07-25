@@ -28,9 +28,19 @@
     },
     "images": [
       {
-        "name": "0-546397.jpg",
-        "id": "a37a6ef542d34a054263dcf9c771eede",
-        "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1658635543/henokgetachew500%40gmail.com_/0-546397.jpg.jpg"
+        "name": "0-47399232_Image_1.jpg",
+        "id": "569205a2a34c7cb1d68b48ab90118182",
+        "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1657284965/2015_NISSAN%20SENTRA%20S/0-47399232_Image_1.jpg.jpg"
+      },
+      {
+        "name": "1-47399232_Image_2.jpg",
+        "id": "7e2e2b15b63b42eedcff7dd790055881",
+        "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1657288622/2015_NISSAN%20SENTRA%20S/1-47399232_Image_2.jpg.jpg"
+      },
+      {
+        "name": "1-47399232_Image_3.jpg",
+        "id": "f715d30d1f8e4a7b88516976538fab4d",
+        "url": "https://res.cloudinary.com/dltkxbnvk/image/upload/v1657288622/2015_NISSAN%20SENTRA%20S/1-47399232_Image_3.jpg.jpg"
       }
     ],
     "address": {
@@ -44,8 +54,11 @@
       "title": "asdadfs",
       "description": "adfasdfafsd",
       "startingBid": "345345",
-      "startingDate": "Date.now()",
-      "endingDate": ""
+      "startingDate": "2022-07-29T21:00:00.000Z",
+      "endingDate": "2022-07-30T21:00:00.000Z"
     }
   }
 ]
+
+
+

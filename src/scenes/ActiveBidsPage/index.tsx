@@ -90,6 +90,7 @@ const ActiveBidsPage = () => {
     error: subError,
     loading: subLoading,
   } = useSubscription(SUBSCRIBE_CREATE_BID);
+
   const { data, loading, error, refetch } = useQuery(ACTIVE_AUCTIONS, {
     variables: {
       input: {

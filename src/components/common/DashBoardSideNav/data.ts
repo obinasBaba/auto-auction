@@ -2,12 +2,12 @@ import {
   BookmarkBorder,
   CalendarMonth,
   Dashboard,
-  HeadsetMic,
-  HistoryOutlined,
+  Drafts,
   ListOutlined,
   Mail as MailIcon,
   OnlinePrediction,
   SearchOutlined,
+  Sell,
 } from '@mui/icons-material';
 
 export const items = [
@@ -23,19 +23,20 @@ export const items = [
         link: '/dashboard/active-bids',
       },
       { name: 'saved', Icon: BookmarkBorder, link: '/dashboard/saved' },
+      { name: 'search', Icon: SearchOutlined, link: '/dashboard/search' },
     ],
   },
   {
-    title: 'Vehicle finder',
+    title: 'Your Business',
     items: [
-      { name: 'search', Icon: SearchOutlined, link: '/dashboard/search' },
-      { name: 'listings', Icon: ListOutlined, link: '/dashboard/listings' },
+      { name: 'scheduled', Icon: ListOutlined, link: '/dashboard/scheduled' },
       {
-        name: 'Recent view',
-        Icon: HistoryOutlined,
-        link: '/dashboard/recent-view',
+        name: 'active',
+        Icon: OnlinePrediction,
+        link: '/dashboard/active',
       },
-      { name: 'help center', Icon: HeadsetMic, link: '/dashboard/help-center' },
+      { name: 'sold', Icon: Sell, link: '/dashboard/sold' },
+      { name: 'draft', Icon: Drafts, link: '/dashboard/draft' },
     ],
   },
 ];

@@ -16,9 +16,8 @@ import {
   ManageAccountsTwoTone,
   SwitchAccessShortcutAddOutlined,
 } from '@mui/icons-material';
-import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { useAppContext } from '@/context';
 
 const popupVariants: Variants = {
   initial: {
@@ -57,6 +56,8 @@ const ProfileIconButton = (props: any) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [show, setShow] = useState<boolean>(false);
+
+  const { switchToBusiness, businessAccount, logOut } = useAppContext();
 
   useEffect(() => {
     containerRef.current?.focus({ preventScroll: true });
@@ -106,7 +107,13 @@ const ProfileIconButton = (props: any) => {
             </List>
             <Divider sx={{ marginLeft: '1rem' }} />
             <List component="nav" aria-label="secondary mailbox folder">
-              <ListItemButton className="list_item_btn">
+              <ListItemButton
+                className="list_item_btn"
+                onClick={() => {
+                  switchToBusiness();
+                  setTimeout(() => setShow(false), 0);
+                }}
+              >
                 <ListItemIcon>
                   <SwitchAccessShortcutAddOutlined />
                 </ListItemIcon>
@@ -115,7 +122,7 @@ const ProfileIconButton = (props: any) => {
 
               <ListItemButton
                 className="list_item_btn"
-                onClick={() => signOut()}
+                onClick={() => logOut()}
               >
                 <ListItemIcon>
                   <LogoutTwoTone />

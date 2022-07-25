@@ -22,10 +22,11 @@ export async function getStaticProps({}: GetStaticPropsContext<{
 const DashBoard = () => {
   const { currentUser } = useAppContext();
   const router = useRouter();
+  const { pathname } = useRouter();
 
   useLayoutEffect(() => {
     if (!currentUser) router.push('/');
-  }, [currentUser, router]);
+  }, [currentUser, router, pathname]);
 
   if (!currentUser) return null;
 

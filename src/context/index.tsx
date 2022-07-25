@@ -1,17 +1,24 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { ThemeProvider } from 'next-themes';
-import { gql, useQuery } from '@apollo/client';
+import {
+  ApolloQueryResult,
+  gql,
+  OperationVariables,
+  useQuery,
+} from '@apollo/client';
+import { USER_TOKEN } from '@/const';
+import { useRouter } from 'next/router';
 
 export interface State {
-  pathname: string;
+  businessAccount: boolean;
 }
 
 const initialState = {
-  pathname: 'sld',
+  businessAccount: false,
 };
 
 type Action = {
-  type: 'NOT_IMP';
+  type: 'SWITCH_BUSINESS' | 'LOGOUT_BUSINESS';
 };
 
 export const UIContext = React.createContext<State | any>(initialState);
@@ -20,9 +27,16 @@ UIContext.displayName = 'UIContext';
 
 function uiReducer(state: State, action: Action) {
   switch (action.type) {
-    case 'NOT_IMP': {
+    case 'SWITCH_BUSINESS': {
       return {
         ...state,
+        businessAccount: true,
+      };
+    }
+    case 'LOGOUT_BUSINESS': {
+      return {
+        ...state,
+        businessAccount: false,
       };
     }
     default:
@@ -50,15 +64,27 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
     loading,
     refetch,
   } = useQuery(GET_USER, { nextFetchPolicy: 'network-only' });
-  const [session, setSession] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     console.log('Medata: ', currentUser, error, loading);
   }, [currentUser, error, loading]);
 
+  const switchToBusiness = () => dispatch({ type: 'SWITCH_BUSINESS' });
+  const logoutBusiness = () => dispatch({ type: 'SWITCH_BUSINESS' });
+
+  const logOut = () => {
+    sessionStorage.removeItem(USER_TOKEN);
+    refetch().then(() => {
+      router.push('/');
+    });
+  };
+
   const value = useMemo(
     () => ({
       ...state,
+      switchToBusiness,
+      logoutBusiness,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [state],
@@ -66,7 +92,13 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
 
   return (
     <UIContext.Provider
-      value={{ ...value, client, currentUser: currentUser?.me, refetch }}
+      value={{
+        ...value,
+        client,
+        currentUser: currentUser?.me,
+        refetch,
+        logOut,
+      }}
       {...props}
     />
   );
@@ -78,7 +110,15 @@ export const useAppContext = () => {
     throw new Error('useUI must be used within a UIProvider');
   }
 
-  return context;
+  return context as State & {
+    switchToBusiness: () => void;
+    logoutBusiness: () => void;
+    logOut: () => void;
+    currentUser?: Record<string, any>;
+    refetch: (
+      variables?: Partial<OperationVariables> | undefined,
+    ) => Promise<ApolloQueryResult<any>>;
+  };
 };
 
 export const AppContext: FC<{ children: React.ReactElement }> = ({
