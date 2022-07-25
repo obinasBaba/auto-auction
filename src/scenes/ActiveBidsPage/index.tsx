@@ -10,8 +10,11 @@ const ACTIVE_AUCTIONS = gql`
       id
       title
       startingDate
+      endingDate
       description
       startingBid
+      currentPrice
+      activeBids
       duration
       createdAt
       itemDetail {
@@ -57,14 +60,6 @@ const ACTIVE_AUCTIONS = gql`
         url
         name
       }
-
-      address {
-        id
-        city
-      }
-      itemDetail {
-        id
-      }
     }
   }
 `;
@@ -75,6 +70,7 @@ const SUBSCRIBE_CREATE_BID = gql`
       bid {
         id
         amount
+        newAmount
       }
       errors {
         message
@@ -92,6 +88,7 @@ const ActiveBidsPage = () => {
   } = useSubscription(SUBSCRIBE_CREATE_BID);
 
   const { data, loading, error, refetch } = useQuery(ACTIVE_AUCTIONS, {
+    nextFetchPolicy: 'cache-and-network',
     variables: {
       input: {
         status: ['active'],

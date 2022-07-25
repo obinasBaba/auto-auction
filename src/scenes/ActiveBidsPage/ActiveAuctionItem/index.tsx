@@ -1,5 +1,4 @@
 import React from 'react';
-import s from './activeauctionitem.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, InputAdornment, TextField, Typography } from '@mui/material';
@@ -8,6 +7,7 @@ import { useFormik } from 'formik';
 import { gql, useMutation } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
+import s from './activeauctionitem.module.scss';
 
 const CREATE_BID = gql`
   mutation ($input: BidInput!) {
@@ -33,12 +33,27 @@ const ActiveAuctionItem = ({ item }: any) => {
 
   useError(error);
 
+  const {
+    id,
+    currentPrice,
+    startingDate,
+    endingDate,
+    activeBids,
+    itemDetail: {
+      defaultImage: { url, name },
+    },
+  } = item;
+
+  const st = new Date(startingDate);
+  const e = new Date(endingDate);
+  const duration = new Date(st.getTime() - e.getTime());
+
   const formik = useFormik({
     initialValues: {
       amount: 0,
     },
     // validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, formikHelpers) => {
       console.log('onSubmit:', values);
       bid({
         variables: {
@@ -52,17 +67,11 @@ const ActiveAuctionItem = ({ item }: any) => {
       })
         .then((data) => {
           console.log('data: ', data);
+          formikHelpers.resetForm();
         })
         .catch(console.log);
     },
   });
-
-  const {
-    id,
-    itemDetail: {
-      defaultImage: { url, name },
-    },
-  } = item;
 
   return (
     <div className={s.container}>
@@ -98,12 +107,18 @@ const ActiveAuctionItem = ({ item }: any) => {
 
         <div className="model">
           <Settings />
-          <p>Subaru Champlin, Othoberg, Hi 797979</p>
+          <p>
+            Subaru Champlin, Othoberg, Hi 797979 {duration.getDay().toString()}{' '}
+          </p>
         </div>
 
         <div className="other_detail">
           <div className="col">
-            <h4>10d&nbsp;12hrs</h4>
+            <h4>
+              {duration.getDay().toString()}d&nbsp;
+              {duration.getHours().toString()}hr&nbsp;
+              {duration.getMinutes().toString()}m
+            </h4>
             <Typography
               variant="subtitle2"
               className="sub_detail"
@@ -121,9 +136,9 @@ const ActiveAuctionItem = ({ item }: any) => {
             >
               Auction Ending
             </Typography>
-          </div>{' '}
+          </div>
           <div className="col">
-            <h4>19</h4>
+            <h4>{activeBids || 0}</h4>
             <Typography
               variant="subtitle2"
               className="sub_detail"
@@ -133,7 +148,7 @@ const ActiveAuctionItem = ({ item }: any) => {
             </Typography>
           </div>
           <div className="col">
-            <h4>$ 23,333</h4>
+            <h4>$ {currentPrice}</h4>
             <Typography
               variant="subtitle2"
               className="sub_detail"
