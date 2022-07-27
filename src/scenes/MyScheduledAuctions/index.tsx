@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import s from './scheduled.module.scss';
 import Image from 'next/image';
-import { gql, useLazyQuery, useSubscription } from '@apollo/client';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
 import { Delete, Settings } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 const SCHEDULED = gql`
   query ScheduledList($myAuctionListId: ID!, $input: AuctionFilterInput) {
@@ -77,6 +78,7 @@ const CHECKUP = gql`
 const MyScheduledAuctions = () => {
   const { currentUser } = useAppContext();
   const [scheduled, setScheduled] = useState<any[]>([]);
+  const { enqueueSnackbar } = useSnackbar();
 
   const {
     data: subData,
@@ -84,39 +86,43 @@ const MyScheduledAuctions = () => {
     loading: subLoading,
   } = useSubscription(CHECKUP);
 
-  const [getScheduled, { data, loading, error, refetch }] = useLazyQuery(
-    SCHEDULED,
-    {
-      initialFetchPolicy: 'network-only',
-      nextFetchPolicy: 'network-only',
-      fetchPolicy: 'network-only',
-      variables: {
-        input: {
-          status: ['inactive'],
-        },
-        myAuctionListId: currentUser?.id,
+  const { data, loading, error, refetch } = useQuery(SCHEDULED, {
+    initialFetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
+    // pollInterval: 0,
+    variables: {
+      input: {
+        status: ['inactive'],
       },
+      myAuctionListId: currentUser?.id,
     },
-  );
+  });
 
   useError(error, data);
 
   useEffect(() => {
     // if (!currentUser) return;
     console.log('getSchedule useEffect');
-
-    getScheduled().then(({ data }) => {
-      console.log('getShcedue invoked');
-      if (data) {
-        setScheduled(data.myAuctionList);
-      }
-    });
-  }, [getScheduled]);
+    if (data) {
+      setScheduled(data.myAuctionList);
+    }
+  }, [data, loading, error]);
 
   useEffect(() => {
-    console.log('loading: ', subLoading, 'data: ', subData);
+    console.log(
+      'loading: ',
+      subLoading,
+      'schedule sub data ----------- : ',
+      subData,
+    );
+
+    if (subData) {
+      enqueueSnackbar('Your schedule is online: ', { variant: 'success' });
+    }
+
     refetch();
-  }, [subData, subLoading, refetch]);
+  }, [subData, subError, subLoading, refetch]);
 
   return (
     <div className={s.container}>
@@ -124,7 +130,7 @@ const MyScheduledAuctions = () => {
 
       <div className="empty">
         {scheduled.length === 0 ? (
-          <big>You have no scheduled auction </big>
+          <h1>You have no scheduled auction </h1>
         ) : null}
       </div>
 
@@ -172,6 +178,9 @@ const MyScheduledAuctions = () => {
               </div>
 
               <h3 className="year">$21,900</h3>
+              <Button variant="outlined" color="warning" size="small">
+                Edit
+              </Button>
               <IconButton color="primary">
                 <Delete />
               </IconButton>

@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
 import { gql, useMutation } from '@apollo/client';
 import useError from '@/helpers/useError';
+import { useRouter } from 'next/router';
 
 const CREATE_AUCTION = gql`
   mutation ($input: AuctionListingInput!) {
@@ -21,10 +22,11 @@ const CREATE_AUCTION = gql`
 `;
 
 const ListingCreated: ListingFormStepComponent = ({ formikProps }) => {
+  const router = useRouter();
   const { values } = formikProps;
   const [createAuction, { data, error, loading }] = useMutation(CREATE_AUCTION);
 
-  useError(error);
+  useError(error, data);
 
   useEffect(() => {
     console.log('data: ', data, loading);
@@ -57,7 +59,10 @@ const ListingCreated: ListingFormStepComponent = ({ formikProps }) => {
               },
             })
               .then((r) => {
-                console.log('create auction data ::    ', r.data.auctionCreate);
+                if (r.data?.auctionCreate) {
+                  console.log('create auction data:', r.data.auctionCreate);
+                  router.push('/dashboard/scheduled');
+                }
               })
               .catch(console.log);
           }}

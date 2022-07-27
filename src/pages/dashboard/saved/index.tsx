@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import s from './search.module.scss';
+import s from './saved.module.scss';
 import { gql, useQuery } from '@apollo/client';
 import useError from '@/helpers/useError';
 import Image from 'next/image';
@@ -83,7 +83,7 @@ const SavedPage = () => {
 
   return (
     <div className={s.container}>
-      <h1> your Saved cars</h1>
+      <h1> Saved Cars</h1>
 
       {savedCars.length ? (
         <div className="list">
@@ -150,7 +150,7 @@ const SavedPage = () => {
         </div>
       ) : (
         <div className="center">
-          <big color="tomato">You don&apos;t have any SOLD cars</big>
+          <h1 color="tomato">You don&apos;t have any sold cars</h1>
         </div>
       )}
     </div>

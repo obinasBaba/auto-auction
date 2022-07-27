@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import s from './scheduled.module.scss';
 import Image from 'next/image';
-import { gql, useLazyQuery } from '@apollo/client';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
 import { Delete, Settings } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 const ONLINE_AUCTIONS = gql`
   query OnlineList($myAuctionListId: ID!, $input: AuctionFilterInput) {
@@ -67,8 +68,29 @@ const AUCTION_CREATED = gql`
   }
 `;
 
+const CHECKUP = gql`
+  subscription {
+    checkUp {
+      errors {
+        message
+      }
+
+      ended {
+        id
+        status
+      }
+
+      started {
+        id
+        status
+      }
+    }
+  }
+`;
+
 const MyActiveAuctionsPage = () => {
   const { currentUser } = useAppContext();
+  const { enqueueSnackbar } = useSnackbar();
   const [onlineAuctions, setOnlineAuctions] = useState<any[]>([]);
   /*
     const {
@@ -77,34 +99,51 @@ const MyActiveAuctionsPage = () => {
       loading: subLoading,
     } = useSubscription(AUCTION_CREATED);*/
 
-  const [getOnlineAuctions, { data, loading, error, refetch }] = useLazyQuery(
-    ONLINE_AUCTIONS,
-    {
-      initialFetchPolicy: 'network-only',
-      nextFetchPolicy: 'network-only',
-      fetchPolicy: 'network-only',
-      variables: {
-        input: {
-          status: ['active'],
-        },
-        myAuctionListId: currentUser?.id,
+  const { data, loading, error, refetch } = useQuery(ONLINE_AUCTIONS, {
+    initialFetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
+    variables: {
+      input: {
+        status: ['active'],
       },
+      myAuctionListId: currentUser?.id,
     },
-  );
+  });
 
-  useError(error);
+  const {
+    data: subData,
+    error: subError,
+    loading: subLoading,
+  } = useSubscription(CHECKUP);
+
+  useEffect(() => {
+    console.log(
+      'loading: ',
+      subLoading,
+      'schedule sub data ----------- : ',
+      subData,
+    );
+
+    if (subData) {
+      enqueueSnackbar('Your auction is ended: ', { variant: 'warning' });
+    }
+
+    refetch();
+  }, [subData, subError, subLoading, refetch]);
+
+  useError(error, data);
 
   useEffect(() => {
     // if (!currentUser) return;
     console.log('getSchedule useEffect');
 
-    getOnlineAuctions().then(({ data }) => {
+    if (data) {
       console.log('getShcedue invoked');
-      if (data) {
-        setOnlineAuctions(data.myAuctionList);
-      }
-    });
-  }, [getOnlineAuctions]);
+
+      setOnlineAuctions(data.myAuctionList);
+    }
+  }, [data, loading, error]);
 
   /* useEffect(() => {
      console.log('loading: ', subLoading, 'data: ', subData);
@@ -115,11 +154,11 @@ const MyActiveAuctionsPage = () => {
 
   return (
     <div className={s.container}>
-      <h1>Online Auctions</h1>
+      <h1>Your Active Auctions</h1>
 
       <div className="empty">
         {onlineAuctions.length === 0 ? (
-          <big>You have no online auction </big>
+          <h1>You have no online auction </h1>
         ) : null}
       </div>
 

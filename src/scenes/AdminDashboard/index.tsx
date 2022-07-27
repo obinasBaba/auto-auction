@@ -55,13 +55,13 @@ const AdminDashboard = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <PendingPage verifiedOnly={false} />
+        <PendingPage verifiedOnly={false} permissionValue="applied" />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PendingPage verifiedOnly={true} />
+        <PendingPage verifiedOnly={true} permissionValue="accepted" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <PendingPage verifiedOnly={true} permissionValue="rejected" />
       </TabPanel>
     </div>
   );

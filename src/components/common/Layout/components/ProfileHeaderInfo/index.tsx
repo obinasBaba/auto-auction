@@ -3,11 +3,11 @@ import s from './profileheaderinfo.module.scss';
 import Image from 'next/image';
 import Car1 from '@/public/car5.jpg';
 import { Avatar, IconButton, Typography } from '@mui/material';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { ArrowBack } from '@mui/icons-material';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { useAppContext } from '@/context';
 
 type HeaderInfo = {
   headerInfo: {
@@ -21,7 +21,7 @@ type HeaderInfo = {
 const ProfileHeaderInfo: React.FC<HeaderInfo> = ({
   headerInfo: { title, subTitle, index },
 }: HeaderInfo) => {
-  const { data: session } = useSession();
+  const { currentUser } = useAppContext();
   const { pathname } = useRouter();
 
   return (
@@ -36,11 +36,9 @@ const ProfileHeaderInfo: React.FC<HeaderInfo> = ({
 
         <div className={clsx({ content: true, hor: !index })}>
           {index ? (
-            <Avatar
-              className="avatar"
-              sx={{ width: 80, height: 80 }}
-              src={(index && session?.user?.image) || ''}
-            />
+            <Avatar className="avatar" sx={{ width: 70, height: 70 }}>
+              {currentUser?.email?.at(0).toUpperCase()}
+            </Avatar>
           ) : (
             <Link href="/dashboard/profile">
               <a>
@@ -52,8 +50,8 @@ const ProfileHeaderInfo: React.FC<HeaderInfo> = ({
           )}
 
           <div className="name">
-            <h1>{title || session?.user?.name}</h1>
-            <Typography>{subTitle || session?.user?.email}</Typography>
+            <h1>{currentUser?.email?.slice(0, 5)}</h1>
+            <Typography>{currentUser?.email}</Typography>
           </div>
         </div>
       </div>

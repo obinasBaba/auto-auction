@@ -55,7 +55,7 @@ const ItemButton = (props: any) => '';
 
 const ProfileIconButton = (props: any) => {
   const {
-    currentUser: { merchantId, verified, id },
+    currentUser: { merchantId, verified, id, email, permission },
   } = useAppContext();
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ const ProfileIconButton = (props: any) => {
   return (
     <motion.div className={s.container} layout>
       <IconButton color="primary" onClick={() => setShow(!show)}>
-        <Avatar className="pp" />
+        <Avatar className="pp">{email?.at(0)}</Avatar>
       </IconButton>
 
       <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
@@ -119,7 +119,7 @@ const ProfileIconButton = (props: any) => {
                   /* switchToBusiness();
                   setTimeout(() => setShow(false), 0);
                   return;*/
-                  if (merchantId && verified) {
+                  if (merchantId && permission === 'accepted') {
                     switchToBusiness();
                     setShow(false);
                   } else {

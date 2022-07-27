@@ -5,6 +5,8 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { data } from './index';
+import s from './profile.module.scss';
+import { Avatar, Box, Skeleton } from '@mui/material';
 
 export async function getStaticProps({
   params,
@@ -48,9 +50,53 @@ const ProfileSetting: React.FC<
   InferGetStaticPropsType<typeof getStaticProps>
 > = ({ pageName }) => {
   return (
-    <div>
-      <h1>PROFILE SETTING PAGE</h1>
-      <h1>pageName: {pageName}</h1>
+    <div className={s.slug}>
+      <div className="wrapper">
+        <div>
+          <Skeleton width="100%" />
+          <Skeleton
+            sx={{ borderRadius: '10px' }}
+            variant="rectangular"
+            height={218}
+            animation="wave"
+          />
+          <Box sx={{ pt: 0.5 }}>
+            <Skeleton width="60%" animation="wave" />
+          </Box>
+          <Skeleton variant="circular">
+            <Avatar />
+          </Skeleton>
+        </div>
+
+        <div>
+          <Skeleton width="100%" />
+          <Skeleton
+            sx={{ borderRadius: '10px' }}
+            variant="rectangular"
+            height={218}
+            animation="wave"
+          />
+          <Box sx={{ pt: 0.5 }}>
+            <Skeleton width="60%" />
+          </Box>
+          <Skeleton variant="circular">
+            <Avatar />
+          </Skeleton>
+        </div>
+
+        <div>
+          <Skeleton width="100%" />
+          <Skeleton
+            sx={{ borderRadius: '10px' }}
+            variant="rectangular"
+            height={218}
+            animation="wave"
+          />
+          <Box sx={{ pt: 0.5 }}>
+            <Skeleton width="60%" />
+          </Box>
+        </div>
+      </div>
     </div>
   );
 };

@@ -93,3 +93,23 @@
     }
   }
 }
+
+.slug{
+
+  & :global{
+
+    .wrapper{
+      @include s.padding(2rem);
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      grid-row-gap: 4rem;
+
+
+      & > :last-child{
+        grid-column: span 2;
+      }
+    }
+  }
+}

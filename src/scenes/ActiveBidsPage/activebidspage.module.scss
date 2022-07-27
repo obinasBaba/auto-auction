@@ -11,6 +11,19 @@
 
   & :global {
 
+    .title{
+
+    }
+
+    .center{
+      margin-top: 10rem;
+      width: 100%;
+      text-align: center;
+
+      h1{
+        color: silver;
+      }
+    }
 
 
     .wrapper {

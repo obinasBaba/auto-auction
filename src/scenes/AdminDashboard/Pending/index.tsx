@@ -23,6 +23,7 @@ const NEW_MERCHANTS = gql`
       userId
       createdAt
       licenceUrl
+      permission
     }
   }
 `;
@@ -43,7 +44,7 @@ const MERCHANT_VERIFY = gql`
   }
 `;
 
-const Pending = ({ verifiedOnly }: any) => {
+const Pending = ({ verifiedOnly, permissionValue }: any) => {
   const { currentUser } = useAppContext();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [pendingUser, setPendingUser] = useState<any[]>([]);
@@ -55,6 +56,7 @@ const Pending = ({ verifiedOnly }: any) => {
     nextFetchPolicy: 'network-only',
     fetchPolicy: 'network-only',
     skip: !currentUser?.id,
+    pollInterval: 1,
     variables: {},
   });
 
@@ -99,10 +101,18 @@ const Pending = ({ verifiedOnly }: any) => {
           </TableHead>
           <TableBody>
             {pendingUser
-              .filter(({ verified }) => verified == verifiedOnly)
+              .filter(({ permission }) => permission == permissionValue)
               .map(
                 (
-                  { email, verified, id, userId, createdAt, licenceUrl },
+                  {
+                    email,
+                    verified,
+                    id,
+                    userId,
+                    createdAt,
+                    licenceUrl,
+                    permission,
+                  },
                   idx,
                 ) => (
                   <TableRow
@@ -113,7 +123,7 @@ const Pending = ({ verifiedOnly }: any) => {
                       {email.slice(0, 5)}
                     </TableCell>
                     <TableCell align="left">{email}</TableCell>
-                    <TableCell align="left">{createdAt}</TableCell>
+                    <TableCell align="left">{createdAt} </TableCell>
                     <TableCell align="left">
                       <div className="licence_img">
                         <a href={licenceUrl} target="_blank" rel="noreferrer">
@@ -142,6 +152,7 @@ const Pending = ({ verifiedOnly }: any) => {
                               variables: {
                                 input: {
                                   merchantId: id,
+                                  value: 'accepted',
                                 },
                               },
                             })
@@ -163,7 +174,35 @@ const Pending = ({ verifiedOnly }: any) => {
                         >
                           Accept
                         </Button>
-                        <Button variant="outlined" size="small" color="error">
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="error"
+                          onClick={() => {
+                            verify({
+                              variables: {
+                                input: {
+                                  merchantId: id,
+                                  value: 'rejected',
+                                },
+                              },
+                            })
+                              .then(({ data, errors }) => {
+                                console.log('verify data: ', data, errors);
+                                if (data?.merchantVerify?.merchant) {
+                                  refetch().then(() => {
+                                    enqueueSnackbar(
+                                      `user - ${id} is now Rejected!`,
+                                      {
+                                        variant: 'warning',
+                                      },
+                                    );
+                                  });
+                                }
+                              })
+                              .catch(JSON.stringify);
+                          }}
+                        >
                           Reject
                         </Button>
                       </Stack>

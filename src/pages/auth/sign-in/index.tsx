@@ -36,7 +36,7 @@ const SignIn = ({}) => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const router = useRouter();
   const {
-    currentUser: { id, merchantId, verified },
+    currentUser: { id, merchantId, permission },
     refetch,
   } = useAppContext();
   const [createMerchant, { data, error, loading }] =
@@ -53,20 +53,21 @@ const SignIn = ({}) => {
     onSubmit: (values) => {
       console.log('submit: ', values);
 
-      if (!values.images[0].url) {
+      if (!values?.images[0]?.url) {
         enqueueSnackbar('upload your licence please', { variant: 'error' });
-        return;
+        // return;
       }
 
       createMerchant({
         variables: {
           input: {
             licenceUrl:
-              values.images[0].url ||
+              values?.images[0]?.url ||
               'https://res.cloudinary.com/dltkxbnvk/image/upload/v1657284965/2015_NISSAN%20SENTRA%20S/0-47399232_Image_1.jpg.jpg',
           },
         },
       }).then(({ data, errors }) => {
+        refetch();
         console.log('data: ', data, errors);
         if (errors && errors.length > 0) {
           return enqueueSnackbar(errors[0].message, {
@@ -85,19 +86,32 @@ const SignIn = ({}) => {
   });
 
   useEffect(() => {
-    if (verified) {
+    if (permission === 'accepted') {
       router.push('/dashboard');
     }
+
+    if (permission === 'rejected') {
+      enqueueSnackbar(
+        'Your business account has been rejected please apply again',
+        {
+          variant: 'error',
+          autoHideDuration: 7,
+        },
+      );
+    }
+
     // formik.handleChange
-  }, [verified]);
+  }, [permission]);
 
   return (
     <div className={clsx([s.container])}>
       <motion.div className="wrapper" layout>
-        {!merchantId ? (
+        {permission === 'new' || permission !== 'applied' ? (
           <>
             <header>
-              <h1 className="title">Sign Up for business account</h1>
+              <h1 className="title">
+                Sign Up for business account {permission}{' '}
+              </h1>
             </header>
 
             <div className="sign_in_wrapper">

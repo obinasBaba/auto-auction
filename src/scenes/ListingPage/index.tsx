@@ -96,7 +96,7 @@ const steps = [
         apartmentNumber: yup.number().required('what is your home number'),
       }),
     }),
-  },*/
+  },
   {
     name: 'PHOTOS',
     components: (props: any) => <VehiclePhoto {...props} />,
@@ -119,7 +119,7 @@ const steps = [
         price: yup.number(),
       }),
     }),
-  },
+  },*/
   {
     name: 'RULE',
     components: (props: any) => <AuctionRules {...props} />,
@@ -282,7 +282,7 @@ const ListingPage = () => {
                       <pre>{JSON.stringify(formikProps.values, null, 2)}</pre>
                     </div>
 
-                    {idx != 40 - 1 && (
+                    {idx != steps.length - 1 && (
                       <motion.div className={s.control_btn} layout>
                         {idx !== 0 && (
                           <Button

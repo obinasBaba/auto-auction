@@ -11,15 +11,6 @@ import ProgressCircle from '@/components/ProgressCircle';
 import { MotionValue } from 'framer-motion';
 import { useAppContext } from '@/context';
 import Image from 'next/image';
-/*import cloudinary from 'cloudinary';
-
-cloudinary.v2.config({
-  cloud_name: 'dltkxbnvk',
-  api_key: '577792539154293',
-  api_secret: 'vLVZ03z1OdkFA8lzjuUK9AvD85I',
-  secure: true,
-
-})*/
 
 export const map = (
   value: number,

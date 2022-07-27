@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import s from './activebidspage.module.scss';
 import { gql, useQuery, useSubscription } from '@apollo/client';
 import ActiveAuctionItem from '@/scenes/ActiveBidsPage/ActiveAuctionItem';
+import { useSnackbar } from 'notistack';
 import useError from '@/helpers/useError';
+import { useAppContext } from '@/context';
 
 const ACTIVE_AUCTIONS = gql`
   query ActiveAuction($input: AuctionFilterInput) {
@@ -73,6 +75,7 @@ const SUBSCRIBE_CREATE_BID = gql`
         id
         amount
         newAmount
+        dealerId
       }
       errors {
         message
@@ -83,6 +86,9 @@ const SUBSCRIBE_CREATE_BID = gql`
 
 const ActiveBidsPage = () => {
   const [activeAuctions, setActiveAuctions] = useState<any[]>([]);
+  const { currentUser } = useAppContext();
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
     data: subData,
     error: subError,
@@ -104,6 +110,12 @@ const ActiveBidsPage = () => {
 
   useEffect(() => {
     if (subData) {
+      console.log('subscrition data:', subData);
+      if (subData.bidCreate.bid.dealerId !== currentUser?.id) {
+        enqueueSnackbar('there is a new bid, on auction-1', {
+          variant: 'info',
+        });
+      }
       refetch();
     }
   }, [subError, subData, subLoading, refetch]);
@@ -121,17 +133,22 @@ const ActiveBidsPage = () => {
 
   return (
     <div className={s.container}>
+      <h1 className="title">Active Bids</h1>
+
       <div className="wrapper">
         {activeAuctions.length ? (
-          activeAuctions.map((item, index) => (
+          activeAuctions.map((auction, index) => (
             <ActiveAuctionItem
-              item={item}
+              auction={auction}
+              refetch={refetch}
               className="auction_item"
               key={index}
             />
           ))
         ) : (
-          <h1>no active auction</h1>
+          <div className="center">
+            <h1>no active auction</h1>
+          </div>
         )}
       </div>
     </div>

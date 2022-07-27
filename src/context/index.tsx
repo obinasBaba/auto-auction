@@ -56,6 +56,7 @@ const GET_USER = gql`
       merchantId
       verified
       isAdmin
+      permission
     }
   }
 `;
@@ -67,6 +68,7 @@ const MERCHANT_VERIFIED = gql`
       userId
       verified
       licenceUrl
+      permission
     }
   }
 `;
@@ -113,9 +115,16 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
     }
     if (subData?.merchantVerified) {
       refetch();
-      enqueueSnackbar('Your business account is verified', {
-        variant: 'success',
-      });
+
+      if (subData.merchantVerified?.permission === 'accepted') {
+        enqueueSnackbar('Your business account is verified', {
+          variant: 'success',
+        });
+      } else if (subData.merchantVerified?.permission === 'rejected') {
+        enqueueSnackbar('Your business account is Rejected', {
+          variant: 'error',
+        });
+      }
     }
   }, [subData, subError, subLoading]);
 

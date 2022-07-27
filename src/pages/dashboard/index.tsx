@@ -53,6 +53,7 @@ const DashBoard = () => {
               <Avatar />
             </Skeleton>
           </div>
+
           <div>
             <Skeleton width="100%" />
             <Skeleton
@@ -67,6 +68,30 @@ const DashBoard = () => {
             <Skeleton variant="circular">
               <Avatar />
             </Skeleton>
+          </div>
+          <div>
+            <Skeleton width="100%" />
+            <Skeleton
+              sx={{ borderRadius: '10px' }}
+              variant="rectangular"
+              height={218}
+              animation="wave"
+            />
+            <Box sx={{ pt: 0.5 }}>
+              <Skeleton width="60%" />
+            </Box>
+          </div>
+          <div>
+            <Skeleton width="100%" />
+            <Skeleton
+              sx={{ borderRadius: '10px' }}
+              variant="rectangular"
+              height={218}
+              animation="wave"
+            />
+            <Box sx={{ pt: 0.5 }}>
+              <Skeleton width="60%" />
+            </Box>
           </div>
         </div>
       )}

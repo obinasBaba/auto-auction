@@ -1,6 +1,8 @@
 @use '@/styles' as s;
 
 .container {
+  @include s.margin(top, 2rem);
+  @include s.padding(2rem);
 
   & :global {
 

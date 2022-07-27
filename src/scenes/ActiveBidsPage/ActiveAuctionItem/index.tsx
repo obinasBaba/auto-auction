@@ -4,10 +4,11 @@ import Image from 'next/image';
 import { Button, InputAdornment, TextField, Typography } from '@mui/material';
 import { Settings } from '@mui/icons-material';
 import { useFormik } from 'formik';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useSubscription } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
 import s from './activeauctionitem.module.scss';
+import { useSnackbar } from 'notistack';
 
 const CREATE_BID = gql`
   mutation ($input: BidInput!) {
@@ -27,12 +28,23 @@ const CREATE_BID = gql`
   }
 `;
 
-const ActiveAuctionItem = ({ item }: any) => {
+const ON_BID = gql`
+  subscription {
+    bidCreate {
+      bid {
+        amount
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
+
+const ActiveAuctionItem = ({ auction, refetch }: any) => {
   const [bid, { data, error, loading, called }] = useMutation(CREATE_BID);
   const { currentUser } = useAppContext();
   const [lastBid, setLastBid] = useState<any>();
-
-  useError(error, data);
 
   const {
     id,
@@ -45,7 +57,10 @@ const ActiveAuctionItem = ({ item }: any) => {
     itemDetail: {
       defaultImage: { url, name },
     },
-  } = item;
+  } = auction;
+
+  // useError(subError, subData);
+  useError(error, data);
 
   const st = new Date(startingDate);
   const e = new Date(endingDate);
@@ -53,9 +68,6 @@ const ActiveAuctionItem = ({ item }: any) => {
   const disable = userId == currentUser?.id;
 
   useEffect(() => {
-    console.log('highestBid: ', highestBid, 'userId: ');
-    console.log('lastBid: ', data);
-
     if (data?.bidCreate?.bid) {
       setLastBid(data.bidCreate?.bid);
       console.log('lastBid-', data.bidCreate?.bid);
@@ -68,7 +80,7 @@ const ActiveAuctionItem = ({ item }: any) => {
     },
     // validationSchema: validationSchema,
     onSubmit: (values, formikHelpers) => {
-      console.log('onBid submit:', values);
+      // console.log('onBid submit:', values);
       bid({
         variables: {
           input: {
@@ -109,7 +121,7 @@ const ActiveAuctionItem = ({ item }: any) => {
 
         <div className="header_detail">
           <Typography variant="body2" className="vin_detail" color="secondary">
-            # {23232323} {userId} {currentUser?.id}
+            # {23232323} Lb:{lastBid?.id} h:{highestBid} i:{currentUser?.id}
           </Typography>
           <h2 className="title">bmw 424 sport package</h2>
           <Typography
@@ -183,7 +195,7 @@ const ActiveAuctionItem = ({ item }: any) => {
               name="amount"
               type="number"
               variant="outlined"
-              disabled={highestBid == lastBid?.id || disable}
+              disabled={highestBid === lastBid?.id || disable}
               color="primary"
               label="Place your bid"
               placeholder={
@@ -205,7 +217,9 @@ const ActiveAuctionItem = ({ item }: any) => {
                       variant="contained"
                       size="large"
                       type="submit"
-                      disabled={highestBid == lastBid?.id || disable}
+                      disabled={
+                        (lastBid?.id && highestBid == lastBid?.id) || disable
+                      }
                     >
                       Place Bid
                     </Button>

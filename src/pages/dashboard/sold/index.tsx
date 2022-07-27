@@ -148,7 +148,7 @@ const SoldPage = () => {
         </div>
       ) : (
         <div className="center">
-          <big color="tomato">You don&apos;t have any SOLD cars</big>
+          <h1>You don&apos;t have any SOLD cars</h1>
         </div>
       )}
     </div>

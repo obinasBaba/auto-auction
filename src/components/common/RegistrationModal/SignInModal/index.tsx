@@ -80,6 +80,12 @@ const SignInModal = ({ switchModal }: any) => {
         .then(({ errors: gErrors, data, context, extensions }) => {
           console.log(data);
           const { errors, user, authToken } = data.userLogin;
+
+          if (errors?.length > 0) {
+            enqueueSnackbar(errors[0].message, { variant: 'error' });
+            return;
+          }
+
           if (user && authToken) {
             setUserToken(authToken);
             refetch();
