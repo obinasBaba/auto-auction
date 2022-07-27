@@ -18,6 +18,8 @@ import {
 } from '@mui/icons-material';
 import Link from 'next/link';
 import { useAppContext } from '@/context';
+import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 const popupVariants: Variants = {
   initial: {
@@ -52,8 +54,12 @@ const popupVariants: Variants = {
 const ItemButton = (props: any) => '';
 
 const ProfileIconButton = (props: any) => {
-  const { currentUser } = props;
+  const {
+    currentUser: { merchantId, verified, id },
+  } = useAppContext();
+  const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [show, setShow] = useState<boolean>(false);
 
@@ -66,7 +72,7 @@ const ProfileIconButton = (props: any) => {
   return (
     <motion.div className={s.container} layout>
       <IconButton color="primary" onClick={() => setShow(!show)}>
-        <Avatar className="pp" src={currentUser?.image ?? '/'} />
+        <Avatar className="pp" />
       </IconButton>
 
       <AnimatePresence exitBeforeEnter custom={{ globalObj: {} }}>
@@ -110,8 +116,20 @@ const ProfileIconButton = (props: any) => {
               <ListItemButton
                 className="list_item_btn"
                 onClick={() => {
-                  switchToBusiness();
+                  /* switchToBusiness();
                   setTimeout(() => setShow(false), 0);
+                  return;*/
+                  if (merchantId && verified) {
+                    switchToBusiness();
+                    setShow(false);
+                  } else {
+                    router.push('/auth/sign-in').then(() => {
+                      enqueueSnackbar('You need to create a business account', {
+                        variant: 'warning',
+                      });
+                      setShow(false);
+                    });
+                  }
                 }}
               >
                 <ListItemIcon>

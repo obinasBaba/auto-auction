@@ -1,8 +1,10 @@
 import React, { useLayoutEffect } from 'react';
-import { Typography } from '@mui/material';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useAppContext } from '@/context';
+import AdminDashboard from '@/scenes/AdminDashboard';
+import { Avatar, Box, Skeleton } from '@mui/material';
+import s from './dashboard.module.scss';
 
 export async function getStaticProps({}: GetStaticPropsContext<{
   slug: string;
@@ -31,8 +33,43 @@ const DashBoard = () => {
   if (!currentUser) return null;
 
   return (
-    <div>
-      <Typography variant="h1">DashBoard Content</Typography>
+    <div className={s.container}>
+      {currentUser?.isAdmin ? (
+        <AdminDashboard />
+      ) : (
+        <div className="grid">
+          <div>
+            <Skeleton width="100%" />
+            <Skeleton
+              sx={{ borderRadius: '10px' }}
+              variant="rectangular"
+              height={218}
+              animation="wave"
+            />
+            <Box sx={{ pt: 0.5 }}>
+              <Skeleton width="60%" animation="wave" />
+            </Box>
+            <Skeleton variant="circular">
+              <Avatar />
+            </Skeleton>
+          </div>
+          <div>
+            <Skeleton width="100%" />
+            <Skeleton
+              sx={{ borderRadius: '10px' }}
+              variant="rectangular"
+              height={218}
+              animation="wave"
+            />
+            <Box sx={{ pt: 0.5 }}>
+              <Skeleton width="60%" />
+            </Box>
+            <Skeleton variant="circular">
+              <Avatar />
+            </Skeleton>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

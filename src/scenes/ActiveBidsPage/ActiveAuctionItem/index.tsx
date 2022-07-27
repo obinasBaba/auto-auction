@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, InputAdornment, TextField, Typography } from '@mui/material';
@@ -30,15 +30,18 @@ const CREATE_BID = gql`
 const ActiveAuctionItem = ({ item }: any) => {
   const [bid, { data, error, loading, called }] = useMutation(CREATE_BID);
   const { currentUser } = useAppContext();
+  const [lastBid, setLastBid] = useState<any>();
 
-  useError(error);
+  useError(error, data);
 
   const {
     id,
+    userId,
     currentPrice,
     startingDate,
     endingDate,
     activeBids,
+    highestBid,
     itemDetail: {
       defaultImage: { url, name },
     },
@@ -47,14 +50,25 @@ const ActiveAuctionItem = ({ item }: any) => {
   const st = new Date(startingDate);
   const e = new Date(endingDate);
   const duration = new Date(st.getTime() - e.getTime());
+  const disable = userId == currentUser?.id;
+
+  useEffect(() => {
+    console.log('highestBid: ', highestBid, 'userId: ');
+    console.log('lastBid: ', data);
+
+    if (data?.bidCreate?.bid) {
+      setLastBid(data.bidCreate?.bid);
+      console.log('lastBid-', data.bidCreate?.bid);
+    }
+  }, [data, loading, called]);
 
   const formik = useFormik({
     initialValues: {
-      amount: 0,
+      amount: '',
     },
     // validationSchema: validationSchema,
     onSubmit: (values, formikHelpers) => {
-      console.log('onSubmit:', values);
+      console.log('onBid submit:', values);
       bid({
         variables: {
           input: {
@@ -66,7 +80,6 @@ const ActiveAuctionItem = ({ item }: any) => {
         },
       })
         .then((data) => {
-          console.log('data: ', data);
           formikHelpers.resetForm();
         })
         .catch(console.log);
@@ -78,21 +91,25 @@ const ActiveAuctionItem = ({ item }: any) => {
       <Link href={`./auction/${'car1'}`}>
         <a>
           <div className="car_img">
-            <Image
-              alt={name}
-              src={url}
-              height="100%"
-              width="100%"
-              layout="fill"
-              objectFit="cover"
-            />
+            <Image alt={name} src={url} layout="fill" objectFit="cover" />
           </div>
         </a>
       </Link>
       <div className="detail">
+        {userId == currentUser?.id && (
+          <Button
+            color="primary"
+            variant="outlined"
+            size="small"
+            className="edit_btn"
+          >
+            Edit
+          </Button>
+        )}
+
         <div className="header_detail">
           <Typography variant="body2" className="vin_detail" color="secondary">
-            # {23232323}
+            # {23232323} {userId} {currentUser?.id}
           </Typography>
           <h2 className="title">bmw 424 sport package</h2>
           <Typography
@@ -166,18 +183,30 @@ const ActiveAuctionItem = ({ item }: any) => {
               name="amount"
               type="number"
               variant="outlined"
+              disabled={highestBid == lastBid?.id || disable}
               color="primary"
-              label="Start typing"
+              label="Place your bid"
+              placeholder={
+                highestBid == lastBid?.id
+                  ? `Your bid was:  ${lastBid?.amount} $`
+                  : 'Place your bid'
+              }
               helperText="(Minimum $4,500)"
               value={formik.values.amount}
               onChange={formik.handleChange}
+              focused={false}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">$</InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <Button variant="contained" size="large" type="submit">
+                    <Button
+                      variant="contained"
+                      size="large"
+                      type="submit"
+                      disabled={highestBid == lastBid?.id || disable}
+                    >
                       Place Bid
                     </Button>
                   </InputAdornment>

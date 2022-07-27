@@ -96,7 +96,7 @@ const steps = [
         apartmentNumber: yup.number().required('what is your home number'),
       }),
     }),
-  },
+  },*/
   {
     name: 'PHOTOS',
     components: (props: any) => <VehiclePhoto {...props} />,
@@ -119,7 +119,7 @@ const steps = [
         price: yup.number(),
       }),
     }),
-  },*/
+  },
   {
     name: 'RULE',
     components: (props: any) => <AuctionRules {...props} />,
@@ -272,7 +272,7 @@ const ListingPage = () => {
                         maxWidth: '40ch',
                         fontSize: '.8rem',
                         pointerEvents: 'none',
-                        // display: 'none',
+                        display: 'none',
                         // display: idx != steps.length - 1 ? 'none' : 'block',
                       }}
                     >

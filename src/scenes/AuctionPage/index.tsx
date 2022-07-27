@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import s from './auctionpage.module.scss';
 import Image from 'next/image';
-import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import {
   AddCircleTwoTone,
   ArrowForwardIos,
+  BookmarkTwoTone,
   FilterAlt,
   RemoveCircleTwoTone,
   Settings,
@@ -12,7 +19,10 @@ import {
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import { MotionWrapper } from '@/components/MotionWrapper';
 import Link from 'next/link';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useSnackbar } from 'notistack';
+import { useAppContext } from '@/context';
+import useError from '@/helpers/useError';
 
 const FilterItem = ({ label }: any) => {
   const [show, setShow] = useState<boolean>(false);
@@ -66,6 +76,7 @@ const ALL_AUCTIONS = gql`
     auctionList(input: $input) {
       id
       title
+      savedId
       startingDate
       description
       startingBid
@@ -115,12 +126,18 @@ const ALL_AUCTIONS = gql`
         url
         name
       }
+    }
+  }
+`;
 
-      address {
-        id
-        city
+const AUCTION_SAVE = gql`
+  mutation ($input: AuctionSaveInput!) {
+    auctionSave(input: $input) {
+      errors {
+        message
       }
-      itemDetail {
+
+      auction {
         id
       }
     }
@@ -128,8 +145,16 @@ const ALL_AUCTIONS = gql`
 `;
 
 const AuctionPage = () => {
-  const { data, loading, error } = useQuery(ALL_AUCTIONS, {});
+  const { data, loading, error, refetch } = useQuery(ALL_AUCTIONS, {
+    fetchPolicy: 'cache-and-network',
+  });
   const [auctionList, setAuctionList] = useState<any[]>([]);
+  const { enqueueSnackbar } = useSnackbar();
+  const { currentUser } = useAppContext();
+  const [save, { data: dataMu, error: errorMu, loading: loadingMu }] =
+    useMutation(AUCTION_SAVE);
+
+  useError(errorMu, dataMu);
 
   useEffect(() => {
     console.log('all auctions: ', data, loading);
@@ -138,10 +163,36 @@ const AuctionPage = () => {
     }
 
     if (data) {
-      console.log(data.auctionList[0]);
       setAuctionList(data.auctionList);
     }
   }, [data, loading, error]);
+
+  function saveAuction(id: any) {
+    save({
+      variables: {
+        input: {
+          auctionId: id,
+          userId: currentUser?.id,
+        },
+      },
+    })
+      .then(({ data, errors }) => {
+        console.log('save data:', data, errors);
+        if (errors) {
+          return enqueueSnackbar('error saving', { variant: 'error' });
+        }
+
+        if (data?.auctionSave?.auction) {
+          refetch();
+          return enqueueSnackbar('auction saved successfully', {
+            variant: 'success',
+          });
+        }
+      })
+      .catch((err) => {
+        console.log('saveErro', err);
+      });
+  }
 
   return (
     <div className={s.container}>
@@ -155,6 +206,7 @@ const AuctionPage = () => {
               {
                 id,
                 status,
+                savedId,
                 itemDetail: {
                   vin,
                   name,
@@ -163,10 +215,10 @@ const AuctionPage = () => {
               },
               idx,
             ) => (
-              <Link href={`./auction/${'car1'}`} key={id}>
-                <a>
-                  <div className="auction_item">
-                    <div className="car_img">
+              <div className="auction_item" key={id}>
+                <div className="car_img">
+                  <Link href={`./auction/${'car1'}`}>
+                    <a>
                       <Image
                         alt={imgName}
                         src={url}
@@ -175,78 +227,86 @@ const AuctionPage = () => {
                         layout="fill"
                         objectFit="cover"
                       />
+                    </a>
+                  </Link>
+                </div>
+
+                <div className="detail">
+                  <div className="header_detail">
+                    <Typography
+                      variant="body2"
+                      className="vin_detail"
+                      color="secondary"
+                    >
+                      # {vin} saved: {savedId}
+                    </Typography>
+                    <h2 className="title">{name}</h2>
+
+                    <IconButton
+                      className="bookmark"
+                      color="primary"
+                      style={{ opacity: savedId && 1 }}
+                      onClick={() => !savedId && saveAuction(id)}
+                    >
+                      <BookmarkTwoTone />
+                    </IconButton>
+
+                    <Typography
+                      variant="subtitle2"
+                      className="sub_detail"
+                      color="secondary"
+                    >
+                      11,475 Miles &nbsp; &#8226; &nbsp; White &nbsp; &#8226;
+                      &nbsp; AWD &nbsp; &#8226; &nbsp; 4-Cylinder Turbo
+                    </Typography>
+                  </div>
+
+                  <div className="model">
+                    <Settings />
+                    <p>Subaru Champlin, Othoberg, Hi 797979</p>
+                  </div>
+
+                  <div className="other_detail">
+                    <div className="col">
+                      <h4>$21,480</h4>
+                      <Typography
+                        variant="subtitle2"
+                        className="sub_detail"
+                        color="secondary"
+                      >
+                        price
+                      </Typography>
                     </div>
-                    <div className="detail">
-                      <div className="header_detail">
-                        <Typography
-                          variant="body2"
-                          className="vin_detail"
-                          color="secondary"
-                        >
-                          # {vin}
-                        </Typography>
-                        <h2 className="title">{name}</h2>
-                        <Typography
-                          variant="subtitle2"
-                          className="sub_detail"
-                          color="secondary"
-                        >
-                          11,475 Miles &nbsp; &#8226; &nbsp; White &nbsp;
-                          &#8226; &nbsp; AWD &nbsp; &#8226; &nbsp; 4-Cylinder
-                          Turbo
-                        </Typography>
-                      </div>
+                    <div className="col">
+                      <h4>$71,480</h4>
+                      <Typography
+                        variant="subtitle2"
+                        className="sub_detail"
+                        color="secondary"
+                      >
+                        10 bids
+                      </Typography>
+                    </div>
 
-                      <div className="model">
-                        <Settings />
-                        <p>Subaru Champlin, Othoberg, Hi 797979</p>
-                      </div>
-
-                      <div className="other_detail">
-                        <div className="col">
-                          <h4>$21,480</h4>
-                          <Typography
-                            variant="subtitle2"
-                            className="sub_detail"
-                            color="secondary"
-                          >
-                            price
-                          </Typography>
-                        </div>
-                        <div className="col">
-                          <h4>$71,480</h4>
-                          <Typography
-                            variant="subtitle2"
-                            className="sub_detail"
-                            color="secondary"
-                          >
-                            10 bids
-                          </Typography>
-                        </div>
-
-                        <div className="lot">
-                          <Button color="secondary" variant="outlined" disabled>
-                            #2839984
-                          </Button>
-                          <Button
-                            color="primary"
-                            variant="contained"
-                            disabled={
-                              status === 'inactive' || status === 'ended'
-                            }
-                          >
-                            {status === 'active'
-                              ? 'Bid Now'
-                              : status === 'inactive'
-                              ? 'not started'
-                              : 'ended'}
-                          </Button>
-                        </div>
-                      </div>
+                    <div className="lot">
+                      <Button color="secondary" variant="outlined" disabled>
+                        #2839984
+                      </Button>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        disabled={status === 'inactive' || status === 'ended'}
+                      >
+                        {status === 'active'
+                          ? 'Bid Now'
+                          : status === 'inactive'
+                          ? 'not started'
+                          : 'ended'}
+                      </Button>
                     </div>
                   </div>
-                </a>
-              </Link>
+                </div>
+              </div>
             ),
           )}
         </div>

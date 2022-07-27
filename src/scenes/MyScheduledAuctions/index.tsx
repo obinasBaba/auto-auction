@@ -99,7 +99,7 @@ const MyScheduledAuctions = () => {
     },
   );
 
-  useError(error);
+  useError(error, data);
 
   useEffect(() => {
     // if (!currentUser) return;
@@ -143,6 +143,7 @@ const MyScheduledAuctions = () => {
               <div className="img_name">
                 <div className="img">
                   <Image
+                    alt="schedule car"
                     src={url}
                     objectFit="cover"
                     objectPosition="center"

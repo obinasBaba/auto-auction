@@ -8,6 +8,7 @@ const ACTIVE_AUCTIONS = gql`
   query ActiveAuction($input: AuctionFilterInput) {
     auctionList(input: $input) {
       id
+      userId
       title
       startingDate
       endingDate
@@ -15,6 +16,7 @@ const ACTIVE_AUCTIONS = gql`
       startingBid
       currentPrice
       activeBids
+      highestBid
       duration
       createdAt
       itemDetail {
@@ -88,7 +90,9 @@ const ActiveBidsPage = () => {
   } = useSubscription(SUBSCRIBE_CREATE_BID);
 
   const { data, loading, error, refetch } = useQuery(ACTIVE_AUCTIONS, {
-    nextFetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
+    initialFetchPolicy: 'network-only',
     variables: {
       input: {
         status: ['active'],
@@ -96,24 +100,21 @@ const ActiveBidsPage = () => {
     },
   });
 
-  useError(subError);
+  useError(subError, data);
 
   useEffect(() => {
-    console.log('subscription: ', subData, subLoading);
-
     if (subData) {
       refetch();
     }
-  }, [subError, subData, subLoading]);
+  }, [subError, subData, subLoading, refetch]);
 
   useEffect(() => {
-    console.log('active auctions: ', data, loading);
     if (error) {
       console.log(JSON.stringify(error, null, 2));
     }
 
     if (data) {
-      console.log(data.auctionList[0]);
+      console.log('active auctions: ', data?.auctionList?.length, loading);
       setActiveAuctions(data.auctionList);
     }
   }, [data, loading, error]);

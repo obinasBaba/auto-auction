@@ -10,6 +10,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/no-unused-prop-types": "off",
     "react/require-default-props": "off",
+    "react-hooks/exhaustive-deps": "off",
     "react-hooks/rules-of-hooks": "off",
     "@next/next/no-document-import-in-page": "off",
     "import/extensions": [

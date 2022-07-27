@@ -1,0 +1,76 @@
+@use '@/styles' as s;
+
+
+.container{
+
+  @include s.margin(top, 3rem);
+  @include s.padding(2rem);
+
+
+  & :global{
+
+    .list{
+      margin-top: 4rem;
+      display: flex;
+      flex-flow: column;
+      gap: 2rem;
+    }
+
+    .center{
+      display: grid;
+      place-items: center;
+      place-content: center;
+      margin-top: 5rem;
+      color: tomato;
+      opacity: .7;
+    }
+
+    .item{
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+
+      p{
+        margin: 0;
+      }
+
+      .img_name{
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+
+        .name{
+          h3{
+            margin: 0;
+          }
+        }
+
+        .img{
+          position: relative;
+          width: 150px;
+          height: 100px;
+          overflow: hidden;
+          border-radius: 10px;
+        }
+      }
+
+      .model{
+        display: flex;
+        align-items: flex-start;
+        gap: .5rem;
+
+        .text{
+          display: flex;
+          flex-flow: column;
+          h3{
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+
+
+  }
+}

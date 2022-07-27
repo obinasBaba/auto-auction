@@ -10,6 +10,7 @@ import { ListingFormStepComponent } from '@/scenes/ListingPage';
 import ProgressCircle from '@/components/ProgressCircle';
 import { MotionValue } from 'framer-motion';
 import { useAppContext } from '@/context';
+import Image from 'next/image';
 /*import cloudinary from 'cloudinary';
 
 cloudinary.v2.config({
@@ -37,7 +38,11 @@ type Preview = {
   loaded: boolean;
 };
 
-const Previews: ListingFormStepComponent = ({ formikProps }) => {
+const Previews: ListingFormStepComponent = ({
+  formikProps,
+  uploadPath,
+  title,
+}) => {
   const { values, setFieldValue } = formikProps;
 
   const [imagePreviews, setImagePreviews] = useState<Preview[]>(values.images);
@@ -77,9 +82,9 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
         formData.append(
           'public_id',
           // 'henokgetachew500@gmail_com/' + newImg.name,
-          `${currentUser?.email}_${values.itemDetail.name.replace(' ', '_')}/${
-            newImg.name
-          }`,
+          `${currentUser?.email}_${
+            uploadPath || values.itemDetail.name.replace(' ', '_')
+          }/${newImg.name}`,
         );
 
         // cloudinary.v1.uploader.upload('', {})
@@ -133,7 +138,7 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
 
   return (
     <section className={s.container}>
-      <StepHeader text="Upload listing photos" />
+      <StepHeader text={title || 'Upload listing photos'} />
 
       <div className="wrapper">
         <aside className="preview_wrapper">
@@ -153,8 +158,9 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
             {imagePreviews.map((preview) => (
               <div key={preview.name}>
                 <div className="preview">
-                  <img
+                  <Image
                     src={preview.url || preview.preview}
+                    layout="fill"
                     alt={preview.name}
                     // Revoke data uri after image is loaded
                     onLoad={() => {
@@ -164,9 +170,22 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
 
                   <IconButton className="close_btn" color="primary">
                     {preview.url ? (
-                      <Close />
+                      <Close
+                        onClick={() => {
+                          setImagePreviews(
+                            imagePreviews.filter(({ id }) => id != preview.id),
+                          );
+                        }}
+                      />
                     ) : (
-                      <ProgressCircle progress={preview.progress} />
+                      <ProgressCircle
+                        progress={preview.progress}
+                        onClick={() => {
+                          setImagePreviews(
+                            imagePreviews.filter(({ id }) => id != preview.id),
+                          );
+                        }}
+                      />
                     )}
                   </IconButton>
                 </div>
@@ -183,6 +202,7 @@ const Previews: ListingFormStepComponent = ({ formikProps }) => {
               variant="contained"
               size="large"
               type="button"
+              className="upload_photo_btn"
               startIcon={<CloudUpload />}
               onClick={() => inputRef.current?.click()}
             >

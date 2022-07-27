@@ -27,6 +27,7 @@ import { getUserToken } from '@/helpers/tokens';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { SnackbarProvider } from 'notistack';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
@@ -90,50 +91,67 @@ export default function MyApp({
   pageProps,
 }: MyAppProps) {
   const router = useRouter();
+  const { currentUser } = useAppContext();
 
   useEffect(() => {
     const handleStart = (url: any) => {
       NProgress.start();
+      if (router.pathname.startsWith('/dashboard') && !currentUser?.id) {
+        // router.push('/');
+      }
     };
     const handleStop = (url: any) => {
       NProgress.done();
     };
 
+    const routeChanged = () => {
+      handleStop(null);
+      console.log('router: ', router.pathname, currentUser);
+      if (router.pathname.startsWith('/dashboard') && !currentUser?.id) {
+        // router.push('/');
+      }
+    };
+
     router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleStop);
+    router.events.on('routeChangeComplete', routeChanged);
     router.events.on('routeChangeError', handleStop);
 
     return () => {
       router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleStop);
+      router.events.off('routeChangeComplete', routeChanged);
       router.events.off('routeChangeError', handleStop);
     };
   }, [router]);
 
   return (
     <ApolloProvider client={client}>
-      {/*<SessionProvider session={session} refetchInterval={0}>*/}
-      <AppContext>
-        <CacheProvider value={emotionCache}>
-          <Head>
-            <meta
-              name="viewport"
-              content="initial-scale=1, width=device-width"
-            />
-            <title>This is a Layout</title>
-          </Head>
-          <ManagedUIContext>
-            <ThemeProvider theme={theme}>
-              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
-              <Layout pageProps={pageProps}>
-                <Component {...pageProps} />
-              </Layout>
-            </ThemeProvider>
-          </ManagedUIContext>
-        </CacheProvider>
-      </AppContext>
-      {/*</SessionProvider>*/}
+      <SnackbarProvider
+        maxSnack={3}
+        style={{
+          fontFamily: 'Sofia-Soft',
+        }}
+      >
+        <AppContext>
+          <CacheProvider value={emotionCache}>
+            <Head>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+              <title>This is a Layout</title>
+            </Head>
+            <ManagedUIContext>
+              <ThemeProvider theme={theme}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline />
+                <Layout pageProps={pageProps}>
+                  <Component {...pageProps} />
+                </Layout>
+              </ThemeProvider>
+            </ManagedUIContext>
+          </CacheProvider>
+        </AppContext>
+      </SnackbarProvider>
     </ApolloProvider>
   );
 }

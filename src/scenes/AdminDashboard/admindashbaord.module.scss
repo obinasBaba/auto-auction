@@ -1,0 +1,15 @@
+@use '@/styles' as s;
+
+.container {
+  width: 100%;
+
+  @include s.margin(top, 3rem);
+  @include s.padding(2rem);
+
+  & :global {
+
+    .wrapper {
+
+    }
+  }
+}

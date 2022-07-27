@@ -28,9 +28,8 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
       <FixedLayer />
 
       <div className="layout_content">
-        {(pageProps.dashBoard || pathname.startsWith('/dashboard')) && (
-          <DashBoardSideNav />
-        )}
+        {(pageProps.dashBoard || pathname.startsWith('/dashboard')) &&
+          currentUser?.id && <DashBoardSideNav />}
 
         <main className="main" key="main">
           {pageProps.headerInfo && (

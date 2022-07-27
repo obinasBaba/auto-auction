@@ -3,12 +3,81 @@
 .container{
   width: 100%;
 
-  // @include s.margin(top, 10rem);
-  // @include s.padding(bottom, 8rem);
+   @include s.margin(top, 10rem);
+   @include s.padding(2rem);
+
 
   & :global{
 
+    .text{
+      h2{
+        text-decoration: underline;
+      }
+      small{
+        color: orange;
+      }
+    }
+
+
     .wrapper{
+      width: 100%;
+      max-width: 30rem;
+      margin: 0 auto;
+      position: relative;
+
+      //border: thick solid red;
+
+      .upload_photo_btn{
+        display: none;
+      }
+
+      .progress {
+        width: 100%;
+        border-radius: 5px;
+        position: absolute;
+        bottom: 0;
+        display: none;
+      }
+
+      .sign_in_wrapper {
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+
+        @include s.padding(1.5rem, 2rem);
+
+        //border: thin solid black;
+
+        .title {
+          margin-top: 0;
+          font-weight: 900;
+        }
+
+        .content {
+          width: 100%;
+          display: flex;
+          flex-flow: column;
+          gap: s.f-unit(1rem);
+
+          //border: thin solid red;
+
+          .form {
+            display: flex;
+            flex-flow: column;
+            gap: s.f-unit(.8rem);
+
+
+            .in_btn {
+              text-transform: capitalize;
+              margin-top: 3rem;
+            }
+          }
+
+        }
+
+
+      }
 
     }
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import s from './signinmodal.module.scss';
 import {
   Button,
@@ -30,6 +30,7 @@ import { gql, useMutation } from '@apollo/client';
 import { setUserToken } from '@/helpers/tokens';
 import { useAppContext } from '@/context';
 import { useUI } from '@/context/ui/context';
+import { useSnackbar } from 'notistack';
 
 const validationSchema = yup.object({
   email: yup
@@ -60,7 +61,7 @@ const SIGN_IN = gql`
 
 const SignInModal = ({ switchModal }: any) => {
   const { closeModal } = useUI();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [sendQuery, { loading, data, error }] = useMutation(SIGN_IN);
   const { refetch } = useAppContext();
 
@@ -82,10 +83,16 @@ const SignInModal = ({ switchModal }: any) => {
           if (user && authToken) {
             setUserToken(authToken);
             refetch();
-            // closeModal();
+            enqueueSnackbar('logged in as --');
+            closeModal();
           }
         })
-        .catch((error) => console.log(JSON.stringify(error, null, 2)));
+        .catch((error) => {
+          console.log(JSON.stringify(error, null, 2));
+          enqueueSnackbar(`something is wrong: ${error.message}`, {
+            variant: 'error',
+          });
+        });
     },
   });
 

@@ -1,48 +1,151 @@
 import React, { useEffect } from 'react';
 import s from './signin.module.scss';
-import SignInModal from '@/components/common/RegistrationModal/SignInModal';
+import { motion } from 'framer-motion';
+import {
+  Button,
+  InputAdornment,
+  LinearProgress,
+  TextField,
+} from '@mui/material';
+import { Icecream } from '@mui/icons-material';
+import { useFormik } from 'formik';
+import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
+import clsx from 'clsx';
+import { useSnackbar } from 'notistack';
+import { gql, useMutation } from '@apollo/client';
+import useError from '@/helpers/useError';
+import { useAppContext } from '@/context';
 import { useRouter } from 'next/router';
-import { signIn, useSession } from 'next-auth/react';
+
+const CREATE_MERCHANT = gql`
+  mutation ($input: MerchantInput!) {
+    merchantCreate(input: $input) {
+      merchant {
+        id
+        licenceUrl
+        verified
+      }
+      errors {
+        message
+      }
+    }
+  }
+`;
 
 const SignIn = ({}) => {
-  const { callbackUrl, error } = useRouter().query;
-  const { pathname, query } = useRouter();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const router = useRouter();
+  const {
+    currentUser: { id, merchantId, verified },
+    refetch,
+  } = useAppContext();
+  const [createMerchant, { data, error, loading }] =
+    useMutation(CREATE_MERCHANT);
 
-  const { data: session, status } = useSession();
+  useError(error, data);
 
-  console.log('query: ', query);
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      images: [] as any[],
+    },
+    onSubmit: (values) => {
+      console.log('submit: ', values);
+
+      if (!values.images[0].url) {
+        enqueueSnackbar('upload your licence please', { variant: 'error' });
+        return;
+      }
+
+      createMerchant({
+        variables: {
+          input: {
+            licenceUrl:
+              values.images[0].url ||
+              'https://res.cloudinary.com/dltkxbnvk/image/upload/v1657284965/2015_NISSAN%20SENTRA%20S/0-47399232_Image_1.jpg.jpg',
+          },
+        },
+      }).then(({ data, errors }) => {
+        console.log('data: ', data, errors);
+        if (errors && errors.length > 0) {
+          return enqueueSnackbar(errors[0].message, {
+            variant: 'error',
+          });
+        }
+
+        if (data) {
+          enqueueSnackbar('your merchant account created', {
+            variant: 'success',
+          });
+          refetch();
+        }
+      });
+    },
+  });
 
   useEffect(() => {
-    if (!session) void signIn('google');
-    else if (error || callbackUrl || query) {
-      window.prompt(`${error} - ${callbackUrl}, ${query} -- what si `);
-    } else window.close();
-  }, [session, status]);
-
-  useEffect(() => {
-    return;
-    console.log('useEffect---');
-
-    async function foo() {
-      const res: any = await signIn('google');
-      // if (false)
-      window.prompt(res?.toString(), 'promting: ' + pathname);
+    if (verified) {
+      router.push('/dashboard');
     }
-
-    foo();
-  }, []);
-
-  // return ReactDOM.createPortal( <h1>this is inside portal</h1>, count.current);
-
-  return null;
+    // formik.handleChange
+  }, [verified]);
 
   return (
-    <div className={s.container}>
-      {/*<Typography variant="h2"> SIGN IN {count.current++} </Typography>*/}
+    <div className={clsx([s.container])}>
+      <motion.div className="wrapper" layout>
+        {!merchantId ? (
+          <>
+            <header>
+              <h1 className="title">Sign Up for business account</h1>
+            </header>
 
-      <pre>{JSON.stringify({ callbackUrl, error }, null, 2)}</pre>
+            <div className="sign_in_wrapper">
+              <div className="content">
+                <form className="form" onSubmit={formik.handleSubmit}>
+                  <TextField
+                    label="licence id"
+                    type="text"
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <Icecream />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
 
-      <SignInModal />
+                  <VehiclePhoto
+                    formikProps={formik as any}
+                    uploadPath="auth"
+                    title="Drop your licence photo"
+                  />
+
+                  <Button
+                    variant="contained"
+                    className="in_btn"
+                    size="large"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </div>
+            </div>
+
+            <LinearProgress className="progress" />
+          </>
+        ) : (
+          <div className="text">
+            <h2>your business account successfully created </h2>
+            <p>
+              wait for a verification to arrive{' '}
+              <small>( 1-2 business day )</small>
+            </p>
+          </div>
+        )}
+      </motion.div>
     </div>
   );
 };

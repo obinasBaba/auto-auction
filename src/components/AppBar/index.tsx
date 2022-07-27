@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './appbar.module.scss';
 import { Avatar, Box, Button, Slide, useScrollTrigger } from '@mui/material';
 import { useUI } from '@/context/ui/context';
@@ -75,13 +75,13 @@ const AppBar = () => {
               custom={{ globalObj: {} }}
               presenceAffectsLayout={false}
             >
-              {currentUser && (
+              {currentUser.id && (
                 <MotionWrapper layout key="search">
                   <SearchField key="search" />
                 </MotionWrapper>
               )}
 
-              {currentUser && !pathname.startsWith('/dashboard') && (
+              {currentUser.id && !pathname.startsWith('/dashboard') && (
                 <MotionWrapper variants={btnVariant} layout key="btn">
                   <Link href={'/dashboard'}>
                     <a>
@@ -94,7 +94,7 @@ const AppBar = () => {
               )}
             </AnimatePresence>
 
-            {!currentUser ? (
+            {!currentUser.id ? (
               <Button
                 variant="outlined"
                 className="extra_large"

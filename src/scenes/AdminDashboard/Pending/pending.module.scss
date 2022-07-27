@@ -1,0 +1,23 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global{
+
+    .licence_img{
+      position: relative;
+      width: 80px;
+      height: 50px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .wrapper{
+
+    }
+  }
+}

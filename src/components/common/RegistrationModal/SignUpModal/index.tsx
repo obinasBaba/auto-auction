@@ -17,6 +17,10 @@ import {
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 import { gql, useMutation } from '@apollo/client';
+import { useUI } from '@/context/ui/context';
+import { useSnackbar } from 'notistack';
+import { setUserToken } from '@/helpers/tokens';
+import { useAppContext } from '@/context';
 
 const SIGN_UP = gql`
   mutation SignUp($input: UserInput!) {
@@ -36,6 +40,9 @@ const SIGN_UP = gql`
 `;
 
 const SignUpModal = ({ switchModal }: any) => {
+  const { closeModal } = useUI();
+  const { refetch } = useAppContext();
+  const { enqueueSnackbar } = useSnackbar();
   const [sendQuery, { loading, data, error, client }] = useMutation(
     SIGN_UP,
     {},
@@ -56,11 +63,27 @@ const SignUpModal = ({ switchModal }: any) => {
         },
       })
         .then(({ errors: gErrors, data, context, extensions }) => {
-          console.log(gErrors, data);
           const { errors, user, authToken } = data.userCreate;
+          if (errors?.length > 0 || gErrors) {
+            console.log('error', errors, gErrors);
+            enqueueSnackbar(gErrors?.toString(), { variant: 'error' });
+            for (const error1 of errors) {
+              enqueueSnackbar(error1?.message, { variant: 'error' });
+            }
+
+            return;
+          }
+          setUserToken(authToken);
+          refetch().then(() => {
+            enqueueSnackbar('logged in as --');
+            closeModal();
+          });
         })
         .catch((error) => {
-          console.log('erro: ', JSON.stringify(error, null, 2));
+          console.log('signup error: ', JSON.stringify(error, null, 2));
+          enqueueSnackbar(`something is wrong: ${error.message}`, {
+            variant: 'error',
+          });
         });
     },
   });

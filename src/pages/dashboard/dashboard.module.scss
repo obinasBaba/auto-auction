@@ -1,0 +1,23 @@
+@use '@/styles' as s;
+
+
+.container{
+
+  & :global{
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+
+      @include s.margin(top, 5rem);
+      @include s.padding(3rem)
+    }
+
+    .hor{
+      display: flex;
+      gap: 1rem;
+
+    }
+  }
+}

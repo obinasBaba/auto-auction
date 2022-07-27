@@ -1,13 +1,15 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { ThemeProvider } from 'next-themes';
 import {
   ApolloQueryResult,
   gql,
   OperationVariables,
   useQuery,
+  useSubscription,
 } from '@apollo/client';
 import { USER_TOKEN } from '@/const';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 export interface State {
   businessAccount: boolean;
@@ -51,24 +53,71 @@ const GET_USER = gql`
       firstName
       LastName
       email
+      merchantId
+      verified
+      isAdmin
+    }
+  }
+`;
+
+const MERCHANT_VERIFIED = gql`
+  subscription ($userId: ID!) {
+    merchantVerified(userId: $userId) {
+      id
+      userId
+      verified
+      licenceUrl
     }
   }
 `;
 
 export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
   const [state, dispatch] = React.useReducer(uiReducer, initialState);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const router = useRouter();
+  const [uId, setUid] = useState<any>(true);
+
   const {
     client,
     data: currentUser,
     error,
     loading,
     refetch,
-  } = useQuery(GET_USER, { nextFetchPolicy: 'network-only' });
-  const router = useRouter();
+  } = useQuery(GET_USER, {
+    nextFetchPolicy: 'network-only',
+    initialFetchPolicy: 'network-only',
+    fetchPolicy: 'network-only',
+    refetchWritePolicy: 'overwrite',
+  });
+
+  const {
+    data: subData,
+    error: subError,
+    loading: subLoading,
+  } = useSubscription(MERCHANT_VERIFIED, {
+    skip: !currentUser?.me?.id,
+    shouldResubscribe: true,
+    variables: {
+      userId: currentUser?.me?.id,
+    },
+  });
 
   useEffect(() => {
-    console.log('Medata: ', currentUser, error, loading);
+    console.log('Me-data: ', currentUser, error, loading);
   }, [currentUser, error, loading]);
+
+  useEffect(() => {
+    console.log('verified subscribtion ----- ', subData, subError, subLoading);
+    if (subError) {
+      console.log(JSON.stringify(subError, null, 2));
+    }
+    if (subData?.merchantVerified) {
+      refetch();
+      enqueueSnackbar('Your business account is verified', {
+        variant: 'success',
+      });
+    }
+  }, [subData, subError, subLoading]);
 
   const switchToBusiness = () => dispatch({ type: 'SWITCH_BUSINESS' });
   const logoutBusiness = () => dispatch({ type: 'SWITCH_BUSINESS' });
@@ -95,7 +144,7 @@ export const AppProvider: FC<{ children: React.ReactElement }> = (props) => {
       value={{
         ...value,
         client,
-        currentUser: currentUser?.me,
+        currentUser: currentUser?.me || {},
         refetch,
         logOut,
       }}
@@ -114,7 +163,7 @@ export const useAppContext = () => {
     switchToBusiness: () => void;
     logoutBusiness: () => void;
     logOut: () => void;
-    currentUser?: Record<string, any>;
+    currentUser: Record<string, any>;
     refetch: (
       variables?: Partial<OperationVariables> | undefined,
     ) => Promise<ApolloQueryResult<any>>;
