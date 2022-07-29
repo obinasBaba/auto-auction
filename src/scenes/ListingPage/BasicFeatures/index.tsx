@@ -8,6 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import moment from 'moment';
+import { motion } from 'framer-motion';
 
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
 const models = [
@@ -34,11 +35,11 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
   const [value, setValue] = React.useState<Date | any>(new Date());
 
   return (
-    <div className={s.container}>
-      <div className="features_wrapper">
+    <motion.div layout className={s.container}>
+      <motion.div layout className="features_wrapper">
         <StepHeader text="Tell us basic features <br /> of you car" />
 
-        <div className="form">
+        <motion.div layout className="form">
           <Field
             id="car-makes"
             name="itemDetail.make"
@@ -153,9 +154,9 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
               </MenuItem>
             ))}
           </Field>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -1,0 +1,18 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+  align-self: start;
+  justify-self: start;
+  max-width: 80%;
+
+  @include s.margin(top, 5rem);
+  @include s.padding(2rem, 5rem);
+
+  & :global{
+
+    .wrapper{
+
+    }
+  }
+}

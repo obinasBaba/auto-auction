@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useAppContext } from '@/context';
-import AdminDashboard from '@/scenes/AdminDashboard';
+import ManagerDashboard from '@/scenes/ManagerDashboard';
 import { Avatar, Box, Skeleton } from '@mui/material';
 import s from './dashboard.module.scss';
 
@@ -35,7 +35,7 @@ const DashBoard = () => {
   return (
     <div className={s.container}>
       {currentUser?.isAdmin ? (
-        <AdminDashboard />
+        <ManagerDashboard />
       ) : (
         <div className="grid">
           <div>

@@ -3,16 +3,20 @@
 .container {
   position: relative;
   width: 100%;
-  height: 100%;
-  display: grid;
-  justify-content: center;
-  place-items: center;
+  //height: 100%;
+  min-height: 100vh;
+  //display: grid;
+  //justify-content: center;
+  //place-items: center;
   //border: thick solid red;
+
+
+
    @include s.padding(top, 4rem);
   @include s.padding(hor, 2rem );
   // @include s.padding(bottom, 8rem);
 
-  //border: thin solid red;
+  border: thin solid green;
 
 
   & :global {
@@ -31,10 +35,11 @@
 
     .container_wrapper {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       display: flex;
       align-items: flex-start;
-      gap: 5vmin;
+      margin: 0 auto;
+      gap: 15vmin;
 
       //border: thin solid red;
 

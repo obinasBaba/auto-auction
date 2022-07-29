@@ -9,11 +9,11 @@ import * as yup from 'yup';
 import WhatKindVehicle from '@/scenes/ListingPage/WhatKindVehicle';
 import BasicFeatures from '@/scenes/ListingPage/BasicFeatures';
 import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
-import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
 import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
 import AuctionRules from '@/scenes/ListingPage/AuctionRules';
 import initialValue from './dummy';
+import ListingProgress from '@/scenes/ListingPage/ListingProgress';
 
 const containerVariants = {};
 
@@ -153,7 +153,7 @@ type ListingFormStepArgType = {
 export type ListingFormStepComponent = React.FC<ListingFormStepArgType>;
 
 const ListingPage = () => {
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useState(6);
   const [showDone, setShowDone] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<typeof steps[number]>({
     ...steps[idx],
@@ -164,21 +164,22 @@ const ListingPage = () => {
 
     if (!arg) return;
 
-    setActiveStep(steps[idx + 1]);
+    // setActiveStep(steps[idx + 1]);
     setIdx(idx + 1);
   };
 
   const prevStep = () => {
-    setActiveStep(steps[idx - 1]);
+    // setActiveStep(steps[idx - 1]);
     setIdx(idx - 1);
   };
 
   const setStep = (n: number) => {
-    setActiveStep(steps[n]);
+    // setActiveStep(steps[n]);
     setIdx(n);
   };
 
   useEffect(() => {
+    setActiveStep({ ...steps[idx] });
     if (idx === steps.length - 1) {
       setShowDone(true);
     }
@@ -195,7 +196,7 @@ const ListingPage = () => {
     >
       <motion.div className="container_wrapper">
         <LayoutGroup>
-          {/*<ListingProgress idx={idx} />*/}
+          <ListingProgress idx={idx} />
 
           <motion.div className="main_content">
             <Formik

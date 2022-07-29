@@ -6,6 +6,9 @@ import { useRouter } from 'next/router';
 import ProfileHeaderInfo from '@/components/common/Layout/components/ProfileHeaderInfo';
 import FixedLayer from '@/components/FixedLayer';
 import { useAppContext } from '@/context';
+import Link from 'next/link';
+import { Avatar } from '@mui/material';
+import Logo from '@/public/logo.svg';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -48,6 +51,13 @@ const Layout: React.FC<LayoutProps> = ({ children, pageProps }) => {
             <p>Term of Use</p>
             <p>@2022 All rights reserved</p>
           </div>
+
+          <Link href="/">
+            <a className="logo">
+              <Avatar src={Logo.src} className="logo" />
+            </a>
+          </Link>
+
           <div className="right">
             <p>English</p>
             <p>top</p>

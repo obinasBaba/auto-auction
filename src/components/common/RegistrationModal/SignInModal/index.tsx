@@ -41,7 +41,7 @@ const validationSchema = yup.object({
   rememberMe: yup.boolean(),
 });
 
-const SIGN_IN = gql`
+export const SIGN_IN = gql`
   mutation SignIn($input: AuthInput!) {
     userLogin(input: $input) {
       errors {

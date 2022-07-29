@@ -1,7 +1,7 @@
 import React from 'react';
-import s from './admindashbaord.module.scss';
+import s from './manager.module.scss';
 import { Box, Tab, Tabs } from '@mui/material';
-import PendingPage from '@/scenes/AdminDashboard/Pending';
+import PendingPage from '@/scenes/ManagerDashboard/Pending';
 import {
   BlockTwoTone,
   CheckCircleTwoTone,
@@ -14,7 +14,7 @@ interface TabPanelProps {
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -30,7 +30,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const AdminDashboard = () => {
+const ManagerDashboard = () => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -67,4 +67,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default ManagerDashboard;

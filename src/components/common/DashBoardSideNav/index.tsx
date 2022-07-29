@@ -24,12 +24,24 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 
-const PurchaseHistory = () => {
+const PurchaseHistory = ({}: any) => {
   const [open, setOpen] = useState(false);
+  const { pathname } = useRouter();
+  const links = [
+    '/dashboard/purchase-bids/bidding',
+    '/dashboard/purchase-bids/wins',
+    '/dashboard/purchase-bids/lost',
+  ];
+
+  console.log('pathname :', pathname);
 
   return (
     <List component="nav">
-      <ListItemButton onClick={() => setOpen(!open)} className="list_item_btn">
+      <ListItemButton
+        onClick={() => setOpen(!open)}
+        className="list_item_btn"
+        selected={links.includes(pathname)}
+      >
         <ListItemIcon>
           <ShoppingCartCheckoutTwoTone />
         </ListItemIcon>
@@ -44,9 +56,25 @@ const PurchaseHistory = () => {
         <List component="div" disablePadding dense className="sub_list">
           <Link href="/dashboard/purchase-bids/bidding">
             <a>
-              <ListItemButton sx={{ ml: 4 }} className="list_item_btn">
+              <ListItemButton
+                sx={{ ml: 4 }}
+                selected={pathname === '/dashboard/purchase-bids/bidding'}
+                className={clsx([
+                  'list_item_btn',
+                  {
+                    [s.active]: '/dashboard/purchase-bids/bidding' === pathname,
+                  },
+                ])}
+              >
                 <ListItemIcon>
-                  <AllInclusiveTwoTone fontSize="small" />
+                  <AllInclusiveTwoTone
+                    color={
+                      '/dashboard/purchase-bids/bidding' === pathname
+                        ? 'primary'
+                        : 'secondary'
+                    }
+                    fontSize="small"
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Bidding" />
               </ListItemButton>
@@ -54,9 +82,25 @@ const PurchaseHistory = () => {
           </Link>
           <Link href="/dashboard/purchase-bids/lost">
             <a>
-              <ListItemButton sx={{ ml: 4 }} className="list_item_btn">
+              <ListItemButton
+                sx={{ ml: 4 }}
+                selected={pathname === '/dashboard/purchase-bids/lost'}
+                className={clsx([
+                  'list_item_btn',
+                  {
+                    [s.active]: '/dashboard/purchase-bids/lost' === pathname,
+                  },
+                ])}
+              >
                 <ListItemIcon>
-                  <SmsFailedTwoTone fontSize="small" />
+                  <SmsFailedTwoTone
+                    fontSize="small"
+                    color={
+                      '/dashboard/purchase-bids/lost' === pathname
+                        ? 'primary'
+                        : 'secondary'
+                    }
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Loosed" />
               </ListItemButton>
@@ -64,9 +108,25 @@ const PurchaseHistory = () => {
           </Link>
           <Link href="/dashboard/purchase-bids/wins">
             <a>
-              <ListItemButton sx={{ ml: 4 }} className="list_item_btn">
+              <ListItemButton
+                sx={{ ml: 4 }}
+                selected={pathname === '/dashboard/purchase-bids/wins'}
+                className={clsx([
+                  'list_item_btn',
+                  {
+                    [s.active]: '/dashboard/purchase-bids/wins' === pathname,
+                  },
+                ])}
+              >
                 <ListItemIcon>
-                  <CelebrationTwoTone fontSize="small" />
+                  <CelebrationTwoTone
+                    fontSize="small"
+                    color={
+                      '/dashboard/purchase-bids/wins' === pathname
+                        ? 'primary'
+                        : 'secondary'
+                    }
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Wins" />
               </ListItemButton>
@@ -149,17 +209,17 @@ const DashBoardSideNav = () => {
                           <a>
                             <ListItemButton
                               key={name}
-                              selected={link === active}
+                              selected={link === pathname}
                               onClick={() => setActive(link)}
                               className={clsx([
                                 'list_item_btn',
-                                { [s.active]: link === active },
+                                { [s.active]: link === pathname },
                               ])}
                             >
                               <ListItemIcon>
                                 <Icon
                                   color={
-                                    link === active ? 'primary' : 'secondary'
+                                    link === pathname ? 'primary' : 'secondary'
                                   }
                                 />
                               </ListItemIcon>

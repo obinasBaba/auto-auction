@@ -1,0 +1,71 @@
+@use '@/styles' as s;
+
+.container{
+  width: 100%;
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global{
+
+
+    .admin_actions{
+      margin-top: 4rem;
+    }
+
+    .wrapper{
+
+    }
+  }
+}
+
+.modal_container{
+
+  & :global{
+
+    .sign_in_wrapper {
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      max-width: s.f-unit(25rem);
+
+      @include s.padding(1.5rem, 2rem);
+
+      //border: thin solid red;
+
+      .title {
+        margin-top: 0;
+        font-weight: 900;
+      }
+
+
+      .content {
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+        gap: s.f-unit(1rem);
+
+        //border: thin solid red;
+
+        .form {
+          display: flex;
+          flex-flow: column;
+          gap: s.f-unit(.8rem);
+
+          .in_btn {
+            text-transform: capitalize;
+            width: 60%;
+            align-self: center;
+            margin-top: 2rem;
+          }
+        }
+
+
+      }
+
+
+    }
+
+  }
+}

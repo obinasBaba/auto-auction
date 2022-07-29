@@ -36,7 +36,9 @@ const Previews: ListingFormStepComponent = ({
 }) => {
   const { values, setFieldValue } = formikProps;
 
-  const [imagePreviews, setImagePreviews] = useState<Preview[]>(values.images);
+  const [imagePreviews, setImagePreviews] = useState<Preview[]>(
+    values.images as any,
+  );
   const { currentUser } = useAppContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
