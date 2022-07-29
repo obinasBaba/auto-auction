@@ -1,25 +1,25 @@
 [
   {
     "itemDetail": {
-      "vin": "asdfasdf2432342",
+      "vin": "12345678",
       "type": "Sedan",
       "make": "Audi",
       "engine": "engine-1",
       "name": "2018 FORD TRANSIT T-250",
       "model": "N360",
-      "condition": "new",
       "transmission": "automatic",
       "interior_color": "Gold",
       "exterior_color": "Gold",
       "cylinder": 5,
       "engine_name": "2.7L 4",
-      "drive_side": "left",
+      "drive_side": "Left-hand",
       "fuel": "Biodiesel",
       "driveType": "AWD",
-      "retailPrice": 2322323,
+      "retailPrice": 1000,
       "title": "Salvage",
-      "year": 1992,
-      "mileage": 7656,
+      "year": "2018-02-28T21:00:00.000Z",
+      "mileage": 0,
+      "condition": "new",
       "features": [
         "Air conditioner",
         "Leather seats",
@@ -53,8 +53,8 @@
     "auction": {
       "title": "asdadfs",
       "description": "adfasdfafsd",
-      "startingBid": "345345",
-      "startingDate": "2022-07-29T21:00:00.000Z",
+      "startingBid": 345345,
+      "startingDate": "",
       "endingDate": "2022-07-30T21:00:00.000Z"
     }
   }

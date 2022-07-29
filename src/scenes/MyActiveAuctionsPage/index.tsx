@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import s from './scheduled.module.scss';
+import s from './active.module.scss';
 import Image from 'next/image';
 import { gql, useQuery, useSubscription } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
-import { Delete, Settings } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import BMD from '@/scenes/MyScheduledAuctions/img_1.png';
 
 const ONLINE_AUCTIONS = gql`
   query OnlineList($myAuctionListId: ID!, $input: AuctionFilterInput) {
@@ -168,7 +167,16 @@ const MyActiveAuctionsPage = () => {
             {
               id,
               itemDetail: {
-                defaultImage: { url, name },
+                name,
+                make,
+                defaultImage: { url, name: imgName },
+                mileage,
+                retailPrice,
+                condition,
+                bodyType,
+                engine,
+                drivetrain,
+                year,
               },
             },
             idx,
@@ -191,24 +199,26 @@ const MyActiveAuctionsPage = () => {
               </div>
 
               <div className="col">
-                <h3 className="model">forster</h3>
-                <small>premimu plus</small>
+                <h3 className="model">{engine || '-'}</h3>
+                <p>{drivetrain || '-'}</p>
               </div>
 
-              <h3 className="year">2010</h3>
+              <div className="col">
+                <h3 className="year">{year}</h3>
+                <p>{condition}</p>
+              </div>
 
               <div className="model">
-                <Settings />
-                <div className="text">
-                  <h3>Subaru Champlin, Othoberg, Hi 797979</h3>
-                  <small>293 winson park apt</small>
+                <div className="logo">
+                  <Image src={BMD} alt="make url" />
+                </div>
+                <div className="text col">
+                  <h3>{name}</h3>
+                  <p>{mileage} mileage</p>
                 </div>
               </div>
 
-              <h3 className="year">$21,900</h3>
-              <IconButton color="primary">
-                <Delete />
-              </IconButton>
+              <h3 className="year">${retailPrice || 0}</h3>
             </div>
           ),
         )}

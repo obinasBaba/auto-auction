@@ -13,23 +13,42 @@ aside.container {
       max-width: 350px;
       //border: thin solid chocolate;
       padding: 1rem 2rem;
-      @include s.padding(1rem, 2rem);
+      @include s.padding(1rem, 1rem);
 
       @include s.media-breakpoint-up(lg){
         @include s.margin(left, 1rem);
       }
 
       .block_list{
+        //border: thin solid red;
+
+        width: 100%;
+
         .list_item_btn{
+          //@include s.padding(0rem, 2rem);
+          width: 230px;
+
           &:hover{
             background-color: rgba(121, 99, 240, 0.08);
              span {
               color: s.$clrs-accent;
+            }
+            svg{
+              fill: s.$clrs-accent;
 
             }
           }
           span{
             color: gray;
+          }
+        }
+
+        .sub_list{
+          .list_item_btn{
+            //@include s.padding(0rem, 2rem);
+            //width: 100%;
+            width: initial;
+
           }
         }
       }

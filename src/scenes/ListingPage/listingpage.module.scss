@@ -18,14 +18,14 @@
   & :global {
 
     .animator {
+      position: relative;
       width: 100%;
       //border: thin solid red;
 
-      & > *{
-        //border: thin dashed saddlebrown ;
-
-        //min-width: s.f-unit(30rem);
-
+      .done_btn{
+        position: absolute;
+        right: 0;
+        top: 5%;
       }
     }
 

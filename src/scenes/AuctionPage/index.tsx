@@ -71,7 +71,7 @@ const FilterItem = ({ label }: any) => {
   );
 };
 
-const ALL_AUCTIONS = gql`
+export const ALL_AUCTIONS = gql`
   query ActiveAuction($input: AuctionFilterInput) {
     auctionList(input: $input) {
       id

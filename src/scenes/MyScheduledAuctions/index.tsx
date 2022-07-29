@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import s from './scheduled.module.scss';
 import Image from 'next/image';
-import { gql, useQuery, useSubscription } from '@apollo/client';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import { useAppContext } from '@/context';
 import useError from '@/helpers/useError';
-import { Delete, Settings } from '@mui/icons-material';
-import { Button, IconButton } from '@mui/material';
+import { DeleteTwoTone } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import { useSnackbar } from 'notistack';
+import BMD from './img_1.png';
 
 const SCHEDULED = gql`
   query ScheduledList($myAuctionListId: ID!, $input: AuctionFilterInput) {
@@ -75,9 +76,16 @@ const CHECKUP = gql`
   }
 `;
 
+const DELETE_AUCTION = gql`
+  mutation ($auctionId: ID!) {
+    auctionDelete(auctionId: $auctionId)
+  }
+`;
+
 const MyScheduledAuctions = () => {
   const { currentUser } = useAppContext();
   const [scheduled, setScheduled] = useState<any[]>([]);
+  const [deleteAuction] = useMutation(DELETE_AUCTION);
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -103,8 +111,8 @@ const MyScheduledAuctions = () => {
 
   useEffect(() => {
     // if (!currentUser) return;
-    console.log('getSchedule useEffect');
     if (data) {
+      console.log('scheduled data: ', data?.myAuctionList[0]);
       setScheduled(data.myAuctionList);
     }
   }, [data, loading, error]);
@@ -140,7 +148,16 @@ const MyScheduledAuctions = () => {
             {
               id,
               itemDetail: {
-                defaultImage: { url, name },
+                name,
+                make,
+                defaultImage: { url, name: imgName },
+                mileage,
+                retailPrice,
+                condition,
+                bodyType,
+                engine,
+                drivetrain,
+                year,
               },
             },
             idx,
@@ -156,33 +173,52 @@ const MyScheduledAuctions = () => {
                     layout="fill"
                   />
                 </div>
-                <div className="name">
-                  <h3>Audi</h3>
-                  <small>sedan</small>
+                <div className="col">
+                  <h3>{make}</h3>
+                  <p>{bodyType}</p>
                 </div>
               </div>
 
               <div className="col">
-                <h3 className="model">forster</h3>
-                <small>premimu plus</small>
+                <h3 className="model">{engine || '-'}</h3>
+                <p>{drivetrain || '-'}</p>
               </div>
 
-              <h3 className="year">2010</h3>
+              <div className="col">
+                <h3 className="year">{year}</h3>
+                <p>{condition}</p>
+              </div>
 
               <div className="model">
-                <Settings />
-                <div className="text">
-                  <h3>Subaru Champlin, Othoberg, Hi 797979</h3>
-                  <small>293 winson park apt</small>
+                <div className="logo">
+                  <Image src={BMD} alt="make url" />
+                </div>
+                <div className="text col">
+                  <h3>{name}</h3>
+                  <p>{mileage} mileage</p>
                 </div>
               </div>
 
-              <h3 className="year">$21,900</h3>
-              <Button variant="outlined" color="warning" size="small">
-                Edit
-              </Button>
-              <IconButton color="primary">
-                <Delete />
+              <h3 className="year">${retailPrice || 0}</h3>
+
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  deleteAuction({
+                    variables: {
+                      auctionId: id,
+                    },
+                  })
+                    .then(({ data }) => {
+                      console.log('data: ', data);
+                      refetch();
+                    })
+                    .catch((err) => {
+                      console.log(JSON.stringify(err, null, 2));
+                    });
+                }}
+              >
+                <DeleteTwoTone />
               </IconButton>
             </div>
           ),

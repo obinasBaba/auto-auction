@@ -11,14 +11,51 @@
     .wrapper{
       width: 100%;
       margin: 0 auto;
-      max-width: s.f-unit(20rem);
+      max-width: s.f-unit(40rem);
       display: flex;
       flex-flow: column;
       align-items: center;
       justify-content: center;
       gap: s.f-unit(2rem);
-      text-align: center;
+      //text-align: center;
 
+      .title{
+        text-align: center;
+      }
+
+      .all{
+        width: 100%;
+
+        h3{
+          margin-top: 3rem;
+          margin-bottom: .3rem;
+          text-decoration: underline 4px;
+        }
+      }
+
+      .auction_detail{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-flow: dense;
+        grid-column-gap: .3rem;
+        //border: thin solid red;
+        width: 100%;
+
+        .item{
+          text-align: start;
+          //border: thin solid black;
+
+          p{
+            text-transform: capitalize;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 18ch;
+            margin: 0;
+            font-size: 1rem;
+          }
+        }
+      }
 
     }
   }

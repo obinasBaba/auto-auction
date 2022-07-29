@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './listingpage.module.scss';
-import AuctionRules from '@/scenes/ListingPage/AuctionRules';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import ListingCreated from '@/scenes/ListingPage/ListingCreated';
 import { Button } from '@mui/material';
 import clsx from 'clsx';
 import { Form, Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
-import dummy from './dummy.json';
 import WhatKindVehicle from '@/scenes/ListingPage/WhatKindVehicle';
 import BasicFeatures from '@/scenes/ListingPage/BasicFeatures';
 import AdditionalFeatures from '@/scenes/ListingPage/AdditionalFeatures';
 import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 import VehiclePhoto from '@/scenes/ListingPage/VehiclePhoto';
 import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
+import AuctionRules from '@/scenes/ListingPage/AuctionRules';
+import initialValue from './dummy';
 
 const containerVariants = {};
 
@@ -46,7 +46,7 @@ const getShape = (name: string, rules: object = {}) =>
   yup.object({ [name]: yup.object().shape({ ...rules }) });
 
 const steps = [
-  /* {
+  /**/ {
     name: 'KIND',
     components: (props: any) => <WhatKindVehicle {...props} />,
     schema: yup.object({
@@ -61,17 +61,13 @@ const steps = [
         .string()
         .oneOf(makes, 'select the manufacture of you vehicle!!'),
       model: yup.string(),
-      engine: yup
-        .string()
-        .oneOf(engine, 'select the Engine model of you vehicle!!'),
       condition: yup
         .string()
         .oneOf(condition, 'select the condition of you car'),
-      year: yup
+      mileage: yup
         .number()
-        .min(4, 'there is no year like that')
-        .required('what year is your car?'),
-      mileage: yup.number().required('what is the mileage of you car?'),
+        .min(0, "your mileage can't be negative")
+        .required('what is the mileage of you car?'),
     }),
   },
   {
@@ -84,19 +80,21 @@ const steps = [
     }),
   },
 
-  {
+  /*{
     name: 'LOCATION',
     components: (props: any) => <VehicleLocation {...props} />,
     schema: yup.object({
       address: yup.object({
-        country: yup.string().required('what is your location'),
         city: yup.string().required('what is your city'),
         streetAddress: yup.string().required('what is your streetAddress'),
         zipcode: yup.number().required('what is your zipcode'),
-        apartmentNumber: yup.number().required('what is your home number'),
+        apartmentNumber: yup
+          .number()
+          .min(0, "apartment number can't be negative")
+          .required('what is your home number'),
       }),
     }),
-  },
+  },*/
   {
     name: 'PHOTOS',
     components: (props: any) => <VehiclePhoto {...props} />,
@@ -116,10 +114,10 @@ const steps = [
       auction: yup.object({
         title: yup.string().required('specify your listing Title'),
         description: yup.string().required('your description please'),
-        price: yup.number(),
+        price: yup.number().min(0, "value can't be negative"),
       }),
     }),
-  },*/
+  },
   {
     name: 'RULE',
     components: (props: any) => <AuctionRules {...props} />,
@@ -129,9 +127,8 @@ const steps = [
         .shape({
           startingBid: yup
             .number()
-            .typeError('must be a number')
+            .min(0, "value can't be negetive")
             .required('state your staring bid price'),
-          // duration: yup.number().required('duration is required'),
           startingDate: yup.string().required('auction schedule is requred'),
         })
         .required('you need a auction object '),
@@ -146,60 +143,18 @@ const steps = [
   },
 ];
 
-const initialValues = {
-  itemDetail: {
-    vin: '',
-    type: types[0],
-    make: makes[0],
-    engine: engine[0],
-    name: '',
-    model: '',
-    condition: '',
-    transmission: '',
-    interior_color: '',
-    exterior_color: '',
-    cylinder: '',
-    engine_name: '',
-    drive_side: '',
-    fuel: '',
-    driveType: '',
-    retailPrice: '',
-    title: '',
-    year: '',
-    mileage: '',
-    features: [] as string[],
-  },
-  images: [] as any[],
-  address: {
-    /* country: '',
-     city: '',
-     streetAddress: '',
-     apartmentNumber: '',
-     zipcode: '',*/
-  },
-  auction: {
-    title: '',
-    description: '',
-    // price: 0,
-    startingBid: '',
-    // duration: '',
-    startingDate: new Date(),
-    endingDate: new Date(),
-  },
-};
-
-const dummyInitial = dummy[0];
+// const dummyInitial = dummy;
 
 type ListingFormStepArgType = {
   children?: React.ReactNode;
-  formikProps: FormikProps<typeof initialValues>;
+  formikProps: FormikProps<typeof initialValue>;
 } & Record<string, any>;
 
 export type ListingFormStepComponent = React.FC<ListingFormStepArgType>;
 
 const ListingPage = () => {
   const [idx, setIdx] = useState(0);
-
+  const [showDone, setShowDone] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<typeof steps[number]>({
     ...steps[idx],
   });
@@ -220,7 +175,14 @@ const ListingPage = () => {
 
   const setStep = (n: number) => {
     setActiveStep(steps[n]);
+    setIdx(n);
   };
+
+  useEffect(() => {
+    if (idx === steps.length - 1) {
+      setShowDone(true);
+    }
+  }, [idx]);
 
   return (
     <motion.div
@@ -237,7 +199,7 @@ const ListingPage = () => {
 
           <motion.div className="main_content">
             <Formik
-              initialValues={dummyInitial}
+              initialValues={initialValue}
               validateOnMount={false}
               validateOnChange={false}
               validateOnBlur={false}
@@ -257,6 +219,17 @@ const ListingPage = () => {
                         key={activeStep.name}
                         layout
                       >
+                        {idx !== steps.length - 1 && showDone && (
+                          <Button
+                            variant="outlined"
+                            className="done_btn"
+                            color="warning"
+                            onClick={() => setStep(steps.length - 1)}
+                          >
+                            Done
+                          </Button>
+                        )}
+
                         {activeStep.components({
                           controller: { nextStep, prevStep, setStep },
                           formikProps,

@@ -116,9 +116,9 @@ const ProfileIconButton = (props: any) => {
               <ListItemButton
                 className="list_item_btn"
                 onClick={() => {
-                  /* switchToBusiness();
+                  switchToBusiness();
                   setTimeout(() => setShow(false), 0);
-                  return;*/
+                  return;
                   if (merchantId && permission === 'accepted') {
                     switchToBusiness();
                     setShow(false);

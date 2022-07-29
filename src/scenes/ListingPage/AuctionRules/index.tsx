@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './auctionrules.module.scss';
 import {
   Button,
@@ -17,6 +17,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
+import moment from 'moment';
 
 const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
   const [isAuction, setIsAuction] = useState<boolean>(true);
@@ -24,6 +25,18 @@ const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
   const [reservePrice, setReservePrice] = useState<boolean>(false);
 
   const [value, setValue] = React.useState<Date | null>(new Date());
+
+  useEffect(() => {
+    formikProps.setFieldValue(
+      'auction.startingDate',
+      moment(Date.now()).toISOString(),
+    );
+
+    formikProps.setFieldValue(
+      'auction.endingDate',
+      moment(Date.now()).add(1, 'hour').toISOString(),
+    );
+  }, []);
 
   return (
     <motion.div className={s.container}>
@@ -75,7 +88,11 @@ const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
                     type="text"
                     required
                     variant="outlined"
-                    helperText="To attract buyers and increase competition for your item, consider a low starting bid. Eg: $2,000.00"
+                    error={Boolean(formikProps.errors.auction?.startingBid)}
+                    helperText={
+                      formikProps.errors.auction?.startingBid ||
+                      'To attract buyers and increase competition for your item, consider a low starting bid. Eg: $2,000.00'
+                    }
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">$</InputAdornment>
@@ -160,7 +177,7 @@ const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
                   />*/}
 
                   <motion.div className="col">
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       className="checkbox"
                       value="fixed"
                       control={
@@ -172,9 +189,9 @@ const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
                       }
                       label="Reserved price"
                       labelPlacement="start"
-                    />
+                    />*/}
 
-                    {reservePrice && (
+                    {false && (
                       <Input
                         id="standard-adornment-amount"
                         inputMode="numeric"
@@ -215,13 +232,13 @@ const AuctionRules: ListingFormStepComponent = ({ formikProps }) => {
                     )}
                   </motion.div>
 
-                  <FormControlLabel
+                  {/*<FormControlLabel
                     className="checkbox"
                     value="flexible"
                     control={<Switch color="primary" />}
                     label="Flexible price"
                     labelPlacement="start"
-                  />
+                  />*/}
                 </MotionWrapper>
               ) : (
                 <MotionWrapper key="fixed">

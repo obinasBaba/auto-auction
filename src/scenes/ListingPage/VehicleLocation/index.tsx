@@ -20,13 +20,6 @@ const VehicleLocation = (props: any) => {
 
         <div className="form">
           <Field
-            name="address.country"
-            label="Country"
-            variant="outlined"
-            as={TextField}
-          />
-
-          <Field
             name="address.streetAddress"
             variant="outlined"
             label="Street Address"

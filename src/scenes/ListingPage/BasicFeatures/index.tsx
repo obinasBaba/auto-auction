@@ -4,6 +4,10 @@ import { MenuItem, TextField } from '@mui/material';
 import { Field } from 'formik';
 import { StepHeader } from '@/scenes/ListingPage/components';
 import { ListingFormStepComponent } from '@/scenes/ListingPage';
+import { DatePicker } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import moment from 'moment';
 
 const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
 const models = [
@@ -15,7 +19,6 @@ const models = [
   'N Box',
   'Avancier',
 ];
-const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
 const titles = [
   'Clean', //Everything is okay and the car is in good shape structurally.
   'Salvage', //wrecked car that you may have trouble getting insurance for because of damage.
@@ -25,13 +28,10 @@ const titles = [
 const condition = ['used', 'new'];
 const driveType = ['4WD', 'AWD', 'FWD', 'RWD'];
 
-const years = [
-  1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
-  2004, 2005, 2006, 2007,
-];
-
 const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
   const { errors } = formikProps;
+
+  const [value, setValue] = React.useState<Date | any>(new Date());
 
   return (
     <div className={s.container}>
@@ -72,38 +72,41 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
           </Field>
 
           <div className="hor">
-            <Field
-              name="itemDetail.year"
-              label="Year"
-              type="number"
-              select
-              required
-              variant="outlined"
-              as={TextField}
-              error={!!errors?.itemDetail?.year}
-              helperText={errors?.itemDetail?.year}
-              SelectProps={{
-                MenuProps: {
-                  PaperProps: {
-                    style: {
-                      maxHeight: 48 * 4.6,
-                    },
-                  },
-                },
-              }}
-            >
-              {years.map((make) => (
-                <MenuItem key={make} value={make}>
-                  {make}
-                </MenuItem>
-              ))}
-            </Field>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <DatePicker
+                views={['year']}
+                label="Pick year"
+                value={formikProps.values.itemDetail.year}
+                minDate={moment('2012-03-01')}
+                maxDate={moment('2022-02-02')}
+                onChange={(value) =>
+                  formikProps.setFieldValue('itemDetail.year', value)
+                }
+                renderInput={(params) => (
+                  <Field
+                    id="car-models"
+                    {...params}
+                    name="itemDetail.year"
+                    label="Year"
+                    // type="number"
+                    as={TextField}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+
             <Field
               name="itemDetail.mileage"
               label="Mileage"
               type="number"
               required
+              inputMode="numeric"
               variant="outlined"
+              error={Boolean(formikProps.errors.itemDetail?.mileage)}
+              FormHelperTextProps={{
+                children: 'boo',
+              }}
+              helperText={formikProps.errors.itemDetail?.mileage}
               as={TextField}
             />
           </div>

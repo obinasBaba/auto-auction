@@ -16,7 +16,11 @@ export const items = [
     title: 'Auction',
     items: [
       { name: 'Auctions', Icon: MailIcon, link: '/dashboard/auction' },
-      { name: 'Calendar', Icon: CalendarMonth, link: '/dashboard/calendar' },
+      {
+        name: 'Bids/Purchase',
+        Icon: CalendarMonth,
+        link: '/dashboard/purchase-bids',
+      },
       {
         name: 'Active Bids',
         Icon: OnlinePrediction,
