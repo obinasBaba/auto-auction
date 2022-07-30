@@ -30,10 +30,6 @@ const condition = ['used', 'new'];
 const driveType = ['4WD', 'AWD', 'FWD', 'RWD'];
 
 const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
-  const { errors } = formikProps;
-
-  const [value, setValue] = React.useState<Date | any>(new Date());
-
   return (
     <motion.div layout className={s.container}>
       <motion.div layout className="features_wrapper">
@@ -72,7 +68,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
             ))}
           </Field>
 
-          <div className="hor">
+          <motion.div layout className="hor">
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DatePicker
                 views={['year']}
@@ -110,7 +106,7 @@ const BasicFeatures: ListingFormStepComponent = ({ formikProps }) => {
               helperText={formikProps.errors.itemDetail?.mileage}
               as={TextField}
             />
-          </div>
+          </motion.div>
 
           <div className="hor engin_gear">
             <Field

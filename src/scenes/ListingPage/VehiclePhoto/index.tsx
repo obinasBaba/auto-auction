@@ -76,7 +76,7 @@ const Previews: ListingFormStepComponent = ({
           'public_id',
           // 'henokgetachew500@gmail_com/' + newImg.name,
           `${currentUser?.email}_${
-            uploadPath || values.itemDetail.name.replace(' ', '_')
+            uploadPath || values.itemDetail.make.replace(' ', '_')
           }/${newImg.name}`,
         );
 

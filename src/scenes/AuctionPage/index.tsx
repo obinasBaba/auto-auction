@@ -89,7 +89,6 @@ export const ALL_AUCTIONS = gql`
         bodyType
         make
         model
-        name
         description
         mileage
         year
@@ -207,9 +206,9 @@ const AuctionPage = () => {
                 id,
                 status,
                 savedId,
+                title,
                 itemDetail: {
                   vin,
-                  name,
                   defaultImage: { url, name: imgName = 'car image' },
                 },
               },
@@ -240,7 +239,7 @@ const AuctionPage = () => {
                     >
                       # {vin} saved: {savedId}
                     </Typography>
-                    <h2 className="title">{name}</h2>
+                    <h2 className="title">{title}</h2>
 
                     <IconButton
                       className="bookmark"

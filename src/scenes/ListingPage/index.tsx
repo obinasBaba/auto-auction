@@ -14,6 +14,7 @@ import VehicleDescription from '@/scenes/ListingPage/VehicleDescription';
 import AuctionRules from '@/scenes/ListingPage/AuctionRules';
 import initialValue from './dummy';
 import ListingProgress from '@/scenes/ListingPage/ListingProgress';
+import VehicleLocation from '@/scenes/ListingPage/VehicleLocation';
 
 const containerVariants = {};
 
@@ -34,14 +35,6 @@ const wrapperVariants = {
   },
 };
 
-const types = ['Sedan', 'SUV', 'Coupe', 'Hatchback', 'Minivan', 'Cabriolet'];
-const makes = ['BMW', 'Audi', 'Lexus', 'Cadillac', 'Ford'];
-const models = ['model-1', 'model-2', 'model-3', 'model-4'];
-const engine = ['engine-1', 'engine-2', 'engine-3', 'engine-4'];
-const color = ['color-1', 'color-2', 'color-3', 'color-4'];
-const gearbox = ['manual', 'automatic'];
-const condition = ['used', 'new'];
-
 const getShape = (name: string, rules: object = {}) =>
   yup.object({ [name]: yup.object().shape({ ...rules }) });
 
@@ -57,13 +50,6 @@ const steps = [
     name: 'FEATURE',
     components: (props: any) => <BasicFeatures {...props} />,
     schema: getShape('itemDetail', {
-      make: yup
-        .string()
-        .oneOf(makes, 'select the manufacture of you vehicle!!'),
-      model: yup.string(),
-      condition: yup
-        .string()
-        .oneOf(condition, 'select the condition of you car'),
       mileage: yup
         .number()
         .min(0, "your mileage can't be negative")
@@ -73,28 +59,22 @@ const steps = [
   {
     name: 'FEATURE_2',
     components: (props: any) => <AdditionalFeatures {...props} />,
-    schema: getShape('itemDetail', {
-      gearbox: yup
-        .string()
-        .oneOf(gearbox, 'select the gearbox type of you vehicle!!'),
-    }),
+    schema: getShape('itemDetail', {}),
   },
 
-  /*{
+  {
     name: 'LOCATION',
     components: (props: any) => <VehicleLocation {...props} />,
     schema: yup.object({
       address: yup.object({
-        city: yup.string().required('what is your city'),
-        streetAddress: yup.string().required('what is your streetAddress'),
-        zipcode: yup.number().required('what is your zipcode'),
+        // streetAddress: yup.string().required('what is your streetAddress'),
         apartmentNumber: yup
           .number()
           .min(0, "apartment number can't be negative")
           .required('what is your home number'),
       }),
     }),
-  },*/
+  },
   {
     name: 'PHOTOS',
     components: (props: any) => <VehiclePhoto {...props} />,
@@ -196,7 +176,7 @@ const ListingPage = () => {
     >
       <motion.div className="container_wrapper">
         <LayoutGroup>
-          <ListingProgress idx={idx} />
+          <ListingProgress currentIdx={idx} />
 
           <motion.div className="main_content">
             <Formik

@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import s from './listingprogress.module.scss';
 import {
-  Button,
-  Paper,
   Step,
   StepConnector,
   StepContent,
@@ -42,57 +40,47 @@ const steps = [
   },
 ];
 
-const ListingProgress = ({ idx }: any) => {
+const ListingProgress = ({ currentIdx, lastIdx }: any) => {
   const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    return true;
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
+  const [completed, setCompleted] = useState<number[]>([]);
 
   const isCompleted = (step: number) => {
+    return;
     switch (step) {
       case 0:
-        return idx >= 3;
+        return currentIdx >= 3;
       case 1:
-        return idx >= 6;
+        return currentIdx >= 6;
       case 2:
-        return idx >= 7;
+        return currentIdx >= 7;
       default:
         return false;
     }
   };
 
-  const height = useTransform<number, number>(new MotionValue(idx), (value) => {
-    switch (activeStep) {
-      case 0:
-        return map(idx, 0, 3, 10, 100);
-      case 1:
-        return map(idx, 3, 6, 10, 100);
-      case 2:
-        return map(idx, 6, 7, 10, 100);
-      case 3:
-        return map(idx, 7, 8, 10, 100);
+  const height = useTransform<number, number>(
+    new MotionValue(currentIdx),
+    (value) => {
+      switch (activeStep) {
+        case 0:
+          return map(currentIdx, 0, 3, 10, 100);
+        case 1:
+          return map(currentIdx, 3, 6, 10, 100);
+        case 2:
+          return map(currentIdx, 6, 7, 10, 100);
+        case 3:
+          return map(currentIdx, 7, 8, 10, 100);
 
-      default:
-        return 0;
-    }
-  });
+        default:
+          return 0;
+      }
+    },
+  );
+
+  const template = useMotionTemplate`${height}%`;
 
   useEffect(() => {
-    switch (idx) {
+    switch (currentIdx) {
       case 0:
       case 1:
       case 2:
@@ -100,15 +88,18 @@ const ListingProgress = ({ idx }: any) => {
       case 3:
       case 4:
       case 5:
+        setCompleted([0]);
         return setActiveStep(1);
       case 6:
+        setCompleted([0, 1]);
         return setActiveStep(2);
       case 7:
+        setCompleted([0, 1, 2, 3]);
         return setActiveStep(3);
       default:
         setActiveStep(0);
     }
-  }, [idx]);
+  }, [currentIdx]);
 
   return (
     <motion.div className={s.container} layout>
@@ -121,7 +112,7 @@ const ListingProgress = ({ idx }: any) => {
         {steps.map((step, index) => (
           <Step
             key={step.label}
-            completed={isCompleted(index)}
+            completed={completed.includes(index)}
             className={clsx({ ['active']: index === activeStep })}
           >
             <StepLabel
@@ -132,24 +123,20 @@ const ListingProgress = ({ idx }: any) => {
             </StepLabel>
             <StepContent>
               <div className={s.step_content}>
-                <div className="bg_line" />
-                <motion.div
-                  className="p_line"
-                  style={{ height: useMotionTemplate`${height}%` }}
-                />
+                {activeStep != steps.length - 1 && (
+                  <>
+                    <div className="bg_line" />
+                    <motion.div
+                      className="p_line"
+                      style={{ height: template }}
+                    />
+                  </>
+                )}
               </div>
             </StepContent>
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
     </motion.div>
   );
 };

@@ -89,7 +89,6 @@ const SignInModal = ({ switchModal }: any) => {
           if (user && authToken) {
             setUserToken(authToken);
             refetch();
-            enqueueSnackbar('logged in as --');
             closeModal();
           }
         })
@@ -151,7 +150,6 @@ const SignInModal = ({ switchModal }: any) => {
                       onClick={(_) =>
                         setValues({ showPassword: !values.showPassword })
                       }
-                      // edge="end"
                     >
                       {values.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
